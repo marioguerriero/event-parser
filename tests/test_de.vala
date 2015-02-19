@@ -1,5 +1,7 @@
+// Event (Name, DateTime Begin, DateTime End, Location = "", All_Day = false)
+
 void main () {	
-	var dt_simulated = new DateTime.utc (2015, 2, 17, 13, 25, 0);
+	var simulated_dt = new DateTime.utc (2015, 2, 17, 13, 25, 0);
 	
 	test_event[] test_events = {
 		test_event() {
@@ -7,8 +9,8 @@ void main () {
 			target = new Event("Badminton", new DateTime.utc(2015, 2, 17, 14, 0, 0), new DateTime.utc(2015, 2, 17, 15, 0, 0))
 		},
 		test_event() { 
-			source = "Badminton morgen in der Sporthalle", 
-			target = new Event("Badminton", new DateTime.utc(2015, 2, 18, 0, 0, 0), new DateTime.utc(2015, 2, 18, 0, 0, 0), "Sporthalle", true)
+			source = "Sporttag morgen den ganzen Tag in der Sporthalle", 
+			target = new Event("Sporttag", new DateTime.utc(2015, 2, 18, 0, 0, 0), new DateTime.utc(2015, 2, 18, 0, 0, 0), "Sporthalle", true)
 		},
 		test_event() { 
 			source = "Badminton um 18 Uhr", 
@@ -60,26 +62,39 @@ void main () {
 		},
 		test_event() { 
 			source = "Mac-Stammtisch übernächsten Mittwoch ab 18:30 h im Plan B", 
-			target = new Event("Mac-Stammtisch", new DateTime.utc(2015, 6, 5, 18, 30, 0), new DateTime.utc(2015, 6, 5, 19, 30, 0))
+			target = new Event("Mac-Stammtisch", new DateTime.utc(2015, 2, 25, 18, 30, 0), new DateTime.utc(2015, 2, 25, 19, 30, 0), "Plan B")
 		},
 		test_event() { 
 			source = "Mittagessen morgen in Mensa", 
 			target = new Event("Mittagessen", new DateTime.utc(2015, 2, 18, 0, 0, 0), new DateTime.utc(2015, 2, 18, 0, 0, 0), "Mensa", true)
 		},
 		test_event() { 
-			source = "Geburtstag von Max jedes Jahr am 17.4", 
+			source = "Geburtstag von Max am 17.4", 
 			target = new Event("Geburtstag von Max", new DateTime.utc(2015, 4, 17, 0, 0, 0), new DateTime.utc(2015, 4, 17, 0, 0, 0), "", true)
 		},
 		test_event() { 
-			source = "Lauftraining jeden Mi und Fr um 18 Uhr vom 1.2 bis zum 31.3", 
-			target = new Event("Lauftraining", new DateTime.utc(2016, 6, 5, 15, 0, 0), new DateTime.utc(2016, 6, 5, 16, 0, 0))
+			source = "Lauftraining um 18 Uhr nächsten Sonntag", 
+			target = new Event("Lauftraining", new DateTime.utc(2015, 2, 22, 18, 0, 0), new DateTime.utc(2015, 2, 22, 19, 0, 0))
+		},
+		test_event() { 
+			source = "Marathon übernächsten Sonntag für 4h vormittags", 
+			target = new Event("Marathon", new DateTime.utc(2015, 3, 1, 11, 0, 0), new DateTime.utc(2015, 3, 1, 15, 0, 0))
 		},
 		test_event() { 
 			source = "Urlaub vom 5. bis 20. Juli", 
 			target = new Event("Urlaub", new DateTime.utc(2015, 7, 5, 0, 0, 0), new DateTime.utc(2015, 7, 20, 0, 0, 0), "", true)
+		},
+		test_event() { 
+			source = "Ab morgen für 3 Wochen Urlaub", 
+			target = new Event("Urlaub", new DateTime.utc(2015, 2, 18, 0, 0, 0), new DateTime.utc(2015, 3, 11, 0, 0, 0), "", true)
+		},
+		test_event() {
+			source = "Morgen mittag für 30 Minuten in Berlin Schuhe kaufen",
+			target = new Event("Schuhe kaufen", new DateTime.utc(2015, 2, 18, 12, 0, 0), new DateTime.utc(2015, 2, 18, 12, 30, 0), "Berlin")
 		}
 	};
 
-	// analyze_test_events(test_events, dt_simulated);
-	print_all_working_test_events(test_events, dt_simulated);
+
+	// analyze_test_events(test_events, simulated_dt);
+	print_all_working_test_events(test_events, simulated_dt);
 }

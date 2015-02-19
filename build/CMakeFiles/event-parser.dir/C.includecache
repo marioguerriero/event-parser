@@ -6,10 +6,14 @@
 
 #IncludeRegexTransform: 
 
-/Users/lars/Desktop/event-parser/build/tests/test_helper.c
+/Users/lars/Desktop/event-parser/build/tests/test_de.c
 glib.h
 -
 glib-object.h
+-
+float.h
+-
+math.h
 -
 stdlib.h
 -

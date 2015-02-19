@@ -156,6 +156,30 @@ event-parser/fast:
 	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/build
 .PHONY : event-parser/fast
 
+src/event.o: src/event.c.o
+.PHONY : src/event.o
+
+# target to build an object file
+src/event.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/event.c.o
+.PHONY : src/event.c.o
+
+src/event.i: src/event.c.i
+.PHONY : src/event.i
+
+# target to preprocess a source file
+src/event.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/event.c.i
+.PHONY : src/event.c.i
+
+src/event.s: src/event.c.s
+.PHONY : src/event.s
+
+# target to generate assembly for a file
+src/event.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/event.c.s
+.PHONY : src/event.c.s
+
 src/parser.o: src/parser.c.o
 .PHONY : src/parser.o
 
@@ -179,6 +203,30 @@ src/parser.s: src/parser.c.s
 src/parser.c.s:
 	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser.c.s
 .PHONY : src/parser.c.s
+
+tests/helper.o: tests/helper.c.o
+.PHONY : tests/helper.o
+
+# target to build an object file
+tests/helper.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/helper.c.o
+.PHONY : tests/helper.c.o
+
+tests/helper.i: tests/helper.c.i
+.PHONY : tests/helper.i
+
+# target to preprocess a source file
+tests/helper.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/helper.c.i
+.PHONY : tests/helper.c.i
+
+tests/helper.s: tests/helper.c.s
+.PHONY : tests/helper.s
+
+# target to generate assembly for a file
+tests/helper.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/helper.c.s
+.PHONY : tests/helper.c.s
 
 tests/test_de.o: tests/test_de.c.o
 .PHONY : tests/test_de.o
@@ -204,30 +252,6 @@ tests/test_de.c.s:
 	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/test_de.c.s
 .PHONY : tests/test_de.c.s
 
-tests/test_helper.o: tests/test_helper.c.o
-.PHONY : tests/test_helper.o
-
-# target to build an object file
-tests/test_helper.c.o:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/test_helper.c.o
-.PHONY : tests/test_helper.c.o
-
-tests/test_helper.i: tests/test_helper.c.i
-.PHONY : tests/test_helper.i
-
-# target to preprocess a source file
-tests/test_helper.c.i:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/test_helper.c.i
-.PHONY : tests/test_helper.c.i
-
-tests/test_helper.s: tests/test_helper.c.s
-.PHONY : tests/test_helper.s
-
-# target to generate assembly for a file
-tests/test_helper.c.s:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/test_helper.c.s
-.PHONY : tests/test_helper.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -241,15 +265,18 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... src/event.o"
+	@echo "... src/event.i"
+	@echo "... src/event.s"
 	@echo "... src/parser.o"
 	@echo "... src/parser.i"
 	@echo "... src/parser.s"
+	@echo "... tests/helper.o"
+	@echo "... tests/helper.i"
+	@echo "... tests/helper.s"
 	@echo "... tests/test_de.o"
 	@echo "... tests/test_de.i"
 	@echo "... tests/test_de.s"
-	@echo "... tests/test_helper.o"
-	@echo "... tests/test_helper.i"
-	@echo "... tests/test_helper.s"
 .PHONY : help
 
 

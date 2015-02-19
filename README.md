@@ -5,16 +5,24 @@ A natural language parser for calendar events, written in Vala for Maya and Elem
 It currently only supports german, here are all working german event tests:
 
 - Badminton
+- Sporttag morgen den ganzen Tag in der Sporthalle
 - Badminton um 18 Uhr
 - Badminton morgen um 12
 - Badminton um 12 morgen
-- Badminton ?bermorgen um 7:30
+- Badminton übermorgen um 7:30
 - Badminton gestern um 22 Uhr
-- Morgen fr?h Badminton Training
+- Morgen früh Badminton Training
 - Badminton Wettbewerb um 12 Uhr am 20. April
 - Badminton Wettbewerb von 12 bis 15 Uhr am 23. Januar
 - Von 12:00 bis 15:30 Uhr am 20. April Badminton Wettbewerb
 - Klavierunterricht um 12:30 in 4 Tagen
 -   Klavier Konzert am 5.6.2016 nachmittags 
 - Geschenke auspacken Heiligabend 19 Uhr
-- Geburtstag von Max jedes Jahr am 17.4
+- Mac-Stammtisch übernächsten Mittwoch ab 18:30 h im Plan B
+- Mittagessen morgen in Mensa
+- Geburtstag von Max am 17.4
+- Lauftraining um 18 Uhr nächsten Sonntag
+- Marathon übernächsten Sonntag für 4h vormittags
+- Urlaub vom 5. bis 20. Juli
+- Ab morgen für 3 Wochen Urlaub
+- Morgen mittag für 30 Minuten in Berlin Schuhe kaufen

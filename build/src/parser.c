@@ -6,9 +6,26 @@
 #include <glib-object.h>
 #include <stdlib.h>
 #include <string.h>
-#include <float.h>
-#include <math.h>
 
+
+#define TYPE_PARSER (parser_get_type ())
+#define PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_PARSER, Parser))
+#define PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_PARSER, ParserClass))
+#define IS_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_PARSER))
+#define IS_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_PARSER))
+#define PARSER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_PARSER, ParserClass))
+
+typedef struct _Parser Parser;
+typedef struct _ParserClass ParserClass;
+typedef struct _ParserPrivate ParserPrivate;
+#define _g_date_time_unref0(var) ((var == NULL) ? NULL : (var = (g_date_time_unref (var), NULL)))
+#define _g_free0(var) (var = (g_free (var), NULL))
+
+#define PARSER_TYPE_STRING_EVENT (parser_string_event_get_type ())
+typedef struct _ParserString_event ParserString_event;
+#define _g_regex_unref0(var) ((var == NULL) ? NULL : (var = (g_regex_unref (var), NULL)))
+#define _g_match_info_free0(var) ((var == NULL) ? NULL : (var = (g_match_info_free (var), NULL)))
+#define _g_array_unref0(var) ((var == NULL) ? NULL : (var = (g_array_unref (var), NULL)))
 
 #define TYPE_EVENT (event_get_type ())
 #define EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT, Event))
@@ -19,24 +36,57 @@
 
 typedef struct _Event Event;
 typedef struct _EventClass EventClass;
-typedef struct _EventPrivate EventPrivate;
-#define _g_free0(var) (var = (g_free (var), NULL))
-#define _g_date_time_unref0(var) ((var == NULL) ? NULL : (var = (g_date_time_unref (var), NULL)))
-
-#define EVENT_TYPE_STRING_RESULT (event_string_result_get_type ())
-typedef struct _EventString_result EventString_result;
-#define _g_regex_unref0(var) ((var == NULL) ? NULL : (var = (g_regex_unref (var), NULL)))
-#define _g_match_info_free0(var) ((var == NULL) ? NULL : (var = (g_match_info_free (var), NULL)))
 typedef struct _Block1Data Block1Data;
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
+typedef struct _EventPrivate EventPrivate;
+
+struct _Parser {
+	GObject parent_instance;
+	ParserPrivate * priv;
+	GDateTime* simulated_dt;
+	gchar* language;
+	gchar* source;
+};
+
+struct _ParserClass {
+	GObjectClass parent_class;
+};
+
+struct _ParserPrivate {
+	gchar* remaining_source;
+	gchar** months;
+	gint months_length1;
+	gint months_length2;
+	gchar** weekdays;
+	gint weekdays_length1;
+	gint weekdays_length2;
+	gchar* months_regex;
+	gchar* weekdays_regex;
+};
+
+struct _ParserString_event {
+	gboolean matched;
+	gchar* matched_string;
+	gint pos;
+	gint length;
+	GArray* p;
+};
+
+typedef void (*Parsertranscribe_analysis) (ParserString_event* data, void* user_data);
+struct _Block1Data {
+	int _ref_count_;
+	Parser* self;
+	Event* event;
+};
 
 struct _Event {
 	GObject parent_instance;
 	EventPrivate * priv;
-	gchar* name;
+	gchar* title;
 	gchar* location;
-	GDateTime* dt_begin;
-	GDateTime* dt_end;
+	gchar* participants;
+	GDateTime* from;
+	GDateTime* to;
 	gboolean all_day;
 };
 
@@ -44,97 +94,328 @@ struct _EventClass {
 	GObjectClass parent_class;
 };
 
-struct _EventString_result {
-	gboolean matched;
-	gint pos;
-	gint length;
-	gchar* p1;
-	gchar* p2;
-	gchar* p3;
-	gchar* p4;
-};
 
-typedef void (*Eventtranscribe_analysis) (EventString_result* string_result, void* user_data);
-struct _Block1Data {
-	int _ref_count_;
-	Event* self;
-	GDateTime* dt_simulated;
-};
+static gpointer parser_parent_class = NULL;
 
-
-static gpointer event_parent_class = NULL;
-
-#define hours_per_day 24
-#define minutes_per_hour 60
-gint get_number_of_month (const gchar* month);
-GType event_get_type (void) G_GNUC_CONST;
+GType parser_get_type (void) G_GNUC_CONST;
+#define PARSER_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), TYPE_PARSER, ParserPrivate))
 enum  {
-	EVENT_DUMMY_PROPERTY
+	PARSER_DUMMY_PROPERTY
 };
-Event* event_new (const gchar* _name, GDateTime* _dt_begin, GDateTime* _dt_end, const gchar* _location, gboolean _all_day);
-Event* event_construct (GType object_type, const gchar* _name, GDateTime* _dt_begin, GDateTime* _dt_end, const gchar* _location, gboolean _all_day);
-Event* event_new_with_source (const gchar* source, GDateTime* _dt_simulated);
-Event* event_construct_with_source (GType object_type, const gchar* source, GDateTime* _dt_simulated);
-void event_parse_source (Event* self, const gchar* source, GDateTime* dt_simulated);
-static GType event_string_result_get_type (void) G_GNUC_CONST G_GNUC_UNUSED;
-static EventString_result* event_string_result_dup (const EventString_result* self);
-static void event_string_result_free (EventString_result* self);
-static void event_string_result_copy (const EventString_result* self, EventString_result* dest);
-static void event_string_result_destroy (EventString_result* self);
-static void event_complete_string (Event* self, const gchar* pattern, const gchar* global_str, EventString_result* result);
-static void event_analyze_pattern (Event* self, const gchar* pattern, gchar** source_low, gchar** source_up, Eventtranscribe_analysis d, void* d_target);
+Parser* parser_new (GDateTime* _simulated_dt, const gchar* _language);
+Parser* parser_construct (GType object_type, GDateTime* _simulated_dt, const gchar* _language);
+static gint parser_get_number_of_month (Parser* self, const gchar* entry);
+static gint parser_get_number_of_weekday (Parser* self, const gchar* entry);
+static GType parser_string_event_get_type (void) G_GNUC_CONST G_GNUC_UNUSED;
+static ParserString_event* parser_string_event_dup (const ParserString_event* self);
+static void parser_string_event_free (ParserString_event* self);
+static void parser_string_event_copy (const ParserString_event* self, ParserString_event* dest);
+static void parser_string_event_destroy (ParserString_event* self);
+static void parser_complete_string (Parser* self, const gchar* pattern, ParserString_event* result);
+static void parser_analyze_pattern (Parser* self, const gchar* pattern, Parsertranscribe_analysis del, void* del_target);
+GType event_get_type (void) G_GNUC_CONST;
+Event* parser_parse_source (Parser* self, const gchar* _source);
 static Block1Data* block1_data_ref (Block1Data* _data1_);
 static void block1_data_unref (void * _userdata_);
-static void __lambda4_ (Event* self, EventString_result* string_result);
-static void ___lambda4__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda5_ (Event* self, EventString_result* string_result);
-static void ___lambda5__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda6_ (Event* self, EventString_result* string_result);
-static void ___lambda6__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda7_ (Event* self, EventString_result* string_result);
-static void ___lambda7__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda8_ (Event* self, EventString_result* string_result);
-static void ___lambda8__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda9_ (Event* self, EventString_result* string_result);
-static void ___lambda9__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda10_ (Event* self, EventString_result* string_result);
-static void ___lambda10__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda11_ (Block1Data* _data1_, EventString_result* string_result);
-static void ___lambda11__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda12_ (Event* self, EventString_result* string_result);
-static void ___lambda12__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda13_ (Event* self, EventString_result* string_result);
-static void ___lambda13__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda14_ (Event* self, EventString_result* string_result);
-static void ___lambda14__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda15_ (Event* self, EventString_result* string_result);
-static void ___lambda15__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda16_ (Event* self, EventString_result* string_result);
-static void ___lambda16__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda17_ (Event* self, EventString_result* string_result);
-static void ___lambda17__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda18_ (Event* self, EventString_result* string_result);
-static void ___lambda18__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda19_ (Event* self, EventString_result* string_result);
-static void ___lambda19__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda20_ (Event* self, EventString_result* string_result);
-static void ___lambda20__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda21_ (Event* self, EventString_result* string_result);
-static void ___lambda21__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda22_ (Event* self, EventString_result* string_result);
-static void ___lambda22__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda23_ (Event* self, EventString_result* string_result);
-static void ___lambda23__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void __lambda24_ (Event* self, EventString_result* string_result);
-static void ___lambda24__eventtranscribe_analysis (EventString_result* string_result, gpointer self);
-static void event_finalize (GObject* obj);
+Event* event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
+Event* event_construct (GType object_type, const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
+void event_from_set_minute (Event* self, gint minute);
+void event_from_set_second (Event* self, gint second);
+void event_set_length_to_hours (Event* self, gint hours);
+static void __lambda4_ (Block1Data* _data1_, ParserString_event* data);
+void event_set_one_entire_day (Event* self);
+static void ___lambda4__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda5_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda5__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda6_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda6__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda7_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda7__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda8_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda8__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda9_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda9__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda10_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda10__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda11_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda11__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda12_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda12__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda13_ (Block1Data* _data1_, ParserString_event* data);
+void event_from_set_day (Event* self, gint day);
+void event_from_set_month (Event* self, gint month);
+void event_to_set_month (Event* self, gint month);
+void event_from_set_year (Event* self, gint year);
+void event_if_elapsed_delay_to_next_year (Event* self, GDateTime* simulated_dt);
+void event_if_elapsed_delay_to_next_month (Event* self, GDateTime* simulated_dt);
+static void ___lambda13__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda14_ (Block1Data* _data1_, ParserString_event* data);
+void event_to_set_day (Event* self, gint day);
+void event_set_all_day (Event* self);
+static void ___lambda14__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda15_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda15__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda16_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda16__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda17_ (Block1Data* _data1_, ParserString_event* data);
+void event_from_set_hour (Event* self, gint hour);
+static void ___lambda17__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda18_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda18__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda19_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda19__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda20_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda20__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda21_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda21__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda22_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda22__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda23_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda23__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda24_ (Block1Data* _data1_, ParserString_event* data);
+void event_to_set_hour (Event* self, gint hour);
+void event_to_set_minute (Event* self, gint minute);
+static void ___lambda24__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda25_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda25__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda26_ (Block1Data* _data1_, ParserString_event* data);
+void event_set_length_to_minutes (Event* self, gint minutes);
+static void ___lambda26__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda27_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda27__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda28_ (Block1Data* _data1_, ParserString_event* data);
+void event_set_length_to_days (Event* self, gint days);
+static void ___lambda28__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda29_ (Block1Data* _data1_, ParserString_event* data);
+void event_set_length_to_weeks (Event* self, gint weeks);
+static void ___lambda29__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda30_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda30__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void __lambda31_ (Block1Data* _data1_, ParserString_event* data);
+static void ___lambda31__parsertranscribe_analysis (ParserString_event* data, gpointer self);
+static void parser_finalize (GObject* obj);
+static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func);
+static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func);
 
-const gchar* months[12] = {"januar", "februar", "märz", "april", "mai", "juni", "juli", "august", "september", "oktober", "november", "dezember"};
-const gchar* weekdays[7] = {"montag", "dienstag", "mittwoch", "donnerstag", "freitag", "samstag", "sonntag"};
 
-gint get_number_of_month (const gchar* month) {
+static gpointer _g_date_time_ref0 (gpointer self) {
+	return self ? g_date_time_ref (self) : NULL;
+}
+
+
+static gchar* string_slice (const gchar* self, glong start, glong end) {
+	gchar* result = NULL;
+	glong string_length = 0L;
+	gint _tmp0_ = 0;
+	gint _tmp1_ = 0;
+	glong _tmp2_ = 0L;
+	glong _tmp5_ = 0L;
+	gboolean _tmp8_ = FALSE;
+	glong _tmp9_ = 0L;
+	gboolean _tmp12_ = FALSE;
+	glong _tmp13_ = 0L;
+	glong _tmp16_ = 0L;
+	glong _tmp17_ = 0L;
+	glong _tmp18_ = 0L;
+	glong _tmp19_ = 0L;
+	glong _tmp20_ = 0L;
+	gchar* _tmp21_ = NULL;
+	g_return_val_if_fail (self != NULL, NULL);
+	_tmp0_ = strlen (self);
+	_tmp1_ = _tmp0_;
+	string_length = (glong) _tmp1_;
+	_tmp2_ = start;
+	if (_tmp2_ < ((glong) 0)) {
+		glong _tmp3_ = 0L;
+		glong _tmp4_ = 0L;
+		_tmp3_ = string_length;
+		_tmp4_ = start;
+		start = _tmp3_ + _tmp4_;
+	}
+	_tmp5_ = end;
+	if (_tmp5_ < ((glong) 0)) {
+		glong _tmp6_ = 0L;
+		glong _tmp7_ = 0L;
+		_tmp6_ = string_length;
+		_tmp7_ = end;
+		end = _tmp6_ + _tmp7_;
+	}
+	_tmp9_ = start;
+	if (_tmp9_ >= ((glong) 0)) {
+		glong _tmp10_ = 0L;
+		glong _tmp11_ = 0L;
+		_tmp10_ = start;
+		_tmp11_ = string_length;
+		_tmp8_ = _tmp10_ <= _tmp11_;
+	} else {
+		_tmp8_ = FALSE;
+	}
+	g_return_val_if_fail (_tmp8_, NULL);
+	_tmp13_ = end;
+	if (_tmp13_ >= ((glong) 0)) {
+		glong _tmp14_ = 0L;
+		glong _tmp15_ = 0L;
+		_tmp14_ = end;
+		_tmp15_ = string_length;
+		_tmp12_ = _tmp14_ <= _tmp15_;
+	} else {
+		_tmp12_ = FALSE;
+	}
+	g_return_val_if_fail (_tmp12_, NULL);
+	_tmp16_ = start;
+	_tmp17_ = end;
+	g_return_val_if_fail (_tmp16_ <= _tmp17_, NULL);
+	_tmp18_ = start;
+	_tmp19_ = end;
+	_tmp20_ = start;
+	_tmp21_ = g_strndup (((gchar*) self) + _tmp18_, (gsize) (_tmp19_ - _tmp20_));
+	result = _tmp21_;
+	return result;
+}
+
+
+Parser* parser_construct (GType object_type, GDateTime* _simulated_dt, const gchar* _language) {
+	Parser * self = NULL;
+	GDateTime* _tmp0_ = NULL;
+	GDateTime* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gchar* _tmp3_ = NULL;
+	gchar* _tmp4_ = NULL;
+	gchar* _tmp5_ = NULL;
+	gchar* _tmp6_ = NULL;
+	const gchar* _tmp17_ = NULL;
+	gchar* _tmp18_ = NULL;
+	gchar* _tmp19_ = NULL;
+	const gchar* _tmp30_ = NULL;
+	gchar* _tmp31_ = NULL;
+	g_return_val_if_fail (_simulated_dt != NULL, NULL);
+	g_return_val_if_fail (_language != NULL, NULL);
+	self = (Parser*) g_object_new (object_type, NULL);
+	_tmp0_ = _simulated_dt;
+	_tmp1_ = _g_date_time_ref0 (_tmp0_);
+	_g_date_time_unref0 (self->simulated_dt);
+	self->simulated_dt = _tmp1_;
+	_tmp2_ = _language;
+	_tmp3_ = g_strdup (_tmp2_);
+	_g_free0 (self->language);
+	self->language = _tmp3_;
+	_tmp4_ = g_strdup ("");
+	_g_free0 (self->source);
+	self->source = _tmp4_;
+	_tmp5_ = g_strdup ("");
+	_g_free0 (self->priv->remaining_source);
+	self->priv->remaining_source = _tmp5_;
+	_tmp6_ = g_strdup ("");
+	_g_free0 (self->priv->months_regex);
+	self->priv->months_regex = _tmp6_;
+	{
+		gint i = 0;
+		i = 0;
+		{
+			gboolean _tmp7_ = FALSE;
+			_tmp7_ = TRUE;
+			while (TRUE) {
+				gint _tmp9_ = 0;
+				const gchar* _tmp10_ = NULL;
+				gchar** _tmp11_ = NULL;
+				gint _tmp11__length1 = 0;
+				gint _tmp11__length2 = 0;
+				gint _tmp12_ = 0;
+				const gchar* _tmp13_ = NULL;
+				gchar* _tmp14_ = NULL;
+				gchar* _tmp15_ = NULL;
+				gchar* _tmp16_ = NULL;
+				if (!_tmp7_) {
+					gint _tmp8_ = 0;
+					_tmp8_ = i;
+					i = _tmp8_ + 1;
+				}
+				_tmp7_ = FALSE;
+				_tmp9_ = i;
+				if (!(_tmp9_ < 12)) {
+					break;
+				}
+				_tmp10_ = self->priv->months_regex;
+				_tmp11_ = self->priv->months;
+				_tmp11__length1 = self->priv->months_length1;
+				_tmp11__length2 = self->priv->months_length2;
+				_tmp12_ = i;
+				_tmp13_ = _tmp11_[(_tmp12_ * _tmp11__length2) + 0];
+				_tmp14_ = g_strconcat (_tmp13_, "|", NULL);
+				_tmp15_ = _tmp14_;
+				_tmp16_ = g_strconcat (_tmp10_, _tmp15_, NULL);
+				_g_free0 (self->priv->months_regex);
+				self->priv->months_regex = _tmp16_;
+				_g_free0 (_tmp15_);
+			}
+		}
+	}
+	_tmp17_ = self->priv->months_regex;
+	_tmp18_ = string_slice (_tmp17_, (glong) 0, (glong) (-1));
+	_g_free0 (self->priv->months_regex);
+	self->priv->months_regex = _tmp18_;
+	_tmp19_ = g_strdup ("");
+	_g_free0 (self->priv->weekdays_regex);
+	self->priv->weekdays_regex = _tmp19_;
+	{
+		gint i = 0;
+		i = 0;
+		{
+			gboolean _tmp20_ = FALSE;
+			_tmp20_ = TRUE;
+			while (TRUE) {
+				gint _tmp22_ = 0;
+				const gchar* _tmp23_ = NULL;
+				gchar** _tmp24_ = NULL;
+				gint _tmp24__length1 = 0;
+				gint _tmp24__length2 = 0;
+				gint _tmp25_ = 0;
+				const gchar* _tmp26_ = NULL;
+				gchar* _tmp27_ = NULL;
+				gchar* _tmp28_ = NULL;
+				gchar* _tmp29_ = NULL;
+				if (!_tmp20_) {
+					gint _tmp21_ = 0;
+					_tmp21_ = i;
+					i = _tmp21_ + 1;
+				}
+				_tmp20_ = FALSE;
+				_tmp22_ = i;
+				if (!(_tmp22_ < 7)) {
+					break;
+				}
+				_tmp23_ = self->priv->weekdays_regex;
+				_tmp24_ = self->priv->weekdays;
+				_tmp24__length1 = self->priv->weekdays_length1;
+				_tmp24__length2 = self->priv->weekdays_length2;
+				_tmp25_ = i;
+				_tmp26_ = _tmp24_[(_tmp25_ * _tmp24__length2) + 0];
+				_tmp27_ = g_strconcat (_tmp26_, "|", NULL);
+				_tmp28_ = _tmp27_;
+				_tmp29_ = g_strconcat (_tmp23_, _tmp28_, NULL);
+				_g_free0 (self->priv->weekdays_regex);
+				self->priv->weekdays_regex = _tmp29_;
+				_g_free0 (_tmp28_);
+			}
+		}
+	}
+	_tmp30_ = self->priv->weekdays_regex;
+	_tmp31_ = string_slice (_tmp30_, (glong) 0, (glong) (-1));
+	_g_free0 (self->priv->weekdays_regex);
+	self->priv->weekdays_regex = _tmp31_;
+	return self;
+}
+
+
+Parser* parser_new (GDateTime* _simulated_dt, const gchar* _language) {
+	return parser_construct (TYPE_PARSER, _simulated_dt, _language);
+}
+
+
+static gint parser_get_number_of_month (Parser* self, const gchar* entry) {
 	gint result = 0;
-	g_return_val_if_fail (month != NULL, 0);
+	g_return_val_if_fail (self != NULL, 0);
+	g_return_val_if_fail (entry != NULL, 0);
 	{
 		gint i = 0;
 		i = 0;
@@ -144,8 +425,14 @@ gint get_number_of_month (const gchar* month) {
 			while (TRUE) {
 				gint _tmp2_ = 0;
 				const gchar* _tmp3_ = NULL;
-				gint _tmp4_ = 0;
-				const gchar* _tmp5_ = NULL;
+				gchar* _tmp4_ = NULL;
+				gchar* _tmp5_ = NULL;
+				gchar** _tmp6_ = NULL;
+				gint _tmp6__length1 = 0;
+				gint _tmp6__length2 = 0;
+				gint _tmp7_ = 0;
+				const gchar* _tmp8_ = NULL;
+				gboolean _tmp9_ = FALSE;
 				if (!_tmp0_) {
 					gint _tmp1_ = 0;
 					_tmp1_ = i;
@@ -156,13 +443,30 @@ gint get_number_of_month (const gchar* month) {
 				if (!(_tmp2_ < 12)) {
 					break;
 				}
-				_tmp3_ = month;
-				_tmp4_ = i;
-				_tmp5_ = months[_tmp4_];
-				if (g_strcmp0 (_tmp3_, _tmp5_) == 0) {
-					gint _tmp6_ = 0;
-					_tmp6_ = i;
-					result = _tmp6_ + 1;
+				_tmp3_ = entry;
+				_tmp4_ = g_utf8_strdown (_tmp3_, (gssize) (-1));
+				_tmp5_ = _tmp4_;
+				_tmp6_ = self->priv->months;
+				_tmp6__length1 = self->priv->months_length1;
+				_tmp6__length2 = self->priv->months_length2;
+				_tmp7_ = i;
+				_tmp8_ = _tmp6_[(_tmp7_ * _tmp6__length2) + 0];
+				_tmp9_ = g_strcmp0 (_tmp5_, _tmp8_) == 0;
+				_g_free0 (_tmp5_);
+				if (_tmp9_) {
+					gchar** _tmp10_ = NULL;
+					gint _tmp10__length1 = 0;
+					gint _tmp10__length2 = 0;
+					gint _tmp11_ = 0;
+					const gchar* _tmp12_ = NULL;
+					gint _tmp13_ = 0;
+					_tmp10_ = self->priv->months;
+					_tmp10__length1 = self->priv->months_length1;
+					_tmp10__length2 = self->priv->months_length2;
+					_tmp11_ = i;
+					_tmp12_ = _tmp10_[(_tmp11_ * _tmp10__length2) + 1];
+					_tmp13_ = atoi (_tmp12_);
+					result = _tmp13_;
 					return result;
 				}
 			}
@@ -173,84 +477,68 @@ gint get_number_of_month (const gchar* month) {
 }
 
 
-static gpointer _g_date_time_ref0 (gpointer self) {
-	return self ? g_date_time_ref (self) : NULL;
-}
-
-
-Event* event_construct (GType object_type, const gchar* _name, GDateTime* _dt_begin, GDateTime* _dt_end, const gchar* _location, gboolean _all_day) {
-	Event * self = NULL;
-	const gchar* _tmp0_ = NULL;
-	gchar* _tmp1_ = NULL;
-	const gchar* _tmp2_ = NULL;
-	gchar* _tmp3_ = NULL;
-	GDateTime* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	GDateTime* _tmp6_ = NULL;
-	GDateTime* _tmp7_ = NULL;
-	gboolean _tmp8_ = FALSE;
-	g_return_val_if_fail (_name != NULL, NULL);
-	g_return_val_if_fail (_dt_begin != NULL, NULL);
-	g_return_val_if_fail (_dt_end != NULL, NULL);
-	g_return_val_if_fail (_location != NULL, NULL);
-	self = (Event*) g_object_new (object_type, NULL);
-	_tmp0_ = _name;
-	_tmp1_ = g_strdup (_tmp0_);
-	_g_free0 (self->name);
-	self->name = _tmp1_;
-	_tmp2_ = _location;
-	_tmp3_ = g_strdup (_tmp2_);
-	_g_free0 (self->location);
-	self->location = _tmp3_;
-	_tmp4_ = _dt_begin;
-	_tmp5_ = _g_date_time_ref0 (_tmp4_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp5_;
-	_tmp6_ = _dt_end;
-	_tmp7_ = _g_date_time_ref0 (_tmp6_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp7_;
-	_tmp8_ = _all_day;
-	self->all_day = _tmp8_;
-	return self;
-}
-
-
-Event* event_new (const gchar* _name, GDateTime* _dt_begin, GDateTime* _dt_end, const gchar* _location, gboolean _all_day) {
-	return event_construct (TYPE_EVENT, _name, _dt_begin, _dt_end, _location, _all_day);
-}
-
-
-Event* event_construct_with_source (GType object_type, const gchar* source, GDateTime* _dt_simulated) {
-	Event * self = NULL;
-	GDateTime* dt_simulated = NULL;
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	GDateTime* _tmp2_ = NULL;
-	const gchar* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	g_return_val_if_fail (source != NULL, NULL);
-	self = (Event*) g_object_new (object_type, NULL);
-	_tmp0_ = _dt_simulated;
-	_tmp1_ = _g_date_time_ref0 (_tmp0_);
-	dt_simulated = _tmp1_;
-	_tmp2_ = dt_simulated;
-	if (_tmp2_ == NULL) {
-		GDateTime* _tmp3_ = NULL;
-		_tmp3_ = g_date_time_new_now_local ();
-		_g_date_time_unref0 (dt_simulated);
-		dt_simulated = _tmp3_;
+static gint parser_get_number_of_weekday (Parser* self, const gchar* entry) {
+	gint result = 0;
+	g_return_val_if_fail (self != NULL, 0);
+	g_return_val_if_fail (entry != NULL, 0);
+	{
+		gint i = 0;
+		i = 0;
+		{
+			gboolean _tmp0_ = FALSE;
+			_tmp0_ = TRUE;
+			while (TRUE) {
+				gint _tmp2_ = 0;
+				const gchar* _tmp3_ = NULL;
+				gchar* _tmp4_ = NULL;
+				gchar* _tmp5_ = NULL;
+				gchar** _tmp6_ = NULL;
+				gint _tmp6__length1 = 0;
+				gint _tmp6__length2 = 0;
+				gint _tmp7_ = 0;
+				const gchar* _tmp8_ = NULL;
+				gboolean _tmp9_ = FALSE;
+				if (!_tmp0_) {
+					gint _tmp1_ = 0;
+					_tmp1_ = i;
+					i = _tmp1_ + 1;
+				}
+				_tmp0_ = FALSE;
+				_tmp2_ = i;
+				if (!(_tmp2_ < 12)) {
+					break;
+				}
+				_tmp3_ = entry;
+				_tmp4_ = g_utf8_strdown (_tmp3_, (gssize) (-1));
+				_tmp5_ = _tmp4_;
+				_tmp6_ = self->priv->weekdays;
+				_tmp6__length1 = self->priv->weekdays_length1;
+				_tmp6__length2 = self->priv->weekdays_length2;
+				_tmp7_ = i;
+				_tmp8_ = _tmp6_[(_tmp7_ * _tmp6__length2) + 0];
+				_tmp9_ = g_strcmp0 (_tmp5_, _tmp8_) == 0;
+				_g_free0 (_tmp5_);
+				if (_tmp9_) {
+					gchar** _tmp10_ = NULL;
+					gint _tmp10__length1 = 0;
+					gint _tmp10__length2 = 0;
+					gint _tmp11_ = 0;
+					const gchar* _tmp12_ = NULL;
+					gint _tmp13_ = 0;
+					_tmp10_ = self->priv->weekdays;
+					_tmp10__length1 = self->priv->weekdays_length1;
+					_tmp10__length2 = self->priv->weekdays_length2;
+					_tmp11_ = i;
+					_tmp12_ = _tmp10_[(_tmp11_ * _tmp10__length2) + 1];
+					_tmp13_ = atoi (_tmp12_);
+					result = _tmp13_;
+					return result;
+				}
+			}
+		}
 	}
-	_tmp4_ = source;
-	_tmp5_ = dt_simulated;
-	event_parse_source (self, _tmp4_, _tmp5_);
-	_g_date_time_unref0 (dt_simulated);
-	return self;
-}
-
-
-Event* event_new_with_source (const gchar* source, GDateTime* _dt_simulated) {
-	return event_construct_with_source (TYPE_EVENT, source, _dt_simulated);
+	result = -1;
+	return result;
 }
 
 
@@ -280,43 +568,37 @@ static gint string_index_of (const gchar* self, const gchar* needle, gint start_
 }
 
 
-static void event_complete_string (Event* self, const gchar* pattern, const gchar* global_str, EventString_result* result) {
+static gpointer _g_array_ref0 (gpointer self) {
+	return self ? g_array_ref (self) : NULL;
+}
+
+
+static void parser_complete_string (Parser* self, const gchar* pattern, ParserString_event* result) {
 	GRegex* regex = NULL;
 	GMatchInfo* match_info = NULL;
 	gchar* matched_string = NULL;
-	GMatchInfo* _tmp10_ = NULL;
-	gchar* _tmp11_ = NULL;
+	GMatchInfo* _tmp11_ = NULL;
+	gchar* _tmp12_ = NULL;
 	gint pos = 0;
-	const gchar* _tmp12_ = NULL;
 	const gchar* _tmp13_ = NULL;
-	gint _tmp14_ = 0;
+	const gchar* _tmp14_ = NULL;
+	gint _tmp15_ = 0;
 	gint length = 0;
-	const gchar* _tmp15_ = NULL;
-	gint _tmp16_ = 0;
+	const gchar* _tmp16_ = NULL;
 	gint _tmp17_ = 0;
-	gchar* p1 = NULL;
-	gchar* _tmp18_ = NULL;
-	gchar* p2 = NULL;
-	gchar* _tmp19_ = NULL;
-	gchar* p3 = NULL;
-	gchar* _tmp20_ = NULL;
-	gchar* p4 = NULL;
-	gchar* _tmp21_ = NULL;
-	const gchar* _tmp33_ = NULL;
-	gchar* _tmp34_ = NULL;
-	const gchar* _tmp35_ = NULL;
-	gchar* _tmp36_ = NULL;
-	const gchar* _tmp37_ = NULL;
-	gchar* _tmp38_ = NULL;
-	const gchar* _tmp39_ = NULL;
-	gchar* _tmp40_ = NULL;
-	gint _tmp41_ = 0;
-	gint _tmp42_ = 0;
-	EventString_result _tmp43_ = {0};
+	gint _tmp18_ = 0;
+	GArray* p = NULL;
+	GArray* _tmp19_ = NULL;
+	gint _tmp34_ = 0;
+	gint _tmp35_ = 0;
+	const gchar* _tmp36_ = NULL;
+	gchar* _tmp37_ = NULL;
+	GArray* _tmp38_ = NULL;
+	GArray* _tmp39_ = NULL;
+	ParserString_event _tmp40_ = {0};
 	GError * _inner_error_ = NULL;
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (pattern != NULL);
-	g_return_if_fail (global_str != NULL);
 	{
 		GRegex* _tmp0_ = NULL;
 		const gchar* _tmp1_ = NULL;
@@ -329,7 +611,7 @@ static void event_complete_string (Event* self, const gchar* pattern, const gcha
 		gboolean _tmp7_ = FALSE;
 		gboolean _tmp8_ = FALSE;
 		_tmp1_ = pattern;
-		_tmp2_ = g_regex_new (_tmp1_, G_REGEX_EXTENDED, 0, &_inner_error_);
+		_tmp2_ = g_regex_new (_tmp1_, G_REGEX_CASELESS, 0, &_inner_error_);
 		_tmp0_ = _tmp2_;
 		if (G_UNLIKELY (_inner_error_ != NULL)) {
 			goto __catch0_g_error;
@@ -339,15 +621,15 @@ static void event_complete_string (Event* self, const gchar* pattern, const gcha
 		_g_regex_unref0 (regex);
 		regex = _tmp3_;
 		_tmp4_ = regex;
-		_tmp5_ = global_str;
+		_tmp5_ = self->priv->remaining_source;
 		_tmp7_ = g_regex_match (_tmp4_, _tmp5_, 0, &_tmp6_);
 		_g_match_info_free0 (match_info);
 		match_info = _tmp6_;
 		is_matched = _tmp7_;
 		_tmp8_ = is_matched;
 		if (!_tmp8_) {
-			EventString_result _tmp9_ = {0};
-			memset (&_tmp9_, 0, sizeof (EventString_result));
+			ParserString_event _tmp9_ = {0};
+			memset (&_tmp9_, 0, sizeof (ParserString_event));
 			_tmp9_.matched = FALSE;
 			*result = _tmp9_;
 			_g_regex_unref0 (_tmp0_);
@@ -360,8 +642,15 @@ static void event_complete_string (Event* self, const gchar* pattern, const gcha
 	goto __finally0;
 	__catch0_g_error:
 	{
+		ParserString_event _tmp10_ = {0};
 		g_clear_error (&_inner_error_);
 		_inner_error_ = NULL;
+		memset (&_tmp10_, 0, sizeof (ParserString_event));
+		_tmp10_.matched = FALSE;
+		*result = _tmp10_;
+		_g_match_info_free0 (match_info);
+		_g_regex_unref0 (regex);
+		return;
 	}
 	__finally0:
 	if (G_UNLIKELY (_inner_error_ != NULL)) {
@@ -371,65 +660,72 @@ static void event_complete_string (Event* self, const gchar* pattern, const gcha
 		g_clear_error (&_inner_error_);
 		return;
 	}
-	_tmp10_ = match_info;
-	_tmp11_ = g_match_info_fetch (_tmp10_, 0);
-	matched_string = _tmp11_;
-	_tmp12_ = global_str;
-	_tmp13_ = matched_string;
-	_tmp14_ = string_index_of (_tmp12_, _tmp13_, 0);
-	pos = _tmp14_;
-	_tmp15_ = matched_string;
-	_tmp16_ = strlen (_tmp15_);
-	_tmp17_ = _tmp16_;
-	length = _tmp17_;
-	_tmp18_ = g_strdup ("");
-	p1 = _tmp18_;
-	_tmp19_ = g_strdup ("");
-	p2 = _tmp19_;
-	_tmp20_ = g_strdup ("");
-	p3 = _tmp20_;
-	_tmp21_ = g_strdup ("");
-	p4 = _tmp21_;
+	_tmp11_ = match_info;
+	_tmp12_ = g_match_info_fetch (_tmp11_, 0);
+	matched_string = _tmp12_;
+	_tmp13_ = self->priv->remaining_source;
+	_tmp14_ = matched_string;
+	_tmp15_ = string_index_of (_tmp13_, _tmp14_, 0);
+	pos = _tmp15_;
+	_tmp16_ = matched_string;
+	_tmp17_ = strlen (_tmp16_);
+	_tmp18_ = _tmp17_;
+	length = _tmp18_;
+	_tmp19_ = g_array_new (TRUE, TRUE, sizeof (gchar*));
+	p = _tmp19_;
 	while (TRUE) {
-		GMatchInfo* _tmp22_ = NULL;
-		gboolean _tmp23_ = FALSE;
-		GMatchInfo* _tmp24_ = NULL;
-		gchar* _tmp25_ = NULL;
-		GMatchInfo* _tmp26_ = NULL;
-		gchar* _tmp27_ = NULL;
-		GMatchInfo* _tmp28_ = NULL;
-		gchar* _tmp29_ = NULL;
-		GMatchInfo* _tmp30_ = NULL;
-		gchar* _tmp31_ = NULL;
-		GMatchInfo* _tmp32_ = NULL;
-		_tmp22_ = match_info;
-		_tmp23_ = g_match_info_matches (_tmp22_);
-		if (!_tmp23_) {
+		GMatchInfo* _tmp20_ = NULL;
+		gboolean _tmp21_ = FALSE;
+		GMatchInfo* _tmp33_ = NULL;
+		_tmp20_ = match_info;
+		_tmp21_ = g_match_info_matches (_tmp20_);
+		if (!_tmp21_) {
 			break;
 		}
-		_tmp24_ = match_info;
-		_tmp25_ = g_match_info_fetch_named (_tmp24_, "p1");
-		_g_free0 (p1);
-		p1 = _tmp25_;
-		_tmp26_ = match_info;
-		_tmp27_ = g_match_info_fetch_named (_tmp26_, "p2");
-		_g_free0 (p2);
-		p2 = _tmp27_;
-		_tmp28_ = match_info;
-		_tmp29_ = g_match_info_fetch_named (_tmp28_, "p3");
-		_g_free0 (p3);
-		p3 = _tmp29_;
-		_tmp30_ = match_info;
-		_tmp31_ = g_match_info_fetch_named (_tmp30_, "p4");
-		_g_free0 (p4);
-		p4 = _tmp31_;
-		_tmp32_ = match_info;
-		g_match_info_next (_tmp32_, &_inner_error_);
+		{
+			gint i = 0;
+			i = 0;
+			{
+				gboolean _tmp22_ = FALSE;
+				_tmp22_ = TRUE;
+				while (TRUE) {
+					gint _tmp24_ = 0;
+					GArray* _tmp25_ = NULL;
+					GMatchInfo* _tmp26_ = NULL;
+					gint _tmp27_ = 0;
+					gchar* _tmp28_ = NULL;
+					gchar* _tmp29_ = NULL;
+					gchar* _tmp30_ = NULL;
+					gchar* _tmp31_ = NULL;
+					gchar* _tmp32_ = NULL;
+					if (!_tmp22_) {
+						gint _tmp23_ = 0;
+						_tmp23_ = i;
+						i = _tmp23_ + 1;
+					}
+					_tmp22_ = FALSE;
+					_tmp24_ = i;
+					if (!(_tmp24_ < 4)) {
+						break;
+					}
+					_tmp25_ = p;
+					_tmp26_ = match_info;
+					_tmp27_ = i;
+					_tmp28_ = g_strdup_printf ("%i", _tmp27_ + 1);
+					_tmp29_ = _tmp28_;
+					_tmp30_ = g_strconcat ("p", _tmp29_, NULL);
+					_tmp31_ = _tmp30_;
+					_tmp32_ = g_match_info_fetch_named (_tmp26_, _tmp31_);
+					g_array_append_val (_tmp25_, _tmp32_);
+					_g_free0 (_tmp31_);
+					_g_free0 (_tmp29_);
+				}
+			}
+		}
+		_tmp33_ = match_info;
+		g_match_info_next (_tmp33_, &_inner_error_);
 		if (G_UNLIKELY (_inner_error_ != NULL)) {
-			_g_free0 (p4);
-			_g_free0 (p3);
-			_g_free0 (p2);
-			_g_free0 (p1);
+			_g_array_unref0 (p);
 			_g_free0 (matched_string);
 			_g_match_info_free0 (match_info);
 			_g_regex_unref0 (regex);
@@ -438,33 +734,22 @@ static void event_complete_string (Event* self, const gchar* pattern, const gcha
 			return;
 		}
 	}
-	_tmp33_ = p1;
-	_tmp34_ = g_strdup (_tmp33_);
-	_tmp35_ = p2;
-	_tmp36_ = g_strdup (_tmp35_);
-	_tmp37_ = p3;
-	_tmp38_ = g_strdup (_tmp37_);
-	_tmp39_ = p4;
-	_tmp40_ = g_strdup (_tmp39_);
-	_tmp41_ = pos;
-	_tmp42_ = length;
-	memset (&_tmp43_, 0, sizeof (EventString_result));
-	_tmp43_.matched = TRUE;
-	_g_free0 (_tmp43_.p1);
-	_tmp43_.p1 = _tmp34_;
-	_g_free0 (_tmp43_.p2);
-	_tmp43_.p2 = _tmp36_;
-	_g_free0 (_tmp43_.p3);
-	_tmp43_.p3 = _tmp38_;
-	_g_free0 (_tmp43_.p4);
-	_tmp43_.p4 = _tmp40_;
-	_tmp43_.pos = _tmp41_;
-	_tmp43_.length = _tmp42_;
-	*result = _tmp43_;
-	_g_free0 (p4);
-	_g_free0 (p3);
-	_g_free0 (p2);
-	_g_free0 (p1);
+	_tmp34_ = pos;
+	_tmp35_ = length;
+	_tmp36_ = matched_string;
+	_tmp37_ = g_strdup (_tmp36_);
+	_tmp38_ = p;
+	_tmp39_ = _g_array_ref0 (_tmp38_);
+	memset (&_tmp40_, 0, sizeof (ParserString_event));
+	_tmp40_.matched = TRUE;
+	_tmp40_.pos = _tmp34_;
+	_tmp40_.length = _tmp35_;
+	_g_free0 (_tmp40_.matched_string);
+	_tmp40_.matched_string = _tmp37_;
+	_g_array_unref0 (_tmp40_.p);
+	_tmp40_.p = _tmp39_;
+	*result = _tmp40_;
+	_g_array_unref0 (p);
 	_g_free0 (matched_string);
 	_g_match_info_free0 (match_info);
 	_g_regex_unref0 (regex);
@@ -601,83 +886,61 @@ static gchar* string_splice (const gchar* self, glong start, glong end, const gc
 }
 
 
-static void event_analyze_pattern (Event* self, const gchar* pattern, gchar** source_low, gchar** source_up, Eventtranscribe_analysis d, void* d_target) {
+static void parser_analyze_pattern (Parser* self, const gchar* pattern, Parsertranscribe_analysis del, void* del_target) {
 	GError * _inner_error_ = NULL;
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (pattern != NULL);
-	g_return_if_fail (*source_low != NULL);
-	g_return_if_fail (*source_up != NULL);
 	{
-		EventString_result string_result = {0};
+		ParserString_event data = {0};
 		const gchar* _tmp0_ = NULL;
 		gchar* _tmp1_ = NULL;
 		gchar* _tmp2_ = NULL;
 		gchar* _tmp3_ = NULL;
 		gchar* _tmp4_ = NULL;
-		const gchar* _tmp5_ = NULL;
-		EventString_result _tmp6_ = {0};
-		EventString_result _tmp7_ = {0};
-		EventString_result _tmp8_ = {0};
-		gboolean _tmp9_ = FALSE;
+		ParserString_event _tmp5_ = {0};
+		ParserString_event _tmp6_ = {0};
+		ParserString_event _tmp7_ = {0};
+		gboolean _tmp8_ = FALSE;
 		_tmp0_ = pattern;
 		_tmp1_ = g_strconcat ("\\b", _tmp0_, NULL);
 		_tmp2_ = _tmp1_;
 		_tmp3_ = g_strconcat (_tmp2_, "\\b", NULL);
 		_tmp4_ = _tmp3_;
-		_tmp5_ = *source_low;
-		event_complete_string (self, _tmp4_, _tmp5_, &_tmp6_);
-		_tmp7_ = _tmp6_;
+		parser_complete_string (self, _tmp4_, &_tmp5_);
+		_tmp6_ = _tmp5_;
 		_g_free0 (_tmp4_);
 		_g_free0 (_tmp2_);
-		string_result = _tmp7_;
-		_tmp8_ = string_result;
-		_tmp9_ = _tmp8_.matched;
-		if (_tmp9_) {
-			const gchar* _tmp10_ = NULL;
-			EventString_result _tmp11_ = {0};
-			gint _tmp12_ = 0;
-			EventString_result _tmp13_ = {0};
-			gint _tmp14_ = 0;
-			EventString_result _tmp15_ = {0};
-			gint _tmp16_ = 0;
-			gchar* _tmp17_ = NULL;
-			const gchar* _tmp18_ = NULL;
-			EventString_result _tmp19_ = {0};
-			gint _tmp20_ = 0;
-			EventString_result _tmp21_ = {0};
-			gint _tmp22_ = 0;
-			EventString_result _tmp23_ = {0};
-			gint _tmp24_ = 0;
-			gchar* _tmp25_ = NULL;
-			Eventtranscribe_analysis _tmp26_ = NULL;
-			void* _tmp26__target = NULL;
-			EventString_result _tmp27_ = {0};
-			_tmp10_ = *source_low;
-			_tmp11_ = string_result;
-			_tmp12_ = _tmp11_.pos;
-			_tmp13_ = string_result;
-			_tmp14_ = _tmp13_.pos;
-			_tmp15_ = string_result;
-			_tmp16_ = _tmp15_.length;
-			_tmp17_ = string_splice (_tmp10_, (glong) _tmp12_, (glong) (_tmp14_ + _tmp16_), NULL);
-			_g_free0 (*source_low);
-			*source_low = _tmp17_;
-			_tmp18_ = *source_up;
-			_tmp19_ = string_result;
-			_tmp20_ = _tmp19_.pos;
-			_tmp21_ = string_result;
-			_tmp22_ = _tmp21_.pos;
-			_tmp23_ = string_result;
-			_tmp24_ = _tmp23_.length;
-			_tmp25_ = string_splice (_tmp18_, (glong) _tmp20_, (glong) (_tmp22_ + _tmp24_), NULL);
-			_g_free0 (*source_up);
-			*source_up = _tmp25_;
-			_tmp26_ = d;
-			_tmp26__target = d_target;
-			_tmp27_ = string_result;
-			_tmp26_ (&_tmp27_, _tmp26__target);
+		data = _tmp6_;
+		_tmp7_ = data;
+		_tmp8_ = _tmp7_.matched;
+		if (_tmp8_) {
+			const gchar* _tmp9_ = NULL;
+			ParserString_event _tmp10_ = {0};
+			gint _tmp11_ = 0;
+			ParserString_event _tmp12_ = {0};
+			gint _tmp13_ = 0;
+			ParserString_event _tmp14_ = {0};
+			gint _tmp15_ = 0;
+			gchar* _tmp16_ = NULL;
+			Parsertranscribe_analysis _tmp17_ = NULL;
+			void* _tmp17__target = NULL;
+			ParserString_event _tmp18_ = {0};
+			_tmp9_ = self->priv->remaining_source;
+			_tmp10_ = data;
+			_tmp11_ = _tmp10_.pos;
+			_tmp12_ = data;
+			_tmp13_ = _tmp12_.pos;
+			_tmp14_ = data;
+			_tmp15_ = _tmp14_.length;
+			_tmp16_ = string_splice (_tmp9_, (glong) _tmp11_, (glong) (_tmp13_ + _tmp15_), NULL);
+			_g_free0 (self->priv->remaining_source);
+			self->priv->remaining_source = _tmp16_;
+			_tmp17_ = del;
+			_tmp17__target = del_target;
+			_tmp18_ = data;
+			_tmp17_ (&_tmp18_, _tmp17__target);
 		}
-		event_string_result_destroy (&string_result);
+		parser_string_event_destroy (&data);
 	}
 	goto __finally1;
 	__catch1_g_error:
@@ -704,968 +967,856 @@ static void block1_data_unref (void * _userdata_) {
 	Block1Data* _data1_;
 	_data1_ = (Block1Data*) _userdata_;
 	if (g_atomic_int_dec_and_test (&_data1_->_ref_count_)) {
-		Event* self;
+		Parser* self;
 		self = _data1_->self;
-		_g_date_time_unref0 (_data1_->dt_simulated);
+		_g_object_unref0 (_data1_->event);
 		_g_object_unref0 (self);
 		g_slice_free (Block1Data, _data1_);
 	}
 }
 
 
-static void __lambda4_ (Event* self, EventString_result* string_result) {
+static void __lambda4_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
-	GDateTime* _tmp2_ = NULL;
-	GDateTime* _tmp3_ = NULL;
-	gint _tmp4_ = 0;
-	GDateTime* _tmp5_ = NULL;
-	GDateTime* _tmp6_ = NULL;
-	GDateTime* _tmp7_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = g_date_time_add_days (_tmp0_, -1);
-	_tmp2_ = _tmp1_;
-	_tmp3_ = self->dt_begin;
-	_tmp4_ = g_date_time_get_hour (_tmp3_);
-	_tmp5_ = g_date_time_add_hours (_tmp2_, -_tmp4_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp5_;
-	_g_date_time_unref0 (_tmp2_);
-	_tmp6_ = self->dt_begin;
-	_tmp7_ = _g_date_time_ref0 (_tmp6_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp7_;
-	self->all_day = TRUE;
-}
-
-
-static void ___lambda4__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda4_ ((Event*) self, string_result);
-}
-
-
-static void __lambda5_ (Event* self, EventString_result* string_result) {
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	GDateTime* _tmp2_ = NULL;
-	GDateTime* _tmp3_ = NULL;
-	gint _tmp4_ = 0;
-	GDateTime* _tmp5_ = NULL;
-	GDateTime* _tmp6_ = NULL;
-	GDateTime* _tmp7_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = g_date_time_add_days (_tmp0_, 1);
-	_tmp2_ = _tmp1_;
-	_tmp3_ = self->dt_begin;
-	_tmp4_ = g_date_time_get_hour (_tmp3_);
-	_tmp5_ = g_date_time_add_hours (_tmp2_, -_tmp4_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp5_;
-	_g_date_time_unref0 (_tmp2_);
-	_tmp6_ = self->dt_begin;
-	_tmp7_ = _g_date_time_ref0 (_tmp6_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp7_;
-	self->all_day = TRUE;
-}
-
-
-static void ___lambda5__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda5_ ((Event*) self, string_result);
-}
-
-
-static void __lambda6_ (Event* self, EventString_result* string_result) {
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	GDateTime* _tmp2_ = NULL;
-	GDateTime* _tmp3_ = NULL;
-	gint _tmp4_ = 0;
-	GDateTime* _tmp5_ = NULL;
-	GDateTime* _tmp6_ = NULL;
-	GDateTime* _tmp7_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = g_date_time_add_days (_tmp0_, 2);
-	_tmp2_ = _tmp1_;
-	_tmp3_ = self->dt_begin;
-	_tmp4_ = g_date_time_get_hour (_tmp3_);
-	_tmp5_ = g_date_time_add_hours (_tmp2_, -_tmp4_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp5_;
-	_g_date_time_unref0 (_tmp2_);
-	_tmp6_ = self->dt_begin;
-	_tmp7_ = _g_date_time_ref0 (_tmp6_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp7_;
-	self->all_day = TRUE;
-}
-
-
-static void ___lambda6__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda6_ ((Event*) self, string_result);
-}
-
-
-static void __lambda7_ (Event* self, EventString_result* string_result) {
-	gint days = 0;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
-	GDateTime* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	GDateTime* _tmp6_ = NULL;
-	gint _tmp7_ = 0;
-	GDateTime* _tmp8_ = NULL;
-	GDateTime* _tmp9_ = NULL;
-	GDateTime* _tmp10_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = atoi (_tmp1_);
-	days = _tmp2_;
-	_tmp3_ = self->dt_begin;
-	_tmp4_ = g_date_time_add_days (_tmp3_, -days);
-	_tmp5_ = _tmp4_;
-	_tmp6_ = self->dt_begin;
-	_tmp7_ = g_date_time_get_hour (_tmp6_);
-	_tmp8_ = g_date_time_add_hours (_tmp5_, -_tmp7_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp8_;
-	_g_date_time_unref0 (_tmp5_);
-	_tmp9_ = self->dt_begin;
-	_tmp10_ = _g_date_time_ref0 (_tmp9_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp10_;
-	self->all_day = TRUE;
-}
-
-
-static void ___lambda7__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda7_ ((Event*) self, string_result);
-}
-
-
-static void __lambda8_ (Event* self, EventString_result* string_result) {
-	gint days = 0;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
-	GDateTime* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	GDateTime* _tmp6_ = NULL;
-	gint _tmp7_ = 0;
-	GDateTime* _tmp8_ = NULL;
-	GDateTime* _tmp9_ = NULL;
-	GDateTime* _tmp10_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = atoi (_tmp1_);
-	days = _tmp2_;
-	_tmp3_ = self->dt_begin;
-	_tmp4_ = g_date_time_add_days (_tmp3_, days);
-	_tmp5_ = _tmp4_;
-	_tmp6_ = self->dt_begin;
-	_tmp7_ = g_date_time_get_hour (_tmp6_);
-	_tmp8_ = g_date_time_add_hours (_tmp5_, -_tmp7_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp8_;
-	_g_date_time_unref0 (_tmp5_);
-	_tmp9_ = self->dt_begin;
-	_tmp10_ = _g_date_time_ref0 (_tmp9_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp10_;
-	self->all_day = TRUE;
-}
-
-
-static void ___lambda8__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda8_ ((Event*) self, string_result);
-}
-
-
-static void __lambda9_ (Event* self, EventString_result* string_result) {
-	gint day = 0;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	gint month = 0;
-	EventString_result _tmp3_ = {0};
-	const gchar* _tmp4_ = NULL;
-	gint _tmp5_ = 0;
-	GDateTime* _tmp6_ = NULL;
-	gint _tmp7_ = 0;
-	GDateTime* _tmp8_ = NULL;
-	gint _tmp9_ = 0;
-	GDateTime* _tmp10_ = NULL;
-	GDateTime* _tmp11_ = NULL;
-	GDateTime* _tmp12_ = NULL;
-	gint _tmp13_ = 0;
-	GDateTime* _tmp14_ = NULL;
-	GDateTime* _tmp15_ = NULL;
-	GDateTime* _tmp16_ = NULL;
-	GDateTime* _tmp17_ = NULL;
-	gint _tmp18_ = 0;
-	GDateTime* _tmp19_ = NULL;
-	gint _tmp20_ = 0;
-	GDateTime* _tmp21_ = NULL;
-	GDateTime* _tmp22_ = NULL;
-	gint _tmp23_ = 0;
-	GDateTime* _tmp24_ = NULL;
-	gint _tmp25_ = 0;
-	GDateTime* _tmp26_ = NULL;
-	EventString_result _tmp27_ = {0};
-	const gchar* _tmp28_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = atoi (_tmp1_);
-	day = _tmp2_;
-	_tmp3_ = *string_result;
-	_tmp4_ = _tmp3_.p2;
-	_tmp5_ = atoi (_tmp4_);
-	month = _tmp5_;
-	_tmp6_ = self->dt_begin;
-	_tmp7_ = day;
-	_tmp8_ = self->dt_begin;
-	_tmp9_ = g_date_time_get_day_of_month (_tmp8_);
-	_tmp10_ = g_date_time_add_days (_tmp6_, _tmp7_ - _tmp9_);
-	_tmp11_ = _tmp10_;
-	_tmp12_ = self->dt_begin;
-	_tmp13_ = g_date_time_get_hour (_tmp12_);
-	_tmp14_ = g_date_time_add_hours (_tmp11_, -_tmp13_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp14_;
-	_g_date_time_unref0 (_tmp11_);
-	_tmp15_ = self->dt_begin;
-	_tmp16_ = _g_date_time_ref0 (_tmp15_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp16_;
-	_tmp17_ = self->dt_begin;
-	_tmp18_ = month;
-	_tmp19_ = self->dt_begin;
-	_tmp20_ = g_date_time_get_month (_tmp19_);
-	_tmp21_ = g_date_time_add_months (_tmp17_, _tmp18_ - _tmp20_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp21_;
-	_tmp22_ = self->dt_begin;
-	_tmp23_ = month;
-	_tmp24_ = self->dt_begin;
-	_tmp25_ = g_date_time_get_month (_tmp24_);
-	_tmp26_ = g_date_time_add_months (_tmp22_, _tmp23_ - _tmp25_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp26_;
-	_tmp27_ = *string_result;
-	_tmp28_ = _tmp27_.p3;
-	if (_tmp28_ != NULL) {
-		gint year = 0;
-		EventString_result _tmp29_ = {0};
-		const gchar* _tmp30_ = NULL;
-		gint _tmp31_ = 0;
-		GDateTime* _tmp32_ = NULL;
-		gint _tmp33_ = 0;
-		GDateTime* _tmp34_ = NULL;
-		gint _tmp35_ = 0;
-		GDateTime* _tmp36_ = NULL;
-		_tmp29_ = *string_result;
-		_tmp30_ = _tmp29_.p3;
-		_tmp31_ = atoi (_tmp30_);
-		year = _tmp31_;
-		_tmp32_ = self->dt_begin;
-		_tmp33_ = year;
-		_tmp34_ = self->dt_begin;
-		_tmp35_ = g_date_time_get_year (_tmp34_);
-		_tmp36_ = g_date_time_add_years (_tmp32_, _tmp33_ - _tmp35_);
-		_g_date_time_unref0 (self->dt_begin);
-		self->dt_begin = _tmp36_;
-	}
-	self->all_day = TRUE;
-}
-
-
-static void ___lambda9__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda9_ ((Event*) self, string_result);
-}
-
-
-static void __lambda10_ (Event* self, EventString_result* string_result) {
-	gint day_1 = 0;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	gint day_2 = 0;
-	EventString_result _tmp3_ = {0};
-	const gchar* _tmp4_ = NULL;
-	gint _tmp5_ = 0;
-	GDateTime* _tmp6_ = NULL;
-	GDateTime* _tmp7_ = NULL;
-	gint _tmp8_ = 0;
-	GDateTime* _tmp9_ = NULL;
-	GDateTime* _tmp10_ = NULL;
-	GDateTime* _tmp11_ = NULL;
-	gint _tmp12_ = 0;
-	GDateTime* _tmp13_ = NULL;
-	GDateTime* _tmp14_ = NULL;
-	GDateTime* _tmp15_ = NULL;
-	gint _tmp16_ = 0;
-	GDateTime* _tmp17_ = NULL;
-	GDateTime* _tmp18_ = NULL;
-	GDateTime* _tmp19_ = NULL;
-	gint _tmp20_ = 0;
-	GDateTime* _tmp21_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = atoi (_tmp1_);
-	day_1 = _tmp2_;
-	_tmp3_ = *string_result;
-	_tmp4_ = _tmp3_.p2;
-	_tmp5_ = atoi (_tmp4_);
-	day_2 = _tmp5_;
-	_tmp6_ = self->dt_begin;
-	_tmp7_ = self->dt_begin;
-	_tmp8_ = g_date_time_get_day_of_month (_tmp7_);
-	_tmp9_ = g_date_time_add_days (_tmp6_, day_1 - _tmp8_);
-	_tmp10_ = _tmp9_;
-	_tmp11_ = self->dt_begin;
-	_tmp12_ = g_date_time_get_hour (_tmp11_);
-	_tmp13_ = g_date_time_add_hours (_tmp10_, -_tmp12_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp13_;
-	_g_date_time_unref0 (_tmp10_);
-	_tmp14_ = self->dt_end;
-	_tmp15_ = self->dt_end;
-	_tmp16_ = g_date_time_get_day_of_month (_tmp15_);
-	_tmp17_ = g_date_time_add_days (_tmp14_, day_2 - _tmp16_);
-	_tmp18_ = _tmp17_;
-	_tmp19_ = self->dt_end;
-	_tmp20_ = g_date_time_get_hour (_tmp19_);
-	_tmp21_ = g_date_time_add_hours (_tmp18_, -_tmp20_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp21_;
-	_g_date_time_unref0 (_tmp18_);
-	self->all_day = TRUE;
-}
-
-
-static void ___lambda10__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda10_ ((Event*) self, string_result);
-}
-
-
-static void __lambda11_ (Block1Data* _data1_, EventString_result* string_result) {
-	Event* self;
-	gint day = 0;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	gint month = 0;
-	EventString_result _tmp3_ = {0};
-	const gchar* _tmp4_ = NULL;
-	gint _tmp5_ = 0;
-	GDateTime* _tmp6_ = NULL;
-	gint _tmp7_ = 0;
-	GDateTime* _tmp8_ = NULL;
-	gint _tmp9_ = 0;
-	GDateTime* _tmp10_ = NULL;
-	GDateTime* _tmp11_ = NULL;
-	gint _tmp12_ = 0;
-	GDateTime* _tmp13_ = NULL;
-	gint _tmp14_ = 0;
-	GDateTime* _tmp15_ = NULL;
-	GDateTime* _tmp16_ = NULL;
-	gint _tmp17_ = 0;
-	GDateTime* _tmp18_ = NULL;
-	gint _tmp19_ = 0;
-	GDateTime* _tmp20_ = NULL;
-	GDateTime* _tmp21_ = NULL;
-	gint _tmp22_ = 0;
-	GDateTime* _tmp23_ = NULL;
-	gint _tmp24_ = 0;
-	GDateTime* _tmp25_ = NULL;
-	GDateTime* _tmp26_ = NULL;
-	GDateTime* _tmp27_ = NULL;
-	gint _tmp28_ = 0;
 	self = _data1_->self;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = atoi (_tmp1_);
-	day = _tmp2_;
-	_tmp3_ = *string_result;
-	_tmp4_ = _tmp3_.p2;
-	_tmp5_ = get_number_of_month (_tmp4_);
-	month = _tmp5_;
-	_tmp6_ = self->dt_begin;
-	_tmp7_ = day;
-	_tmp8_ = self->dt_begin;
-	_tmp9_ = g_date_time_get_day_of_month (_tmp8_);
-	_tmp10_ = g_date_time_add_days (_tmp6_, _tmp7_ - _tmp9_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp10_;
-	_tmp11_ = self->dt_begin;
-	_tmp12_ = day;
-	_tmp13_ = self->dt_begin;
-	_tmp14_ = g_date_time_get_day_of_month (_tmp13_);
-	_tmp15_ = g_date_time_add_days (_tmp11_, _tmp12_ - _tmp14_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp15_;
-	_tmp16_ = self->dt_begin;
-	_tmp17_ = month;
-	_tmp18_ = self->dt_begin;
-	_tmp19_ = g_date_time_get_month (_tmp18_);
-	_tmp20_ = g_date_time_add_months (_tmp16_, _tmp17_ - _tmp19_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp20_;
-	_tmp21_ = self->dt_begin;
-	_tmp22_ = month;
-	_tmp23_ = self->dt_begin;
-	_tmp24_ = g_date_time_get_month (_tmp23_);
-	_tmp25_ = g_date_time_add_months (_tmp21_, _tmp22_ - _tmp24_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp25_;
-	_tmp26_ = self->dt_begin;
-	_tmp27_ = _data1_->dt_simulated;
-	_tmp28_ = g_date_time_compare (_tmp26_, _tmp27_);
-	if (_tmp28_ < 0) {
-		GDateTime* _tmp29_ = NULL;
-		GDateTime* _tmp30_ = NULL;
-		GDateTime* _tmp31_ = NULL;
-		GDateTime* _tmp32_ = NULL;
-		_tmp29_ = self->dt_begin;
-		_tmp30_ = g_date_time_add_years (_tmp29_, 1);
-		_g_date_time_unref0 (self->dt_begin);
-		self->dt_begin = _tmp30_;
-		_tmp31_ = self->dt_end;
-		_tmp32_ = g_date_time_add_years (_tmp31_, 1);
-		_g_date_time_unref0 (self->dt_end);
-		self->dt_end = _tmp32_;
-	}
-	self->all_day = TRUE;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = _data1_->event->from;
+	_tmp1_ = g_date_time_add_days (_tmp0_, -1);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp1_;
+	event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda11__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda11_ (self, string_result);
+static void ___lambda4__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda4_ (self, data);
 }
 
 
-static void __lambda12_ (Event* self, EventString_result* string_result) {
+static void __lambda5_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = _data1_->event->from;
+	_tmp1_ = g_date_time_add_days (_tmp0_, 1);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp1_;
+	event_set_one_entire_day (_data1_->event);
+}
+
+
+static void ___lambda5__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda5_ (self, data);
+}
+
+
+static void __lambda6_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	GDateTime* _tmp0_ = NULL;
+	GDateTime* _tmp1_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = _data1_->event->from;
+	_tmp1_ = g_date_time_add_days (_tmp0_, 2);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp1_;
+	event_set_one_entire_day (_data1_->event);
+}
+
+
+static void ___lambda6__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda6_ (self, data);
+}
+
+
+static void __lambda7_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	event_set_one_entire_day (_data1_->event);
+}
+
+
+static void ___lambda7__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda7_ (self, data);
+}
+
+
+static void __lambda8_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint days = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
 	GDateTime* _tmp4_ = NULL;
 	GDateTime* _tmp5_ = NULL;
-	gint _tmp6_ = 0;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	days = _tmp3_;
+	_tmp4_ = _data1_->event->from;
+	_tmp5_ = g_date_time_add_days (_tmp4_, -days);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp5_;
+	event_set_one_entire_day (_data1_->event);
+}
+
+
+static void ___lambda8__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda8_ (self, data);
+}
+
+
+static void __lambda9_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint days = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	GDateTime* _tmp4_ = NULL;
+	GDateTime* _tmp5_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	days = _tmp3_;
+	_tmp4_ = _data1_->event->from;
+	_tmp5_ = g_date_time_add_days (_tmp4_, days);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp5_;
+	event_set_one_entire_day (_data1_->event);
+}
+
+
+static void ___lambda9__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda9_ (self, data);
+}
+
+
+static const gchar* string_to_string (const gchar* self) {
+	const gchar* result = NULL;
+	g_return_val_if_fail (self != NULL, NULL);
+	result = self;
+	return result;
+}
+
+
+static void __lambda10_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint weekday = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	gint add_days = 0;
+	GDateTime* _tmp4_ = NULL;
+	gint _tmp5_ = 0;
+	GDateTime* _tmp6_ = NULL;
+	GDateTime* _tmp7_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = parser_get_number_of_weekday (self, _tmp2_);
+	weekday = _tmp3_;
+	_tmp4_ = self->simulated_dt;
+	_tmp5_ = g_date_time_get_day_of_week (_tmp4_);
+	add_days = ((weekday - _tmp5_) + 7) % 7;
+	_tmp6_ = _data1_->event->from;
+	_tmp7_ = g_date_time_add_days (_tmp6_, add_days);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp7_;
+	event_set_one_entire_day (_data1_->event);
+}
+
+
+static void ___lambda10__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda10_ (self, data);
+}
+
+
+static void __lambda11_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint weekday = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	gint add_days = 0;
+	GDateTime* _tmp4_ = NULL;
+	gint _tmp5_ = 0;
+	GDateTime* _tmp6_ = NULL;
+	GDateTime* _tmp7_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = parser_get_number_of_weekday (self, _tmp2_);
+	weekday = _tmp3_;
+	_tmp4_ = self->simulated_dt;
+	_tmp5_ = g_date_time_get_day_of_week (_tmp4_);
+	add_days = ((weekday - _tmp5_) + 7) % 7;
+	_tmp6_ = _data1_->event->from;
+	_tmp7_ = g_date_time_add_days (_tmp6_, add_days);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp7_;
+	event_set_one_entire_day (_data1_->event);
+}
+
+
+static void ___lambda11__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda11_ (self, data);
+}
+
+
+static void __lambda12_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint weekday = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	gint add_days = 0;
+	GDateTime* _tmp4_ = NULL;
+	gint _tmp5_ = 0;
+	GDateTime* _tmp6_ = NULL;
 	GDateTime* _tmp7_ = NULL;
 	GDateTime* _tmp8_ = NULL;
 	GDateTime* _tmp9_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = parser_get_number_of_weekday (self, _tmp2_);
+	weekday = _tmp3_;
+	_tmp4_ = self->simulated_dt;
+	_tmp5_ = g_date_time_get_day_of_week (_tmp4_);
+	add_days = ((weekday - _tmp5_) + 7) % 7;
+	_tmp6_ = _data1_->event->from;
+	_tmp7_ = g_date_time_add_weeks (_tmp6_, 1);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp7_;
+	_tmp8_ = _data1_->event->from;
+	_tmp9_ = g_date_time_add_days (_tmp8_, add_days);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp9_;
+	event_set_one_entire_day (_data1_->event);
+}
+
+
+static void ___lambda12__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda12_ (self, data);
+}
+
+
+static void __lambda13_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint day = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	gint month = 0;
+	ParserString_event _tmp4_ = {0};
+	GArray* _tmp5_ = NULL;
+	const gchar* _tmp6_ = NULL;
+	gint _tmp7_ = 0;
+	gint _tmp8_ = 0;
+	gint _tmp9_ = 0;
 	gint _tmp10_ = 0;
-	GDateTime* _tmp11_ = NULL;
-	GDateTime* _tmp12_ = NULL;
-	GDateTime* _tmp13_ = NULL;
-	gint _tmp14_ = 0;
-	GDateTime* _tmp15_ = NULL;
-	GDateTime* _tmp16_ = NULL;
-	GDateTime* _tmp17_ = NULL;
-	gint _tmp18_ = 0;
-	GDateTime* _tmp19_ = NULL;
+	ParserString_event _tmp11_ = {0};
+	GArray* _tmp12_ = NULL;
+	const gchar* _tmp13_ = NULL;
 	GDateTime* _tmp20_ = NULL;
-	GDateTime* _tmp21_ = NULL;
-	gint _tmp22_ = 0;
-	GDateTime* _tmp23_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = self->dt_begin;
-	_tmp2_ = g_date_time_get_month (_tmp1_);
-	_tmp3_ = g_date_time_add_months (_tmp0_, 12 - _tmp2_);
-	_tmp4_ = _tmp3_;
-	_tmp5_ = self->dt_begin;
-	_tmp6_ = g_date_time_get_day_of_month (_tmp5_);
-	_tmp7_ = g_date_time_add_days (_tmp4_, 24 - _tmp6_);
-	_tmp8_ = _tmp7_;
-	_tmp9_ = self->dt_begin;
-	_tmp10_ = g_date_time_get_hour (_tmp9_);
-	_tmp11_ = g_date_time_add_hours (_tmp8_, -_tmp10_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp11_;
-	_g_date_time_unref0 (_tmp8_);
-	_g_date_time_unref0 (_tmp4_);
-	_tmp12_ = self->dt_end;
-	_tmp13_ = self->dt_end;
-	_tmp14_ = g_date_time_get_month (_tmp13_);
-	_tmp15_ = g_date_time_add_months (_tmp12_, 12 - _tmp14_);
-	_tmp16_ = _tmp15_;
-	_tmp17_ = self->dt_end;
-	_tmp18_ = g_date_time_get_day_of_month (_tmp17_);
-	_tmp19_ = g_date_time_add_days (_tmp16_, 24 - _tmp18_);
-	_tmp20_ = _tmp19_;
-	_tmp21_ = self->dt_end;
-	_tmp22_ = g_date_time_get_hour (_tmp21_);
-	_tmp23_ = g_date_time_add_hours (_tmp20_, -_tmp22_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp23_;
-	_g_date_time_unref0 (_tmp20_);
-	_g_date_time_unref0 (_tmp16_);
-	self->all_day = TRUE;
-}
-
-
-static void ___lambda12__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda12_ ((Event*) self, string_result);
-}
-
-
-static void __lambda13_ (Event* self, EventString_result* string_result) {
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
-	GDateTime* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = self->dt_begin;
-	_tmp2_ = g_date_time_get_hour (_tmp1_);
-	_tmp3_ = g_date_time_add_hours (_tmp0_, 9 - _tmp2_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp3_;
-	_tmp4_ = self->dt_begin;
-	_tmp5_ = g_date_time_add_hours (_tmp4_, 1);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp5_;
-	self->all_day = FALSE;
-}
-
-
-static void ___lambda13__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda13_ ((Event*) self, string_result);
-}
-
-
-static void __lambda14_ (Event* self, EventString_result* string_result) {
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
-	GDateTime* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = self->dt_begin;
-	_tmp2_ = g_date_time_get_hour (_tmp1_);
-	_tmp3_ = g_date_time_add_hours (_tmp0_, 11 - _tmp2_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp3_;
-	_tmp4_ = self->dt_begin;
-	_tmp5_ = g_date_time_add_hours (_tmp4_, 1);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp5_;
-	self->all_day = FALSE;
-}
-
-
-static void ___lambda14__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda14_ ((Event*) self, string_result);
-}
-
-
-static void __lambda15_ (Event* self, EventString_result* string_result) {
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
-	GDateTime* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = self->dt_begin;
-	_tmp2_ = g_date_time_get_hour (_tmp1_);
-	_tmp3_ = g_date_time_add_hours (_tmp0_, 12 - _tmp2_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp3_;
-	_tmp4_ = self->dt_begin;
-	_tmp5_ = g_date_time_add_hours (_tmp4_, 1);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp5_;
-	self->all_day = FALSE;
-}
-
-
-static void ___lambda15__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda15_ ((Event*) self, string_result);
-}
-
-
-static void __lambda16_ (Event* self, EventString_result* string_result) {
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
-	GDateTime* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = self->dt_begin;
-	_tmp2_ = g_date_time_get_hour (_tmp1_);
-	_tmp3_ = g_date_time_add_hours (_tmp0_, 15 - _tmp2_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp3_;
-	_tmp4_ = self->dt_begin;
-	_tmp5_ = g_date_time_add_hours (_tmp4_, 1);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp5_;
-	self->all_day = FALSE;
-}
-
-
-static void ___lambda16__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda16_ ((Event*) self, string_result);
-}
-
-
-static void __lambda17_ (Event* self, EventString_result* string_result) {
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
-	GDateTime* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = self->dt_begin;
-	_tmp2_ = g_date_time_get_hour (_tmp1_);
-	_tmp3_ = g_date_time_add_hours (_tmp0_, 18 - _tmp2_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp3_;
-	_tmp4_ = self->dt_begin;
-	_tmp5_ = g_date_time_add_hours (_tmp4_, 1);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp5_;
-	self->all_day = FALSE;
-}
-
-
-static void ___lambda17__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda17_ ((Event*) self, string_result);
-}
-
-
-static void __lambda18_ (Event* self, EventString_result* string_result) {
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
-	GDateTime* _tmp4_ = NULL;
-	GDateTime* _tmp5_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = self->dt_begin;
-	_tmp1_ = self->dt_begin;
-	_tmp2_ = g_date_time_get_hour (_tmp1_);
-	_tmp3_ = g_date_time_add_hours (_tmp0_, 19 - _tmp2_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp3_;
-	_tmp4_ = self->dt_begin;
-	_tmp5_ = g_date_time_add_hours (_tmp4_, 3);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp5_;
-	self->all_day = FALSE;
-}
-
-
-static void ___lambda18__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda18_ ((Event*) self, string_result);
-}
-
-
-static void __lambda19_ (Event* self, EventString_result* string_result) {
-	gint hour = 0;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
-	gint _tmp4_ = 0;
-	GDateTime* _tmp5_ = NULL;
-	gint _tmp6_ = 0;
-	GDateTime* _tmp7_ = NULL;
-	EventString_result _tmp8_ = {0};
-	const gchar* _tmp9_ = NULL;
-	GDateTime* _tmp18_ = NULL;
-	GDateTime* _tmp19_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = atoi (_tmp1_);
-	hour = _tmp2_;
-	_tmp3_ = self->dt_begin;
-	_tmp4_ = hour;
-	_tmp5_ = self->dt_begin;
-	_tmp6_ = g_date_time_get_hour (_tmp5_);
-	_tmp7_ = g_date_time_add_hours (_tmp3_, _tmp4_ - _tmp6_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp7_;
-	_tmp8_ = *string_result;
-	_tmp9_ = _tmp8_.p2;
-	if (_tmp9_ != NULL) {
-		gint minute_1 = 0;
-		EventString_result _tmp10_ = {0};
-		const gchar* _tmp11_ = NULL;
-		gint _tmp12_ = 0;
-		GDateTime* _tmp13_ = NULL;
-		gint _tmp14_ = 0;
-		GDateTime* _tmp15_ = NULL;
-		gint _tmp16_ = 0;
-		GDateTime* _tmp17_ = NULL;
-		_tmp10_ = *string_result;
-		_tmp11_ = _tmp10_.p2;
-		_tmp12_ = atoi (_tmp11_);
-		minute_1 = _tmp12_;
-		_tmp13_ = self->dt_begin;
-		_tmp14_ = minute_1;
-		_tmp15_ = self->dt_begin;
-		_tmp16_ = g_date_time_get_minute (_tmp15_);
-		_tmp17_ = g_date_time_add_minutes (_tmp13_, _tmp14_ - _tmp16_);
-		_g_date_time_unref0 (self->dt_begin);
-		self->dt_begin = _tmp17_;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	day = _tmp3_;
+	_tmp4_ = *data;
+	_tmp5_ = _tmp4_.p;
+	_tmp6_ = g_array_index (_tmp5_, gchar*, (guint) 1);
+	_tmp7_ = atoi (_tmp6_);
+	month = _tmp7_;
+	_tmp8_ = day;
+	event_from_set_day (_data1_->event, _tmp8_);
+	event_set_one_entire_day (_data1_->event);
+	_tmp9_ = month;
+	event_from_set_month (_data1_->event, _tmp9_);
+	_tmp10_ = month;
+	event_to_set_month (_data1_->event, _tmp10_);
+	_tmp11_ = *data;
+	_tmp12_ = _tmp11_.p;
+	_tmp13_ = g_array_index (_tmp12_, gchar*, (guint) 2);
+	if (_tmp13_ != NULL) {
+		gint year = 0;
+		ParserString_event _tmp14_ = {0};
+		GArray* _tmp15_ = NULL;
+		const gchar* _tmp16_ = NULL;
+		gint _tmp17_ = 0;
+		gint _tmp18_ = 0;
+		GDateTime* _tmp19_ = NULL;
+		_tmp14_ = *data;
+		_tmp15_ = _tmp14_.p;
+		_tmp16_ = g_array_index (_tmp15_, gchar*, (guint) 2);
+		_tmp17_ = atoi (_tmp16_);
+		year = _tmp17_;
+		_tmp18_ = year;
+		event_from_set_year (_data1_->event, _tmp18_);
+		_tmp19_ = self->simulated_dt;
+		event_if_elapsed_delay_to_next_year (_data1_->event, _tmp19_);
 	}
-	_tmp18_ = self->dt_begin;
-	_tmp19_ = g_date_time_add_hours (_tmp18_, 1);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp19_;
-	self->all_day = FALSE;
+	_tmp20_ = self->simulated_dt;
+	event_if_elapsed_delay_to_next_month (_data1_->event, _tmp20_);
 }
 
 
-static void ___lambda19__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda19_ ((Event*) self, string_result);
+static void ___lambda13__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda13_ (self, data);
 }
 
 
-static void __lambda20_ (Event* self, EventString_result* string_result) {
-	gint hour_1 = 0;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	gint hour_2 = 0;
-	EventString_result _tmp3_ = {0};
-	const gchar* _tmp4_ = NULL;
-	gint _tmp5_ = 0;
-	GDateTime* _tmp6_ = NULL;
+static void __lambda14_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint day_1 = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	gint day_2 = 0;
+	ParserString_event _tmp4_ = {0};
+	GArray* _tmp5_ = NULL;
+	const gchar* _tmp6_ = NULL;
+	gint _tmp7_ = 0;
+	gint _tmp8_ = 0;
+	gint _tmp9_ = 0;
+	ParserString_event _tmp10_ = {0};
+	GArray* _tmp11_ = NULL;
+	const gchar* _tmp12_ = NULL;
+	GDateTime* _tmp20_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	day_1 = _tmp3_;
+	_tmp4_ = *data;
+	_tmp5_ = _tmp4_.p;
+	_tmp6_ = g_array_index (_tmp5_, gchar*, (guint) 1);
+	_tmp7_ = atoi (_tmp6_);
+	day_2 = _tmp7_;
+	_tmp8_ = day_1;
+	event_from_set_day (_data1_->event, _tmp8_);
+	_tmp9_ = day_2;
+	event_to_set_day (_data1_->event, _tmp9_);
+	event_set_all_day (_data1_->event);
+	_tmp10_ = *data;
+	_tmp11_ = _tmp10_.p;
+	_tmp12_ = g_array_index (_tmp11_, gchar*, (guint) 2);
+	if (_tmp12_ != NULL) {
+		gint month = 0;
+		ParserString_event _tmp13_ = {0};
+		GArray* _tmp14_ = NULL;
+		const gchar* _tmp15_ = NULL;
+		gint _tmp16_ = 0;
+		gint _tmp17_ = 0;
+		gint _tmp18_ = 0;
+		GDateTime* _tmp19_ = NULL;
+		_tmp13_ = *data;
+		_tmp14_ = _tmp13_.p;
+		_tmp15_ = g_array_index (_tmp14_, gchar*, (guint) 2);
+		_tmp16_ = parser_get_number_of_month (self, _tmp15_);
+		month = _tmp16_;
+		_tmp17_ = month;
+		event_from_set_month (_data1_->event, _tmp17_);
+		_tmp18_ = month;
+		event_to_set_month (_data1_->event, _tmp18_);
+		_tmp19_ = self->simulated_dt;
+		event_if_elapsed_delay_to_next_year (_data1_->event, _tmp19_);
+	}
+	_tmp20_ = self->simulated_dt;
+	event_if_elapsed_delay_to_next_month (_data1_->event, _tmp20_);
+}
+
+
+static void ___lambda14__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda14_ (self, data);
+}
+
+
+static void __lambda15_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint day = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	gint month = 0;
+	ParserString_event _tmp4_ = {0};
+	GArray* _tmp5_ = NULL;
+	const gchar* _tmp6_ = NULL;
 	gint _tmp7_ = 0;
 	GDateTime* _tmp8_ = NULL;
-	gint _tmp9_ = 0;
-	GDateTime* _tmp10_ = NULL;
-	GDateTime* _tmp11_ = NULL;
-	gint _tmp12_ = 0;
-	GDateTime* _tmp13_ = NULL;
-	gint _tmp14_ = 0;
-	GDateTime* _tmp15_ = NULL;
-	EventString_result _tmp16_ = {0};
-	const gchar* _tmp17_ = NULL;
-	EventString_result _tmp26_ = {0};
-	const gchar* _tmp27_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = atoi (_tmp1_);
-	hour_1 = _tmp2_;
-	_tmp3_ = *string_result;
-	_tmp4_ = _tmp3_.p2;
-	_tmp5_ = atoi (_tmp4_);
-	hour_2 = _tmp5_;
-	_tmp6_ = self->dt_begin;
-	_tmp7_ = hour_1;
-	_tmp8_ = self->dt_begin;
-	_tmp9_ = g_date_time_get_hour (_tmp8_);
-	_tmp10_ = g_date_time_add_hours (_tmp6_, _tmp7_ - _tmp9_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp10_;
-	_tmp11_ = self->dt_begin;
-	_tmp12_ = hour_2;
-	_tmp13_ = self->dt_begin;
-	_tmp14_ = g_date_time_get_hour (_tmp13_);
-	_tmp15_ = g_date_time_add_hours (_tmp11_, _tmp12_ - _tmp14_);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp15_;
-	_tmp16_ = *string_result;
-	_tmp17_ = _tmp16_.p3;
-	if (_tmp17_ != NULL) {
-		gint minute_1 = 0;
-		EventString_result _tmp18_ = {0};
-		const gchar* _tmp19_ = NULL;
-		gint _tmp20_ = 0;
-		GDateTime* _tmp21_ = NULL;
-		gint _tmp22_ = 0;
-		GDateTime* _tmp23_ = NULL;
-		gint _tmp24_ = 0;
-		GDateTime* _tmp25_ = NULL;
-		_tmp18_ = *string_result;
-		_tmp19_ = _tmp18_.p3;
-		_tmp20_ = atoi (_tmp19_);
-		minute_1 = _tmp20_;
-		_tmp21_ = self->dt_begin;
-		_tmp22_ = minute_1;
-		_tmp23_ = self->dt_begin;
-		_tmp24_ = g_date_time_get_minute (_tmp23_);
-		_tmp25_ = g_date_time_add_minutes (_tmp21_, _tmp22_ - _tmp24_);
-		_g_date_time_unref0 (self->dt_begin);
-		self->dt_begin = _tmp25_;
-	}
-	_tmp26_ = *string_result;
-	_tmp27_ = _tmp26_.p4;
-	if (_tmp27_ != NULL) {
-		gint minute_2 = 0;
-		EventString_result _tmp28_ = {0};
-		const gchar* _tmp29_ = NULL;
-		gint _tmp30_ = 0;
-		GDateTime* _tmp31_ = NULL;
-		gint _tmp32_ = 0;
-		GDateTime* _tmp33_ = NULL;
-		gint _tmp34_ = 0;
-		GDateTime* _tmp35_ = NULL;
-		_tmp28_ = *string_result;
-		_tmp29_ = _tmp28_.p4;
-		_tmp30_ = atoi (_tmp29_);
-		minute_2 = _tmp30_;
-		_tmp31_ = self->dt_end;
-		_tmp32_ = minute_2;
-		_tmp33_ = self->dt_end;
-		_tmp34_ = g_date_time_get_minute (_tmp33_);
-		_tmp35_ = g_date_time_add_minutes (_tmp31_, _tmp32_ - _tmp34_);
-		_g_date_time_unref0 (self->dt_end);
-		self->dt_end = _tmp35_;
-	}
-	self->all_day = FALSE;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	day = _tmp3_;
+	_tmp4_ = *data;
+	_tmp5_ = _tmp4_.p;
+	_tmp6_ = g_array_index (_tmp5_, gchar*, (guint) 1);
+	_tmp7_ = parser_get_number_of_month (self, _tmp6_);
+	month = _tmp7_;
+	event_from_set_day (_data1_->event, day);
+	event_from_set_month (_data1_->event, month);
+	event_set_one_entire_day (_data1_->event);
+	_tmp8_ = self->simulated_dt;
+	event_if_elapsed_delay_to_next_year (_data1_->event, _tmp8_);
 }
 
 
-static void ___lambda20__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda20_ ((Event*) self, string_result);
+static void ___lambda15__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda15_ (self, data);
 }
 
 
-static void __lambda21_ (Event* self, EventString_result* string_result) {
+static void __lambda16_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	GDateTime* _tmp0_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	event_from_set_month (_data1_->event, 12);
+	event_from_set_day (_data1_->event, 24);
+	event_set_one_entire_day (_data1_->event);
+	_tmp0_ = self->simulated_dt;
+	event_if_elapsed_delay_to_next_year (_data1_->event, _tmp0_);
+}
+
+
+static void ___lambda16__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda16_ (self, data);
+}
+
+
+static void __lambda17_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	event_from_set_hour (_data1_->event, 9);
+	event_set_length_to_hours (_data1_->event, 1);
+	_data1_->event->all_day = FALSE;
+}
+
+
+static void ___lambda17__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda17_ (self, data);
+}
+
+
+static void __lambda18_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	event_from_set_hour (_data1_->event, 11);
+	event_set_length_to_hours (_data1_->event, 1);
+	_data1_->event->all_day = FALSE;
+}
+
+
+static void ___lambda18__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda18_ (self, data);
+}
+
+
+static void __lambda19_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	event_from_set_hour (_data1_->event, 12);
+	event_set_length_to_hours (_data1_->event, 1);
+	_data1_->event->all_day = FALSE;
+}
+
+
+static void ___lambda19__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda19_ (self, data);
+}
+
+
+static void __lambda20_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	event_from_set_hour (_data1_->event, 15);
+	event_set_length_to_hours (_data1_->event, 1);
+	_data1_->event->all_day = FALSE;
+}
+
+
+static void ___lambda20__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda20_ (self, data);
+}
+
+
+static void __lambda21_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	event_from_set_hour (_data1_->event, 18);
+	event_set_length_to_hours (_data1_->event, 1);
+	_data1_->event->all_day = FALSE;
+}
+
+
+static void ___lambda21__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda21_ (self, data);
+}
+
+
+static void __lambda22_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	event_from_set_hour (_data1_->event, 19);
+	event_set_length_to_hours (_data1_->event, 3);
+	_data1_->event->all_day = FALSE;
+}
+
+
+static void ___lambda22__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda22_ (self, data);
+}
+
+
+static void __lambda23_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
 	gint hour = 0;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gint _tmp2_ = 0;
-	GDateTime* _tmp3_ = NULL;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
 	gint _tmp4_ = 0;
-	GDateTime* _tmp5_ = NULL;
-	gint _tmp6_ = 0;
-	GDateTime* _tmp7_ = NULL;
-	EventString_result _tmp8_ = {0};
-	const gchar* _tmp9_ = NULL;
-	GDateTime* _tmp18_ = NULL;
-	GDateTime* _tmp19_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = atoi (_tmp1_);
-	hour = _tmp2_;
-	_tmp3_ = self->dt_begin;
+	ParserString_event _tmp5_ = {0};
+	GArray* _tmp6_ = NULL;
+	const gchar* _tmp7_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	hour = _tmp3_;
 	_tmp4_ = hour;
-	_tmp5_ = self->dt_begin;
-	_tmp6_ = g_date_time_get_hour (_tmp5_);
-	_tmp7_ = g_date_time_add_hours (_tmp3_, _tmp4_ - _tmp6_);
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp7_;
-	_tmp8_ = *string_result;
-	_tmp9_ = _tmp8_.p2;
-	if (_tmp9_ != NULL) {
+	event_from_set_hour (_data1_->event, _tmp4_);
+	_tmp5_ = *data;
+	_tmp6_ = _tmp5_.p;
+	_tmp7_ = g_array_index (_tmp6_, gchar*, (guint) 1);
+	if (_tmp7_ != NULL) {
 		gint minute_1 = 0;
-		EventString_result _tmp10_ = {0};
-		const gchar* _tmp11_ = NULL;
+		ParserString_event _tmp8_ = {0};
+		GArray* _tmp9_ = NULL;
+		const gchar* _tmp10_ = NULL;
+		gint _tmp11_ = 0;
 		gint _tmp12_ = 0;
-		GDateTime* _tmp13_ = NULL;
-		gint _tmp14_ = 0;
-		GDateTime* _tmp15_ = NULL;
-		gint _tmp16_ = 0;
-		GDateTime* _tmp17_ = NULL;
-		_tmp10_ = *string_result;
-		_tmp11_ = _tmp10_.p2;
-		_tmp12_ = atoi (_tmp11_);
-		minute_1 = _tmp12_;
-		_tmp13_ = self->dt_begin;
-		_tmp14_ = minute_1;
-		_tmp15_ = self->dt_begin;
-		_tmp16_ = g_date_time_get_minute (_tmp15_);
-		_tmp17_ = g_date_time_add_minutes (_tmp13_, _tmp14_ - _tmp16_);
-		_g_date_time_unref0 (self->dt_begin);
-		self->dt_begin = _tmp17_;
+		_tmp8_ = *data;
+		_tmp9_ = _tmp8_.p;
+		_tmp10_ = g_array_index (_tmp9_, gchar*, (guint) 1);
+		_tmp11_ = atoi (_tmp10_);
+		minute_1 = _tmp11_;
+		_tmp12_ = minute_1;
+		event_from_set_minute (_data1_->event, _tmp12_);
 	}
-	_tmp18_ = self->dt_begin;
-	_tmp19_ = g_date_time_add_hours (_tmp18_, 1);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp19_;
-	self->all_day = FALSE;
+	event_set_length_to_hours (_data1_->event, 1);
+	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda21__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda21_ ((Event*) self, string_result);
+static void ___lambda23__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda23_ (self, data);
 }
 
 
-static void __lambda22_ (Event* self, EventString_result* string_result) {
-	gchar* rep = NULL;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gchar* _tmp2_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = g_strdup (_tmp1_);
-	rep = _tmp2_;
-	_g_free0 (rep);
+static void __lambda24_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint hour_1 = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	gint hour_2 = 0;
+	ParserString_event _tmp4_ = {0};
+	GArray* _tmp5_ = NULL;
+	const gchar* _tmp6_ = NULL;
+	gint _tmp7_ = 0;
+	gint _tmp8_ = 0;
+	gint _tmp9_ = 0;
+	ParserString_event _tmp10_ = {0};
+	GArray* _tmp11_ = NULL;
+	const gchar* _tmp12_ = NULL;
+	ParserString_event _tmp18_ = {0};
+	GArray* _tmp19_ = NULL;
+	const gchar* _tmp20_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	hour_1 = _tmp3_;
+	_tmp4_ = *data;
+	_tmp5_ = _tmp4_.p;
+	_tmp6_ = g_array_index (_tmp5_, gchar*, (guint) 1);
+	_tmp7_ = atoi (_tmp6_);
+	hour_2 = _tmp7_;
+	_tmp8_ = hour_1;
+	event_from_set_hour (_data1_->event, _tmp8_);
+	_tmp9_ = hour_2;
+	event_to_set_hour (_data1_->event, _tmp9_);
+	_tmp10_ = *data;
+	_tmp11_ = _tmp10_.p;
+	_tmp12_ = g_array_index (_tmp11_, gchar*, (guint) 2);
+	if (_tmp12_ != NULL) {
+		gint minute_1 = 0;
+		ParserString_event _tmp13_ = {0};
+		GArray* _tmp14_ = NULL;
+		const gchar* _tmp15_ = NULL;
+		gint _tmp16_ = 0;
+		gint _tmp17_ = 0;
+		_tmp13_ = *data;
+		_tmp14_ = _tmp13_.p;
+		_tmp15_ = g_array_index (_tmp14_, gchar*, (guint) 2);
+		_tmp16_ = atoi (_tmp15_);
+		minute_1 = _tmp16_;
+		_tmp17_ = minute_1;
+		event_from_set_minute (_data1_->event, _tmp17_);
+	}
+	_tmp18_ = *data;
+	_tmp19_ = _tmp18_.p;
+	_tmp20_ = g_array_index (_tmp19_, gchar*, (guint) 3);
+	if (_tmp20_ != NULL) {
+		gint minute_2 = 0;
+		ParserString_event _tmp21_ = {0};
+		GArray* _tmp22_ = NULL;
+		const gchar* _tmp23_ = NULL;
+		gint _tmp24_ = 0;
+		gint _tmp25_ = 0;
+		_tmp21_ = *data;
+		_tmp22_ = _tmp21_.p;
+		_tmp23_ = g_array_index (_tmp22_, gchar*, (guint) 3);
+		_tmp24_ = atoi (_tmp23_);
+		minute_2 = _tmp24_;
+		_tmp25_ = minute_2;
+		event_to_set_minute (_data1_->event, _tmp25_);
+	}
+	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda22__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda22_ ((Event*) self, string_result);
+static void ___lambda24__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda24_ (self, data);
 }
 
 
-static void __lambda23_ (Event* self, EventString_result* string_result) {
-	gchar* rep = NULL;
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gchar* _tmp2_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = g_strdup (_tmp1_);
-	rep = _tmp2_;
-	_g_free0 (rep);
+static void __lambda25_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint hour = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	gint _tmp4_ = 0;
+	ParserString_event _tmp5_ = {0};
+	GArray* _tmp6_ = NULL;
+	const gchar* _tmp7_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	hour = _tmp3_;
+	_tmp4_ = hour;
+	event_from_set_hour (_data1_->event, _tmp4_);
+	_tmp5_ = *data;
+	_tmp6_ = _tmp5_.p;
+	_tmp7_ = g_array_index (_tmp6_, gchar*, (guint) 1);
+	if (_tmp7_ != NULL) {
+		gint minute_1 = 0;
+		ParserString_event _tmp8_ = {0};
+		GArray* _tmp9_ = NULL;
+		const gchar* _tmp10_ = NULL;
+		gint _tmp11_ = 0;
+		gint _tmp12_ = 0;
+		_tmp8_ = *data;
+		_tmp9_ = _tmp8_.p;
+		_tmp10_ = g_array_index (_tmp9_, gchar*, (guint) 1);
+		_tmp11_ = atoi (_tmp10_);
+		minute_1 = _tmp11_;
+		_tmp12_ = minute_1;
+		event_from_set_minute (_data1_->event, _tmp12_);
+	}
+	event_set_length_to_hours (_data1_->event, 1);
+	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda23__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda23_ ((Event*) self, string_result);
+static void ___lambda25__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda25_ (self, data);
 }
 
 
-static void __lambda24_ (Event* self, EventString_result* string_result) {
-	EventString_result _tmp0_ = {0};
-	const gchar* _tmp1_ = NULL;
-	gchar* _tmp2_ = NULL;
-	g_return_if_fail (string_result != NULL);
-	_tmp0_ = *string_result;
-	_tmp1_ = _tmp0_.p1;
-	_tmp2_ = g_strdup (_tmp1_);
-	_g_free0 (self->location);
-	self->location = _tmp2_;
+static void __lambda26_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint minutes = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	minutes = _tmp3_;
+	event_set_length_to_minutes (_data1_->event, minutes);
 }
 
 
-static void ___lambda24__eventtranscribe_analysis (EventString_result* string_result, gpointer self) {
-	__lambda24_ ((Event*) self, string_result);
+static void ___lambda26__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda26_ (self, data);
+}
+
+
+static void __lambda27_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint hours = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	hours = _tmp3_;
+	event_set_length_to_hours (_data1_->event, hours);
+}
+
+
+static void ___lambda27__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda27_ (self, data);
+}
+
+
+static void __lambda28_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint days = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	days = _tmp3_;
+	event_set_length_to_days (_data1_->event, days);
+}
+
+
+static void ___lambda28__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda28_ (self, data);
+}
+
+
+static void __lambda29_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	gint weeks = 0;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = atoi (_tmp2_);
+	weeks = _tmp3_;
+	event_set_length_to_weeks (_data1_->event, weeks);
+}
+
+
+static void ___lambda29__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda29_ (self, data);
+}
+
+
+static void __lambda30_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gchar* _tmp3_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = g_strdup (_tmp2_);
+	_g_free0 (_data1_->event->location);
+	_data1_->event->location = _tmp3_;
+}
+
+
+static void ___lambda30__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda30_ (self, data);
+}
+
+
+static void __lambda31_ (Block1Data* _data1_, ParserString_event* data) {
+	Parser* self;
+	ParserString_event _tmp0_ = {0};
+	GArray* _tmp1_ = NULL;
+	const gchar* _tmp2_ = NULL;
+	gchar* _tmp3_ = NULL;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	_tmp0_ = *data;
+	_tmp1_ = _tmp0_.p;
+	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
+	_tmp3_ = g_strdup (_tmp2_);
+	_g_free0 (_data1_->event->location);
+	_data1_->event->location = _tmp3_;
+}
+
+
+static void ___lambda31__parsertranscribe_analysis (ParserString_event* data, gpointer self) {
+	__lambda31_ (self, data);
 }
 
 
@@ -1684,198 +1835,365 @@ static gchar* string_strip (const gchar* self) {
 }
 
 
-void event_parse_source (Event* self, const gchar* source, GDateTime* dt_simulated) {
+static gpointer _g_object_ref0 (gpointer self) {
+	return self ? g_object_ref (self) : NULL;
+}
+
+
+Event* parser_parse_source (Parser* self, const gchar* _source) {
+	Event* result = NULL;
 	Block1Data* _data1_;
-	GDateTime* _tmp0_ = NULL;
-	GDateTime* _tmp1_ = NULL;
-	gchar* source_low = NULL;
+	const gchar* _tmp0_ = NULL;
+	gchar* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gchar* _tmp3_ = NULL;
-	gchar* source_up = NULL;
-	const gchar* _tmp4_ = NULL;
-	gchar* _tmp5_ = NULL;
-	gchar* _tmp6_ = NULL;
-	GDateTime* _tmp7_ = NULL;
-	GDateTime* _tmp8_ = NULL;
-	gint _tmp9_ = 0;
-	GDateTime* _tmp10_ = NULL;
-	GDateTime* _tmp11_ = NULL;
-	GDateTime* _tmp12_ = NULL;
-	gint _tmp13_ = 0;
-	GDateTime* _tmp14_ = NULL;
-	GDateTime* _tmp15_ = NULL;
-	GDateTime* _tmp16_ = NULL;
-	const gchar* _tmp17_ = NULL;
+	Event* _tmp4_ = NULL;
+	GDateTime* _tmp5_ = NULL;
+	GDateTime* _tmp6_ = NULL;
+	const gchar* _tmp7_ = NULL;
+	const gchar* _tmp8_ = NULL;
+	gchar* _tmp9_ = NULL;
+	gchar* _tmp10_ = NULL;
+	const gchar* _tmp11_ = NULL;
+	const gchar* _tmp12_ = NULL;
+	gchar* _tmp13_ = NULL;
+	gchar* _tmp14_ = NULL;
+	const gchar* _tmp15_ = NULL;
+	const gchar* _tmp16_ = NULL;
+	gchar* _tmp17_ = NULL;
 	gchar* _tmp18_ = NULL;
-	g_return_if_fail (self != NULL);
-	g_return_if_fail (source != NULL);
-	g_return_if_fail (dt_simulated != NULL);
+	const gchar* _tmp19_ = NULL;
+	const gchar* _tmp20_ = NULL;
+	gchar* _tmp21_ = NULL;
+	gchar* _tmp22_ = NULL;
+	const gchar* _tmp23_ = NULL;
+	const gchar* _tmp24_ = NULL;
+	gchar* _tmp25_ = NULL;
+	gchar* _tmp26_ = NULL;
+	const gchar* _tmp27_ = NULL;
+	gchar* _tmp28_ = NULL;
+	Event* _tmp29_ = NULL;
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (_source != NULL, NULL);
 	_data1_ = g_slice_new0 (Block1Data);
 	_data1_->_ref_count_ = 1;
 	_data1_->self = g_object_ref (self);
-	_tmp0_ = dt_simulated;
-	_tmp1_ = _g_date_time_ref0 (_tmp0_);
-	_g_date_time_unref0 (_data1_->dt_simulated);
-	_data1_->dt_simulated = _tmp1_;
-	_tmp2_ = source;
-	_tmp3_ = g_utf8_strdown (_tmp2_, (gssize) (-1));
-	source_low = _tmp3_;
-	_tmp4_ = source;
-	_tmp5_ = g_strdup (_tmp4_);
-	source_up = _tmp5_;
-	_tmp6_ = g_strdup ("");
-	_g_free0 (self->location);
-	self->location = _tmp6_;
-	_tmp7_ = _data1_->dt_simulated;
-	_tmp8_ = _data1_->dt_simulated;
-	_tmp9_ = g_date_time_get_minute (_tmp8_);
-	_tmp10_ = g_date_time_add_minutes (_tmp7_, 60 - _tmp9_);
-	_tmp11_ = _tmp10_;
-	_tmp12_ = _data1_->dt_simulated;
-	_tmp13_ = g_date_time_get_second (_tmp12_);
-	_tmp14_ = g_date_time_add_seconds (_tmp11_, (gdouble) (-_tmp13_));
-	_g_date_time_unref0 (self->dt_begin);
-	self->dt_begin = _tmp14_;
-	_g_date_time_unref0 (_tmp11_);
-	_tmp15_ = self->dt_begin;
-	_tmp16_ = g_date_time_add_hours (_tmp15_, 1);
-	_g_date_time_unref0 (self->dt_end);
-	self->dt_end = _tmp16_;
-	self->all_day = FALSE;
-	event_analyze_pattern (self, "gestern", &source_low, &source_up, ___lambda4__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "morgen", &source_low, &source_up, ___lambda5__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "übermorgen", &source_low, &source_up, ___lambda6__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "vor \\s+ (?<p1>\\d+) \\s+ tagen", &source_low, &source_up, ___lambda7__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "in \\s+ (?<p1>\\d+) \\s+ tagen", &source_low, &source_up, ___lambda8__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "am \\s+ (?<p1>\\d+) . (?<p2>\\d+) ( . (?<p3>\\d+))?", &source_low, &source_up, ___lambda9__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "vom \\s+ (?<p1>\\d+). \\s+ bis \\s+ (?<p2>\\d+). \\s+", &source_low, &source_up, ___lambda10__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "am \\s+ (?<p1>\\d+)(.)? (\\s+ (?<p2>januar|februar|märz|april|mai|juni" \
-"|juli|august|september|oktober|november|dezember))?", &source_low, &source_up, ___lambda11__eventtranscribe_analysis, _data1_);
-	event_analyze_pattern (self, "heiligabend", &source_low, &source_up, ___lambda12__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "früh", &source_low, &source_up, ___lambda13__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "vormittags", &source_low, &source_up, ___lambda14__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "mittags", &source_low, &source_up, ___lambda15__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "nachmittags", &source_low, &source_up, ___lambda16__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "abends", &source_low, &source_up, ___lambda17__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "spät", &source_low, &source_up, ___lambda18__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "(um|ab) \\s+ (?<p1>\\d+)(:(?<p2>\\d+))? (\\s+ (uhr|h))?", &source_low, &source_up, ___lambda19__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "von \\s+ (?<p1>\\d+)(:(?<p3>\\d+))? \\s+ bis \\s+ (?<p2>\\d+)(:(?<p4>\\" \
-"d+))? (\\s+ uhr)?", &source_low, &source_up, ___lambda20__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "(?<p1>\\d+)(:(?<p2>\\d+))? \\s+ (uhr|h)", &source_low, &source_up, ___lambda21__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "(jeder|jede|jedes) \\s+ (?<p1>\\w+)", &source_low, &source_up, ___lambda22__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "vom 1.2 bis zum 31.3", &source_low, &source_up, ___lambda23__eventtranscribe_analysis, self);
-	event_analyze_pattern (self, "(im|in) (\\s+ (der|dem))? \\s+ (?<p1>\\w+)", &source_low, &source_up, ___lambda24__eventtranscribe_analysis, self);
-	_tmp17_ = source_up;
-	_tmp18_ = string_strip (_tmp17_);
-	_g_free0 (self->name);
-	self->name = _tmp18_;
-	_g_free0 (source_up);
-	_g_free0 (source_low);
+	_tmp0_ = _source;
+	_tmp1_ = g_strdup (_tmp0_);
+	_g_free0 (self->source);
+	self->source = _tmp1_;
+	_tmp2_ = self->source;
+	_tmp3_ = g_strdup (_tmp2_);
+	_g_free0 (self->priv->remaining_source);
+	self->priv->remaining_source = _tmp3_;
+	_tmp4_ = event_new ("", NULL, NULL, "", FALSE, "");
+	_data1_->event = _tmp4_;
+	_tmp5_ = self->simulated_dt;
+	_tmp6_ = g_date_time_add_hours (_tmp5_, 1);
+	_g_date_time_unref0 (_data1_->event->from);
+	_data1_->event->from = _tmp6_;
+	event_from_set_minute (_data1_->event, 0);
+	event_from_set_second (_data1_->event, 0);
+	event_set_length_to_hours (_data1_->event, 1);
+	parser_analyze_pattern (self, "gestern", ___lambda4__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "(ab )?morgen", ___lambda5__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "(ab )?übermorgen", ___lambda6__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "(den ganzen tag|ganztägig)", ___lambda7__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "vor (?<p1>\\d+) tagen", ___lambda8__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "in (?<p1>\\d+) tagen", ___lambda9__parsertranscribe_analysis, _data1_);
+	_tmp7_ = self->priv->weekdays_regex;
+	_tmp8_ = string_to_string (_tmp7_);
+	_tmp9_ = g_strconcat ("diesen (?<p1>", _tmp8_, ")", NULL);
+	_tmp10_ = _tmp9_;
+	parser_analyze_pattern (self, _tmp10_, ___lambda10__parsertranscribe_analysis, _data1_);
+	_g_free0 (_tmp10_);
+	_tmp11_ = self->priv->weekdays_regex;
+	_tmp12_ = string_to_string (_tmp11_);
+	_tmp13_ = g_strconcat ("nächsten (?<p1>", _tmp12_, ")", NULL);
+	_tmp14_ = _tmp13_;
+	parser_analyze_pattern (self, _tmp14_, ___lambda11__parsertranscribe_analysis, _data1_);
+	_g_free0 (_tmp14_);
+	_tmp15_ = self->priv->weekdays_regex;
+	_tmp16_ = string_to_string (_tmp15_);
+	_tmp17_ = g_strconcat ("übernächsten (?<p1>", _tmp16_, ")", NULL);
+	_tmp18_ = _tmp17_;
+	parser_analyze_pattern (self, _tmp18_, ___lambda12__parsertranscribe_analysis, _data1_);
+	_g_free0 (_tmp18_);
+	parser_analyze_pattern (self, "am (?<p1>\\d+).(?<p2>\\d+)(.(?<p3>\\d+))?", ___lambda13__parsertranscribe_analysis, _data1_);
+	_tmp19_ = self->priv->months_regex;
+	_tmp20_ = string_to_string (_tmp19_);
+	_tmp21_ = g_strconcat ("vom (?<p1>\\d+). bis (?<p2>\\d+). ((?<p3>", _tmp20_, "))?", NULL);
+	_tmp22_ = _tmp21_;
+	parser_analyze_pattern (self, _tmp22_, ___lambda14__parsertranscribe_analysis, _data1_);
+	_g_free0 (_tmp22_);
+	_tmp23_ = self->priv->months_regex;
+	_tmp24_ = string_to_string (_tmp23_);
+	_tmp25_ = g_strconcat ("am (?<p1>\\d+)(.)?( (?<p2>", _tmp24_, "))?", NULL);
+	_tmp26_ = _tmp25_;
+	parser_analyze_pattern (self, _tmp26_, ___lambda15__parsertranscribe_analysis, _data1_);
+	_g_free0 (_tmp26_);
+	parser_analyze_pattern (self, "heiligabend", ___lambda16__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "früh", ___lambda17__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "vormittags", ___lambda18__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "mittag(s?)", ___lambda19__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "nachmittags", ___lambda20__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "abends", ___lambda21__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "spät", ___lambda22__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "(um|ab) (?<p1>\\d+)(:(?<p2>\\d+))?( (uhr|h))?", ___lambda23__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "von (?<p1>\\d+)(:(?<p3>\\d+))? bis (?<p2>\\d+)(:(?<p4>\\d+))?( uhr)?", ___lambda24__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "(?<p1>\\d+)(:(?<p2>\\d+))? (uhr|h)", ___lambda25__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "für (?<p1>\\d+)(\\s?min| Minuten)", ___lambda26__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "für (?<p1>\\d+)(\\s?h| Stunden)", ___lambda27__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "für (?<p1>\\d+)(\\s?d| Tage)", ___lambda28__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "für (?<p1>\\d+) Wochen", ___lambda29__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "(im|in dem) (?<p1>(\\w\\s?)+)", ___lambda30__parsertranscribe_analysis, _data1_);
+	parser_analyze_pattern (self, "in( der)? (?<p1>[a-z]+)", ___lambda31__parsertranscribe_analysis, _data1_);
+	_tmp27_ = self->priv->remaining_source;
+	_tmp28_ = string_strip (_tmp27_);
+	_g_free0 (_data1_->event->title);
+	_data1_->event->title = _tmp28_;
+	_tmp29_ = _g_object_ref0 (_data1_->event);
+	result = _tmp29_;
 	block1_data_unref (_data1_);
 	_data1_ = NULL;
+	return result;
 }
 
 
-static void event_string_result_copy (const EventString_result* self, EventString_result* dest) {
+static void parser_string_event_copy (const ParserString_event* self, ParserString_event* dest) {
 	gboolean _tmp0_ = FALSE;
-	gint _tmp1_ = 0;
-	gint _tmp2_ = 0;
-	const gchar* _tmp3_ = NULL;
-	gchar* _tmp4_ = NULL;
-	const gchar* _tmp5_ = NULL;
-	gchar* _tmp6_ = NULL;
-	const gchar* _tmp7_ = NULL;
-	gchar* _tmp8_ = NULL;
-	const gchar* _tmp9_ = NULL;
-	gchar* _tmp10_ = NULL;
+	const gchar* _tmp1_ = NULL;
+	gchar* _tmp2_ = NULL;
+	gint _tmp3_ = 0;
+	gint _tmp4_ = 0;
+	GArray* _tmp5_ = NULL;
+	GArray* _tmp6_ = NULL;
 	_tmp0_ = (*self).matched;
 	(*dest).matched = _tmp0_;
-	_tmp1_ = (*self).pos;
-	(*dest).pos = _tmp1_;
-	_tmp2_ = (*self).length;
-	(*dest).length = _tmp2_;
-	_tmp3_ = (*self).p1;
-	_tmp4_ = g_strdup (_tmp3_);
-	_g_free0 ((*dest).p1);
-	(*dest).p1 = _tmp4_;
-	_tmp5_ = (*self).p2;
-	_tmp6_ = g_strdup (_tmp5_);
-	_g_free0 ((*dest).p2);
-	(*dest).p2 = _tmp6_;
-	_tmp7_ = (*self).p3;
-	_tmp8_ = g_strdup (_tmp7_);
-	_g_free0 ((*dest).p3);
-	(*dest).p3 = _tmp8_;
-	_tmp9_ = (*self).p4;
-	_tmp10_ = g_strdup (_tmp9_);
-	_g_free0 ((*dest).p4);
-	(*dest).p4 = _tmp10_;
+	_tmp1_ = (*self).matched_string;
+	_tmp2_ = g_strdup (_tmp1_);
+	_g_free0 ((*dest).matched_string);
+	(*dest).matched_string = _tmp2_;
+	_tmp3_ = (*self).pos;
+	(*dest).pos = _tmp3_;
+	_tmp4_ = (*self).length;
+	(*dest).length = _tmp4_;
+	_tmp5_ = (*self).p;
+	_tmp6_ = _g_array_ref0 (_tmp5_);
+	_g_array_unref0 ((*dest).p);
+	(*dest).p = _tmp6_;
 }
 
 
-static void event_string_result_destroy (EventString_result* self) {
-	_g_free0 ((*self).p1);
-	_g_free0 ((*self).p2);
-	_g_free0 ((*self).p3);
-	_g_free0 ((*self).p4);
+static void parser_string_event_destroy (ParserString_event* self) {
+	_g_free0 ((*self).matched_string);
+	_g_array_unref0 ((*self).p);
 }
 
 
-static EventString_result* event_string_result_dup (const EventString_result* self) {
-	EventString_result* dup;
-	dup = g_new0 (EventString_result, 1);
-	event_string_result_copy (self, dup);
+static ParserString_event* parser_string_event_dup (const ParserString_event* self) {
+	ParserString_event* dup;
+	dup = g_new0 (ParserString_event, 1);
+	parser_string_event_copy (self, dup);
 	return dup;
 }
 
 
-static void event_string_result_free (EventString_result* self) {
-	event_string_result_destroy (self);
+static void parser_string_event_free (ParserString_event* self) {
+	parser_string_event_destroy (self);
 	g_free (self);
 }
 
 
-static GType event_string_result_get_type (void) {
-	static volatile gsize event_string_result_type_id__volatile = 0;
-	if (g_once_init_enter (&event_string_result_type_id__volatile)) {
-		GType event_string_result_type_id;
-		event_string_result_type_id = g_boxed_type_register_static ("EventString_result", (GBoxedCopyFunc) event_string_result_dup, (GBoxedFreeFunc) event_string_result_free);
-		g_once_init_leave (&event_string_result_type_id__volatile, event_string_result_type_id);
+static GType parser_string_event_get_type (void) {
+	static volatile gsize parser_string_event_type_id__volatile = 0;
+	if (g_once_init_enter (&parser_string_event_type_id__volatile)) {
+		GType parser_string_event_type_id;
+		parser_string_event_type_id = g_boxed_type_register_static ("ParserString_event", (GBoxedCopyFunc) parser_string_event_dup, (GBoxedFreeFunc) parser_string_event_free);
+		g_once_init_leave (&parser_string_event_type_id__volatile, parser_string_event_type_id);
 	}
-	return event_string_result_type_id__volatile;
+	return parser_string_event_type_id__volatile;
 }
 
 
-static void event_class_init (EventClass * klass) {
-	event_parent_class = g_type_class_peek_parent (klass);
-	G_OBJECT_CLASS (klass)->finalize = event_finalize;
+static void parser_class_init (ParserClass * klass) {
+	parser_parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (ParserPrivate));
+	G_OBJECT_CLASS (klass)->finalize = parser_finalize;
 }
 
 
-static void event_instance_init (Event * self) {
+static void parser_instance_init (Parser * self) {
+	gchar* _tmp0_ = NULL;
+	gchar* _tmp1_ = NULL;
+	gchar* _tmp2_ = NULL;
+	gchar* _tmp3_ = NULL;
+	gchar* _tmp4_ = NULL;
+	gchar* _tmp5_ = NULL;
+	gchar* _tmp6_ = NULL;
+	gchar* _tmp7_ = NULL;
+	gchar* _tmp8_ = NULL;
+	gchar* _tmp9_ = NULL;
+	gchar* _tmp10_ = NULL;
+	gchar* _tmp11_ = NULL;
+	gchar* _tmp12_ = NULL;
+	gchar* _tmp13_ = NULL;
+	gchar* _tmp14_ = NULL;
+	gchar* _tmp15_ = NULL;
+	gchar* _tmp16_ = NULL;
+	gchar* _tmp17_ = NULL;
+	gchar* _tmp18_ = NULL;
+	gchar* _tmp19_ = NULL;
+	gchar* _tmp20_ = NULL;
+	gchar* _tmp21_ = NULL;
+	gchar* _tmp22_ = NULL;
+	gchar* _tmp23_ = NULL;
+	gchar** _tmp24_ = NULL;
+	gchar* _tmp25_ = NULL;
+	gchar* _tmp26_ = NULL;
+	gchar* _tmp27_ = NULL;
+	gchar* _tmp28_ = NULL;
+	gchar* _tmp29_ = NULL;
+	gchar* _tmp30_ = NULL;
+	gchar* _tmp31_ = NULL;
+	gchar* _tmp32_ = NULL;
+	gchar* _tmp33_ = NULL;
+	gchar* _tmp34_ = NULL;
+	gchar* _tmp35_ = NULL;
+	gchar* _tmp36_ = NULL;
+	gchar* _tmp37_ = NULL;
+	gchar* _tmp38_ = NULL;
+	gchar** _tmp39_ = NULL;
+	self->priv = PARSER_GET_PRIVATE (self);
+	_tmp0_ = g_strdup ("januar");
+	_tmp1_ = g_strdup ("1");
+	_tmp2_ = g_strdup ("februar");
+	_tmp3_ = g_strdup ("2");
+	_tmp4_ = g_strdup ("märz");
+	_tmp5_ = g_strdup ("3");
+	_tmp6_ = g_strdup ("april");
+	_tmp7_ = g_strdup ("4");
+	_tmp8_ = g_strdup ("mai");
+	_tmp9_ = g_strdup ("5");
+	_tmp10_ = g_strdup ("juni");
+	_tmp11_ = g_strdup ("6");
+	_tmp12_ = g_strdup ("juli");
+	_tmp13_ = g_strdup ("7");
+	_tmp14_ = g_strdup ("august");
+	_tmp15_ = g_strdup ("8");
+	_tmp16_ = g_strdup ("september");
+	_tmp17_ = g_strdup ("9");
+	_tmp18_ = g_strdup ("oktober");
+	_tmp19_ = g_strdup ("10");
+	_tmp20_ = g_strdup ("november");
+	_tmp21_ = g_strdup ("11");
+	_tmp22_ = g_strdup ("dezember");
+	_tmp23_ = g_strdup ("12");
+	_tmp24_ = g_new0 (gchar*, (12 * 2) + 1);
+	_tmp24_[0] = _tmp0_;
+	_tmp24_[1] = _tmp1_;
+	_tmp24_[2] = _tmp2_;
+	_tmp24_[3] = _tmp3_;
+	_tmp24_[4] = _tmp4_;
+	_tmp24_[5] = _tmp5_;
+	_tmp24_[6] = _tmp6_;
+	_tmp24_[7] = _tmp7_;
+	_tmp24_[8] = _tmp8_;
+	_tmp24_[9] = _tmp9_;
+	_tmp24_[10] = _tmp10_;
+	_tmp24_[11] = _tmp11_;
+	_tmp24_[12] = _tmp12_;
+	_tmp24_[13] = _tmp13_;
+	_tmp24_[14] = _tmp14_;
+	_tmp24_[15] = _tmp15_;
+	_tmp24_[16] = _tmp16_;
+	_tmp24_[17] = _tmp17_;
+	_tmp24_[18] = _tmp18_;
+	_tmp24_[19] = _tmp19_;
+	_tmp24_[20] = _tmp20_;
+	_tmp24_[21] = _tmp21_;
+	_tmp24_[22] = _tmp22_;
+	_tmp24_[23] = _tmp23_;
+	self->priv->months = _tmp24_;
+	self->priv->months_length1 = 12;
+	self->priv->months_length2 = 2;
+	_tmp25_ = g_strdup ("montag");
+	_tmp26_ = g_strdup ("1");
+	_tmp27_ = g_strdup ("dienstag");
+	_tmp28_ = g_strdup ("2");
+	_tmp29_ = g_strdup ("mittwoch");
+	_tmp30_ = g_strdup ("3");
+	_tmp31_ = g_strdup ("donnerstag");
+	_tmp32_ = g_strdup ("4");
+	_tmp33_ = g_strdup ("freitag");
+	_tmp34_ = g_strdup ("5");
+	_tmp35_ = g_strdup ("samstag");
+	_tmp36_ = g_strdup ("6");
+	_tmp37_ = g_strdup ("sonntag");
+	_tmp38_ = g_strdup ("7");
+	_tmp39_ = g_new0 (gchar*, (7 * 2) + 1);
+	_tmp39_[0] = _tmp25_;
+	_tmp39_[1] = _tmp26_;
+	_tmp39_[2] = _tmp27_;
+	_tmp39_[3] = _tmp28_;
+	_tmp39_[4] = _tmp29_;
+	_tmp39_[5] = _tmp30_;
+	_tmp39_[6] = _tmp31_;
+	_tmp39_[7] = _tmp32_;
+	_tmp39_[8] = _tmp33_;
+	_tmp39_[9] = _tmp34_;
+	_tmp39_[10] = _tmp35_;
+	_tmp39_[11] = _tmp36_;
+	_tmp39_[12] = _tmp37_;
+	_tmp39_[13] = _tmp38_;
+	self->priv->weekdays = _tmp39_;
+	self->priv->weekdays_length1 = 7;
+	self->priv->weekdays_length2 = 2;
 }
 
 
-static void event_finalize (GObject* obj) {
-	Event * self;
-	self = G_TYPE_CHECK_INSTANCE_CAST (obj, TYPE_EVENT, Event);
-	_g_free0 (self->name);
-	_g_free0 (self->location);
-	_g_date_time_unref0 (self->dt_begin);
-	_g_date_time_unref0 (self->dt_end);
-	G_OBJECT_CLASS (event_parent_class)->finalize (obj);
+static void parser_finalize (GObject* obj) {
+	Parser * self;
+	self = G_TYPE_CHECK_INSTANCE_CAST (obj, TYPE_PARSER, Parser);
+	_g_date_time_unref0 (self->simulated_dt);
+	_g_free0 (self->language);
+	_g_free0 (self->source);
+	_g_free0 (self->priv->remaining_source);
+	self->priv->months = (_vala_array_free (self->priv->months, self->priv->months_length1 * self->priv->months_length2, (GDestroyNotify) g_free), NULL);
+	self->priv->weekdays = (_vala_array_free (self->priv->weekdays, self->priv->weekdays_length1 * self->priv->weekdays_length2, (GDestroyNotify) g_free), NULL);
+	_g_free0 (self->priv->months_regex);
+	_g_free0 (self->priv->weekdays_regex);
+	G_OBJECT_CLASS (parser_parent_class)->finalize (obj);
 }
 
 
-GType event_get_type (void) {
-	static volatile gsize event_type_id__volatile = 0;
-	if (g_once_init_enter (&event_type_id__volatile)) {
-		static const GTypeInfo g_define_type_info = { sizeof (EventClass), (GBaseInitFunc) NULL, (GBaseFinalizeFunc) NULL, (GClassInitFunc) event_class_init, (GClassFinalizeFunc) NULL, NULL, sizeof (Event), 0, (GInstanceInitFunc) event_instance_init, NULL };
-		GType event_type_id;
-		event_type_id = g_type_register_static (G_TYPE_OBJECT, "Event", &g_define_type_info, 0);
-		g_once_init_leave (&event_type_id__volatile, event_type_id);
+GType parser_get_type (void) {
+	static volatile gsize parser_type_id__volatile = 0;
+	if (g_once_init_enter (&parser_type_id__volatile)) {
+		static const GTypeInfo g_define_type_info = { sizeof (ParserClass), (GBaseInitFunc) NULL, (GBaseFinalizeFunc) NULL, (GClassInitFunc) parser_class_init, (GClassFinalizeFunc) NULL, NULL, sizeof (Parser), 0, (GInstanceInitFunc) parser_instance_init, NULL };
+		GType parser_type_id;
+		parser_type_id = g_type_register_static (G_TYPE_OBJECT, "Parser", &g_define_type_info, 0);
+		g_once_init_leave (&parser_type_id__volatile, parser_type_id);
 	}
-	return event_type_id__volatile;
+	return parser_type_id__volatile;
+}
+
+
+static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func) {
+	if ((array != NULL) && (destroy_func != NULL)) {
+		int i;
+		for (i = 0; i < array_length; i = i + 1) {
+			if (((gpointer*) array)[i] != NULL) {
+				destroy_func (((gpointer*) array)[i]);
+			}
+		}
+	}
+}
+
+
+static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func) {
+	_vala_array_destroy (array, array_length, destroy_func);
+	g_free (array);
 }
 
 
