@@ -1,0 +1,1 @@
+/usr/bin/cc   -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/event-parser.dir/src/parser.c.o CMakeFiles/event-parser.dir/tests/test_helper.c.o CMakeFiles/event-parser.dir/tests/test_de.c.o  -o event-parser  -L/opt/local/lib  -lgobject-2.0 -lglib-2.0 -lintl -Wl,-rpath,/opt/local/lib 

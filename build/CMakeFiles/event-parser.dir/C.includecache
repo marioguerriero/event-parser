@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/lars/Desktop/event-parser/build/tests/test_helper.c
+glib.h
+-
+glib-object.h
+-
+stdlib.h
+-
+string.h
+-
+
