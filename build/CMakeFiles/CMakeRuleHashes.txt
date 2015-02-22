@@ -1,3 +1,4 @@
 # Hashes of file build rules.
-c41104fd536ebe2f56d43f907aab531e event-parser_valac.stamp
+fbb7e1000fc57234a5311db341a31c72 event-parser_valac.stamp
 2397d6734458170c9961050c382f5433 src/parser.c
+2397d6734458170c9961050c382f5433 src/parser_en.c

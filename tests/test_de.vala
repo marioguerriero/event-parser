@@ -1,8 +1,6 @@
 // Event (Name, DateTime Begin, DateTime End, Location = "", All_Day = false)
 
-void main () {	
-	var simulated_dt = new DateTime.utc (2015, 2, 17, 13, 25, 0);
-	
+test_event[] test_de () {	
 	test_event[] test_events = {
 		test_event() {
 			source = "Badminton",
@@ -93,8 +91,6 @@ void main () {
 			target = new Event("Schuhe kaufen", new DateTime.utc(2015, 2, 18, 12, 0, 0), new DateTime.utc(2015, 2, 18, 12, 30, 0), "Berlin")
 		}
 	};
-
-
-	// analyze_test_events(test_events, simulated_dt);
-	print_all_working_test_events(test_events, simulated_dt);
+	
+	return test_events;
 }

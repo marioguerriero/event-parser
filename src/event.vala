@@ -52,36 +52,63 @@ public class Event : GLib.Object {
 		this.to = this.to.add_minutes(minute - this.to.get_minute());
 	}
 	
-	public void from_set_hour (int hour) {
+	private int hour_from_half(int hour, string half) {
+		if (hour > 12)
+			return hour;
+		
+		if (half == "pm") 
+			return hour + 12;
+		
+		if (half == "p")
+			return hour + 12;
+			
+		if (half == "") {
+			if (hour < 8) {
+				hour += 12;
+			}
+		}
+
+		return hour;
+	}
+	
+	public void from_set_hour (int hour, string half = "") {
+		hour = hour_from_half(hour, half);
 		this.from = this.from.add_hours(hour - this.from.get_hour());
 	}
 	
-	public void to_set_hour (int hour) {
+	public void to_set_hour (int hour, string half = "") {
+		hour = hour_from_half(hour, half);
 		this.to = this.to.add_hours(hour - this.to.get_hour());
 	}
 	
 	public void from_set_day (int day) {
-		this.from = this.from.add_days(day - this.from.get_day_of_month());
+		if (day > 0)
+			this.from = this.from.add_days(day - this.from.get_day_of_month());
 	}
 	
 	public void to_set_day (int day) {
-		this.to = this.to.add_days(day - this.to.get_day_of_month());
+		if (day > 0)
+			this.to = this.to.add_days(day - this.to.get_day_of_month());
 	}
 	
 	public void from_set_month (int month) {
-		this.from = this.from.add_months(month - this.from.get_month());
+		if (month > 0)
+			this.from = this.from.add_months(month - this.from.get_month());
 	}
 	
 	public void to_set_month (int month) {
-		this.to = this.to.add_months(month - this.to.get_month());
+		if (month > 0)
+			this.to = this.to.add_months(month - this.to.get_month());
 	}
 	
 	public void from_set_year (int year) {
-		this.from = this.from.add_years(year - this.from.get_year());
+		if (year > 0)
+			this.from = this.from.add_years(year - this.from.get_year());
 	}
 	
 	public void to_set_year (int year) {
-		this.to = this.to.add_years(year - this.to.get_year());
+		if (year > 0)
+			this.to = this.to.add_years(year - this.to.get_year());
 	}
 	
 	

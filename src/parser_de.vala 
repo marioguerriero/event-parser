@@ -1,5 +1,3 @@
-using Gee;
-
 public class Parser : GLib.Object {
 	
 	public DateTime simulated_dt;
@@ -135,6 +133,11 @@ public class Parser : GLib.Object {
 		
 		
 		// --- Date ---
+		
+		analyze_pattern("vorgestern", (data) => {
+			event.from = event.from.add_days(-2);
+			event.set_one_entire_day();
+		});
 		
 		analyze_pattern("gestern", (data) => {
 			event.from = event.from.add_days(-1);

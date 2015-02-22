@@ -180,53 +180,53 @@ src/event.c.s:
 	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/event.c.s
 .PHONY : src/event.c.s
 
-src/parser.o: src/parser.c.o
-.PHONY : src/parser.o
+src/parser_en.o: src/parser_en.c.o
+.PHONY : src/parser_en.o
 
 # target to build an object file
-src/parser.c.o:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser.c.o
-.PHONY : src/parser.c.o
+src/parser_en.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser_en.c.o
+.PHONY : src/parser_en.c.o
 
-src/parser.i: src/parser.c.i
-.PHONY : src/parser.i
+src/parser_en.i: src/parser_en.c.i
+.PHONY : src/parser_en.i
 
 # target to preprocess a source file
-src/parser.c.i:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser.c.i
-.PHONY : src/parser.c.i
+src/parser_en.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser_en.c.i
+.PHONY : src/parser_en.c.i
 
-src/parser.s: src/parser.c.s
-.PHONY : src/parser.s
+src/parser_en.s: src/parser_en.c.s
+.PHONY : src/parser_en.s
 
 # target to generate assembly for a file
-src/parser.c.s:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser.c.s
-.PHONY : src/parser.c.s
+src/parser_en.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser_en.c.s
+.PHONY : src/parser_en.c.s
 
-tests/helper.o: tests/helper.c.o
-.PHONY : tests/helper.o
+src/tests.o: src/tests.c.o
+.PHONY : src/tests.o
 
 # target to build an object file
-tests/helper.c.o:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/helper.c.o
-.PHONY : tests/helper.c.o
+src/tests.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/tests.c.o
+.PHONY : src/tests.c.o
 
-tests/helper.i: tests/helper.c.i
-.PHONY : tests/helper.i
+src/tests.i: src/tests.c.i
+.PHONY : src/tests.i
 
 # target to preprocess a source file
-tests/helper.c.i:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/helper.c.i
-.PHONY : tests/helper.c.i
+src/tests.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/tests.c.i
+.PHONY : src/tests.c.i
 
-tests/helper.s: tests/helper.c.s
-.PHONY : tests/helper.s
+src/tests.s: src/tests.c.s
+.PHONY : src/tests.s
 
 # target to generate assembly for a file
-tests/helper.c.s:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/helper.c.s
-.PHONY : tests/helper.c.s
+src/tests.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/tests.c.s
+.PHONY : src/tests.c.s
 
 tests/test_de.o: tests/test_de.c.o
 .PHONY : tests/test_de.o
@@ -252,6 +252,30 @@ tests/test_de.c.s:
 	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/test_de.c.s
 .PHONY : tests/test_de.c.s
 
+tests/test_en.o: tests/test_en.c.o
+.PHONY : tests/test_en.o
+
+# target to build an object file
+tests/test_en.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/test_en.c.o
+.PHONY : tests/test_en.c.o
+
+tests/test_en.i: tests/test_en.c.i
+.PHONY : tests/test_en.i
+
+# target to preprocess a source file
+tests/test_en.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/test_en.c.i
+.PHONY : tests/test_en.c.i
+
+tests/test_en.s: tests/test_en.c.s
+.PHONY : tests/test_en.s
+
+# target to generate assembly for a file
+tests/test_en.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/test_en.c.s
+.PHONY : tests/test_en.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -268,15 +292,18 @@ help:
 	@echo "... src/event.o"
 	@echo "... src/event.i"
 	@echo "... src/event.s"
-	@echo "... src/parser.o"
-	@echo "... src/parser.i"
-	@echo "... src/parser.s"
-	@echo "... tests/helper.o"
-	@echo "... tests/helper.i"
-	@echo "... tests/helper.s"
+	@echo "... src/parser_en.o"
+	@echo "... src/parser_en.i"
+	@echo "... src/parser_en.s"
+	@echo "... src/tests.o"
+	@echo "... src/tests.i"
+	@echo "... src/tests.s"
 	@echo "... tests/test_de.o"
 	@echo "... tests/test_de.i"
 	@echo "... tests/test_de.s"
+	@echo "... tests/test_en.o"
+	@echo "... tests/test_en.i"
+	@echo "... tests/test_en.s"
 .PHONY : help
 
 

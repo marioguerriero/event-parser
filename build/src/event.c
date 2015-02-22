@@ -55,8 +55,9 @@ void event_from_set_second (Event* self, gint second);
 void event_to_set_second (Event* self, gint second);
 void event_from_set_minute (Event* self, gint minute);
 void event_to_set_minute (Event* self, gint minute);
-void event_from_set_hour (Event* self, gint hour);
-void event_to_set_hour (Event* self, gint hour);
+static gint event_hour_from_half (Event* self, gint hour, const gchar* half);
+void event_from_set_hour (Event* self, gint hour, const gchar* half);
+void event_to_set_hour (Event* self, gint hour, const gchar* half);
 void event_from_set_day (Event* self, gint day);
 void event_to_set_day (Event* self, gint day);
 void event_from_set_month (Event* self, gint month);
@@ -246,139 +247,225 @@ void event_to_set_minute (Event* self, gint minute) {
 }
 
 
-void event_from_set_hour (Event* self, gint hour) {
-	GDateTime* _tmp0_ = NULL;
-	gint _tmp1_ = 0;
-	GDateTime* _tmp2_ = NULL;
-	gint _tmp3_ = 0;
-	GDateTime* _tmp4_ = NULL;
-	g_return_if_fail (self != NULL);
-	_tmp0_ = self->from;
-	_tmp1_ = hour;
-	_tmp2_ = self->from;
-	_tmp3_ = g_date_time_get_hour (_tmp2_);
-	_tmp4_ = g_date_time_add_hours (_tmp0_, _tmp1_ - _tmp3_);
-	_g_date_time_unref0 (self->from);
-	self->from = _tmp4_;
+static gint event_hour_from_half (Event* self, gint hour, const gchar* half) {
+	gint result = 0;
+	gint _tmp0_ = 0;
+	const gchar* _tmp2_ = NULL;
+	const gchar* _tmp4_ = NULL;
+	const gchar* _tmp6_ = NULL;
+	gint _tmp9_ = 0;
+	g_return_val_if_fail (self != NULL, 0);
+	g_return_val_if_fail (half != NULL, 0);
+	_tmp0_ = hour;
+	if (_tmp0_ > 12) {
+		gint _tmp1_ = 0;
+		_tmp1_ = hour;
+		result = _tmp1_;
+		return result;
+	}
+	_tmp2_ = half;
+	if (g_strcmp0 (_tmp2_, "pm") == 0) {
+		gint _tmp3_ = 0;
+		_tmp3_ = hour;
+		result = _tmp3_ + 12;
+		return result;
+	}
+	_tmp4_ = half;
+	if (g_strcmp0 (_tmp4_, "p") == 0) {
+		gint _tmp5_ = 0;
+		_tmp5_ = hour;
+		result = _tmp5_ + 12;
+		return result;
+	}
+	_tmp6_ = half;
+	if (g_strcmp0 (_tmp6_, "") == 0) {
+		gint _tmp7_ = 0;
+		_tmp7_ = hour;
+		if (_tmp7_ < 8) {
+			gint _tmp8_ = 0;
+			_tmp8_ = hour;
+			hour = _tmp8_ + 12;
+		}
+	}
+	_tmp9_ = hour;
+	result = _tmp9_;
+	return result;
 }
 
 
-void event_to_set_hour (Event* self, gint hour) {
-	GDateTime* _tmp0_ = NULL;
-	gint _tmp1_ = 0;
-	GDateTime* _tmp2_ = NULL;
-	gint _tmp3_ = 0;
-	GDateTime* _tmp4_ = NULL;
+void event_from_set_hour (Event* self, gint hour, const gchar* half) {
+	gint _tmp0_ = 0;
+	const gchar* _tmp1_ = NULL;
+	gint _tmp2_ = 0;
+	GDateTime* _tmp3_ = NULL;
+	gint _tmp4_ = 0;
+	GDateTime* _tmp5_ = NULL;
+	gint _tmp6_ = 0;
+	GDateTime* _tmp7_ = NULL;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = self->to;
-	_tmp1_ = hour;
-	_tmp2_ = self->to;
-	_tmp3_ = g_date_time_get_hour (_tmp2_);
-	_tmp4_ = g_date_time_add_hours (_tmp0_, _tmp1_ - _tmp3_);
+	g_return_if_fail (half != NULL);
+	_tmp0_ = hour;
+	_tmp1_ = half;
+	_tmp2_ = event_hour_from_half (self, _tmp0_, _tmp1_);
+	hour = _tmp2_;
+	_tmp3_ = self->from;
+	_tmp4_ = hour;
+	_tmp5_ = self->from;
+	_tmp6_ = g_date_time_get_hour (_tmp5_);
+	_tmp7_ = g_date_time_add_hours (_tmp3_, _tmp4_ - _tmp6_);
+	_g_date_time_unref0 (self->from);
+	self->from = _tmp7_;
+}
+
+
+void event_to_set_hour (Event* self, gint hour, const gchar* half) {
+	gint _tmp0_ = 0;
+	const gchar* _tmp1_ = NULL;
+	gint _tmp2_ = 0;
+	GDateTime* _tmp3_ = NULL;
+	gint _tmp4_ = 0;
+	GDateTime* _tmp5_ = NULL;
+	gint _tmp6_ = 0;
+	GDateTime* _tmp7_ = NULL;
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (half != NULL);
+	_tmp0_ = hour;
+	_tmp1_ = half;
+	_tmp2_ = event_hour_from_half (self, _tmp0_, _tmp1_);
+	hour = _tmp2_;
+	_tmp3_ = self->to;
+	_tmp4_ = hour;
+	_tmp5_ = self->to;
+	_tmp6_ = g_date_time_get_hour (_tmp5_);
+	_tmp7_ = g_date_time_add_hours (_tmp3_, _tmp4_ - _tmp6_);
 	_g_date_time_unref0 (self->to);
-	self->to = _tmp4_;
+	self->to = _tmp7_;
 }
 
 
 void event_from_set_day (Event* self, gint day) {
-	GDateTime* _tmp0_ = NULL;
-	gint _tmp1_ = 0;
-	GDateTime* _tmp2_ = NULL;
-	gint _tmp3_ = 0;
-	GDateTime* _tmp4_ = NULL;
+	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = self->from;
-	_tmp1_ = day;
-	_tmp2_ = self->from;
-	_tmp3_ = g_date_time_get_day_of_month (_tmp2_);
-	_tmp4_ = g_date_time_add_days (_tmp0_, _tmp1_ - _tmp3_);
-	_g_date_time_unref0 (self->from);
-	self->from = _tmp4_;
+	_tmp0_ = day;
+	if (_tmp0_ > 0) {
+		GDateTime* _tmp1_ = NULL;
+		gint _tmp2_ = 0;
+		GDateTime* _tmp3_ = NULL;
+		gint _tmp4_ = 0;
+		GDateTime* _tmp5_ = NULL;
+		_tmp1_ = self->from;
+		_tmp2_ = day;
+		_tmp3_ = self->from;
+		_tmp4_ = g_date_time_get_day_of_month (_tmp3_);
+		_tmp5_ = g_date_time_add_days (_tmp1_, _tmp2_ - _tmp4_);
+		_g_date_time_unref0 (self->from);
+		self->from = _tmp5_;
+	}
 }
 
 
 void event_to_set_day (Event* self, gint day) {
-	GDateTime* _tmp0_ = NULL;
-	gint _tmp1_ = 0;
-	GDateTime* _tmp2_ = NULL;
-	gint _tmp3_ = 0;
-	GDateTime* _tmp4_ = NULL;
+	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = self->to;
-	_tmp1_ = day;
-	_tmp2_ = self->to;
-	_tmp3_ = g_date_time_get_day_of_month (_tmp2_);
-	_tmp4_ = g_date_time_add_days (_tmp0_, _tmp1_ - _tmp3_);
-	_g_date_time_unref0 (self->to);
-	self->to = _tmp4_;
+	_tmp0_ = day;
+	if (_tmp0_ > 0) {
+		GDateTime* _tmp1_ = NULL;
+		gint _tmp2_ = 0;
+		GDateTime* _tmp3_ = NULL;
+		gint _tmp4_ = 0;
+		GDateTime* _tmp5_ = NULL;
+		_tmp1_ = self->to;
+		_tmp2_ = day;
+		_tmp3_ = self->to;
+		_tmp4_ = g_date_time_get_day_of_month (_tmp3_);
+		_tmp5_ = g_date_time_add_days (_tmp1_, _tmp2_ - _tmp4_);
+		_g_date_time_unref0 (self->to);
+		self->to = _tmp5_;
+	}
 }
 
 
 void event_from_set_month (Event* self, gint month) {
-	GDateTime* _tmp0_ = NULL;
-	gint _tmp1_ = 0;
-	GDateTime* _tmp2_ = NULL;
-	gint _tmp3_ = 0;
-	GDateTime* _tmp4_ = NULL;
+	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = self->from;
-	_tmp1_ = month;
-	_tmp2_ = self->from;
-	_tmp3_ = g_date_time_get_month (_tmp2_);
-	_tmp4_ = g_date_time_add_months (_tmp0_, _tmp1_ - _tmp3_);
-	_g_date_time_unref0 (self->from);
-	self->from = _tmp4_;
+	_tmp0_ = month;
+	if (_tmp0_ > 0) {
+		GDateTime* _tmp1_ = NULL;
+		gint _tmp2_ = 0;
+		GDateTime* _tmp3_ = NULL;
+		gint _tmp4_ = 0;
+		GDateTime* _tmp5_ = NULL;
+		_tmp1_ = self->from;
+		_tmp2_ = month;
+		_tmp3_ = self->from;
+		_tmp4_ = g_date_time_get_month (_tmp3_);
+		_tmp5_ = g_date_time_add_months (_tmp1_, _tmp2_ - _tmp4_);
+		_g_date_time_unref0 (self->from);
+		self->from = _tmp5_;
+	}
 }
 
 
 void event_to_set_month (Event* self, gint month) {
-	GDateTime* _tmp0_ = NULL;
-	gint _tmp1_ = 0;
-	GDateTime* _tmp2_ = NULL;
-	gint _tmp3_ = 0;
-	GDateTime* _tmp4_ = NULL;
+	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = self->to;
-	_tmp1_ = month;
-	_tmp2_ = self->to;
-	_tmp3_ = g_date_time_get_month (_tmp2_);
-	_tmp4_ = g_date_time_add_months (_tmp0_, _tmp1_ - _tmp3_);
-	_g_date_time_unref0 (self->to);
-	self->to = _tmp4_;
+	_tmp0_ = month;
+	if (_tmp0_ > 0) {
+		GDateTime* _tmp1_ = NULL;
+		gint _tmp2_ = 0;
+		GDateTime* _tmp3_ = NULL;
+		gint _tmp4_ = 0;
+		GDateTime* _tmp5_ = NULL;
+		_tmp1_ = self->to;
+		_tmp2_ = month;
+		_tmp3_ = self->to;
+		_tmp4_ = g_date_time_get_month (_tmp3_);
+		_tmp5_ = g_date_time_add_months (_tmp1_, _tmp2_ - _tmp4_);
+		_g_date_time_unref0 (self->to);
+		self->to = _tmp5_;
+	}
 }
 
 
 void event_from_set_year (Event* self, gint year) {
-	GDateTime* _tmp0_ = NULL;
-	gint _tmp1_ = 0;
-	GDateTime* _tmp2_ = NULL;
-	gint _tmp3_ = 0;
-	GDateTime* _tmp4_ = NULL;
+	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = self->from;
-	_tmp1_ = year;
-	_tmp2_ = self->from;
-	_tmp3_ = g_date_time_get_year (_tmp2_);
-	_tmp4_ = g_date_time_add_years (_tmp0_, _tmp1_ - _tmp3_);
-	_g_date_time_unref0 (self->from);
-	self->from = _tmp4_;
+	_tmp0_ = year;
+	if (_tmp0_ > 0) {
+		GDateTime* _tmp1_ = NULL;
+		gint _tmp2_ = 0;
+		GDateTime* _tmp3_ = NULL;
+		gint _tmp4_ = 0;
+		GDateTime* _tmp5_ = NULL;
+		_tmp1_ = self->from;
+		_tmp2_ = year;
+		_tmp3_ = self->from;
+		_tmp4_ = g_date_time_get_year (_tmp3_);
+		_tmp5_ = g_date_time_add_years (_tmp1_, _tmp2_ - _tmp4_);
+		_g_date_time_unref0 (self->from);
+		self->from = _tmp5_;
+	}
 }
 
 
 void event_to_set_year (Event* self, gint year) {
-	GDateTime* _tmp0_ = NULL;
-	gint _tmp1_ = 0;
-	GDateTime* _tmp2_ = NULL;
-	gint _tmp3_ = 0;
-	GDateTime* _tmp4_ = NULL;
+	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = self->to;
-	_tmp1_ = year;
-	_tmp2_ = self->to;
-	_tmp3_ = g_date_time_get_year (_tmp2_);
-	_tmp4_ = g_date_time_add_years (_tmp0_, _tmp1_ - _tmp3_);
-	_g_date_time_unref0 (self->to);
-	self->to = _tmp4_;
+	_tmp0_ = year;
+	if (_tmp0_ > 0) {
+		GDateTime* _tmp1_ = NULL;
+		gint _tmp2_ = 0;
+		GDateTime* _tmp3_ = NULL;
+		gint _tmp4_ = 0;
+		GDateTime* _tmp5_ = NULL;
+		_tmp1_ = self->to;
+		_tmp2_ = year;
+		_tmp3_ = self->to;
+		_tmp4_ = g_date_time_get_year (_tmp3_);
+		_tmp5_ = g_date_time_add_years (_tmp1_, _tmp2_ - _tmp4_);
+		_g_date_time_unref0 (self->to);
+		self->to = _tmp5_;
+	}
 }
 
 

@@ -9,7 +9,6 @@ find_package(PkgConfig)
 
 pkg_check_modules(DEPS REQUIRED glib-2.0)
 pkg_check_modules(DEPS REQUIRED gobject-2.0)
-pkg_check_modules(DEPS REQUIRED gee-0.8)
 
 add_definitions(${DEPS_CFLAGS})
 link_libraries(${DEPS_LIBRARIES})
@@ -21,13 +20,11 @@ ensure_vala_version("0.24" MINIMUM)
 
 include(ValaPrecompile)
 vala_precompile(VALA_C ${EXEC_NAME}
-	src/parser.vala
+	src/parser_en.vala
 	src/event.vala
-	tests/helper.vala
+	src/tests.vala
 	tests/test_de.vala
-	
-PACKAGES
-	gee-0.8
+	tests/test_en.vala
 )
 
 add_executable(${EXEC_NAME} ${VALA_C})

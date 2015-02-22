@@ -49,45 +49,48 @@ include CMakeFiles/event-parser.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/event-parser.dir/flags.make
 
-src/parser.c: event-parser_valac.stamp
+src/parser_en.c: event-parser_valac.stamp
 
-src/event.c: src/parser.c
+src/event.c: src/parser_en.c
 
-tests/helper.c: src/parser.c
+src/tests.c: src/parser_en.c
 
-tests/test_de.c: src/parser.c
+tests/test_de.c: src/parser_en.c
 
-event-parser_valac.stamp: ../src/parser.vala
+tests/test_en.c: src/parser_en.c
+
+event-parser_valac.stamp: ../src/parser_en.vala
 event-parser_valac.stamp: ../src/event.vala
-event-parser_valac.stamp: ../tests/helper.vala
+event-parser_valac.stamp: ../src/tests.vala
 event-parser_valac.stamp: ../tests/test_de.vala
+event-parser_valac.stamp: ../tests/test_en.vala
 	$(CMAKE_COMMAND) -E cmake_progress_report /Users/lars/Desktop/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating src/parser.c;src/event.c;tests/helper.c;tests/test_de.c"
-	/opt/local/bin/valac -C -b /Users/lars/Desktop/event-parser -d /Users/lars/Desktop/event-parser/build --pkg=gee-0.8 /Users/lars/Desktop/event-parser/src/parser.vala /Users/lars/Desktop/event-parser/src/event.vala /Users/lars/Desktop/event-parser/tests/helper.vala /Users/lars/Desktop/event-parser/tests/test_de.vala
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating src/parser_en.c;src/event.c;src/tests.c;tests/test_de.c;tests/test_en.c"
+	/opt/local/bin/valac -C -b /Users/lars/Desktop/event-parser -d /Users/lars/Desktop/event-parser/build /Users/lars/Desktop/event-parser/src/parser_en.vala /Users/lars/Desktop/event-parser/src/event.vala /Users/lars/Desktop/event-parser/src/tests.vala /Users/lars/Desktop/event-parser/tests/test_de.vala /Users/lars/Desktop/event-parser/tests/test_en.vala
 	touch /Users/lars/Desktop/event-parser/build/event-parser_valac.stamp
 
-CMakeFiles/event-parser.dir/src/parser.c.o: CMakeFiles/event-parser.dir/flags.make
-CMakeFiles/event-parser.dir/src/parser.c.o: src/parser.c
+CMakeFiles/event-parser.dir/src/parser_en.c.o: CMakeFiles/event-parser.dir/flags.make
+CMakeFiles/event-parser.dir/src/parser_en.c.o: src/parser_en.c
 	$(CMAKE_COMMAND) -E cmake_progress_report /Users/lars/Desktop/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_2)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/event-parser.dir/src/parser.c.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/event-parser.dir/src/parser.c.o   -c /Users/lars/Desktop/event-parser/build/src/parser.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/event-parser.dir/src/parser_en.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/event-parser.dir/src/parser_en.c.o   -c /Users/lars/Desktop/event-parser/build/src/parser_en.c
 
-CMakeFiles/event-parser.dir/src/parser.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/event-parser.dir/src/parser.c.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /Users/lars/Desktop/event-parser/build/src/parser.c > CMakeFiles/event-parser.dir/src/parser.c.i
+CMakeFiles/event-parser.dir/src/parser_en.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/event-parser.dir/src/parser_en.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /Users/lars/Desktop/event-parser/build/src/parser_en.c > CMakeFiles/event-parser.dir/src/parser_en.c.i
 
-CMakeFiles/event-parser.dir/src/parser.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/event-parser.dir/src/parser.c.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /Users/lars/Desktop/event-parser/build/src/parser.c -o CMakeFiles/event-parser.dir/src/parser.c.s
+CMakeFiles/event-parser.dir/src/parser_en.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/event-parser.dir/src/parser_en.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /Users/lars/Desktop/event-parser/build/src/parser_en.c -o CMakeFiles/event-parser.dir/src/parser_en.c.s
 
-CMakeFiles/event-parser.dir/src/parser.c.o.requires:
-.PHONY : CMakeFiles/event-parser.dir/src/parser.c.o.requires
+CMakeFiles/event-parser.dir/src/parser_en.c.o.requires:
+.PHONY : CMakeFiles/event-parser.dir/src/parser_en.c.o.requires
 
-CMakeFiles/event-parser.dir/src/parser.c.o.provides: CMakeFiles/event-parser.dir/src/parser.c.o.requires
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser.c.o.provides.build
-.PHONY : CMakeFiles/event-parser.dir/src/parser.c.o.provides
+CMakeFiles/event-parser.dir/src/parser_en.c.o.provides: CMakeFiles/event-parser.dir/src/parser_en.c.o.requires
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser_en.c.o.provides.build
+.PHONY : CMakeFiles/event-parser.dir/src/parser_en.c.o.provides
 
-CMakeFiles/event-parser.dir/src/parser.c.o.provides.build: CMakeFiles/event-parser.dir/src/parser.c.o
+CMakeFiles/event-parser.dir/src/parser_en.c.o.provides.build: CMakeFiles/event-parser.dir/src/parser_en.c.o
 
 CMakeFiles/event-parser.dir/src/event.c.o: CMakeFiles/event-parser.dir/flags.make
 CMakeFiles/event-parser.dir/src/event.c.o: src/event.c
@@ -112,28 +115,28 @@ CMakeFiles/event-parser.dir/src/event.c.o.provides: CMakeFiles/event-parser.dir/
 
 CMakeFiles/event-parser.dir/src/event.c.o.provides.build: CMakeFiles/event-parser.dir/src/event.c.o
 
-CMakeFiles/event-parser.dir/tests/helper.c.o: CMakeFiles/event-parser.dir/flags.make
-CMakeFiles/event-parser.dir/tests/helper.c.o: tests/helper.c
+CMakeFiles/event-parser.dir/src/tests.c.o: CMakeFiles/event-parser.dir/flags.make
+CMakeFiles/event-parser.dir/src/tests.c.o: src/tests.c
 	$(CMAKE_COMMAND) -E cmake_progress_report /Users/lars/Desktop/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_4)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/event-parser.dir/tests/helper.c.o"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/event-parser.dir/tests/helper.c.o   -c /Users/lars/Desktop/event-parser/build/tests/helper.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/event-parser.dir/src/tests.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/event-parser.dir/src/tests.c.o   -c /Users/lars/Desktop/event-parser/build/src/tests.c
 
-CMakeFiles/event-parser.dir/tests/helper.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/event-parser.dir/tests/helper.c.i"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /Users/lars/Desktop/event-parser/build/tests/helper.c > CMakeFiles/event-parser.dir/tests/helper.c.i
+CMakeFiles/event-parser.dir/src/tests.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/event-parser.dir/src/tests.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /Users/lars/Desktop/event-parser/build/src/tests.c > CMakeFiles/event-parser.dir/src/tests.c.i
 
-CMakeFiles/event-parser.dir/tests/helper.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/event-parser.dir/tests/helper.c.s"
-	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /Users/lars/Desktop/event-parser/build/tests/helper.c -o CMakeFiles/event-parser.dir/tests/helper.c.s
+CMakeFiles/event-parser.dir/src/tests.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/event-parser.dir/src/tests.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /Users/lars/Desktop/event-parser/build/src/tests.c -o CMakeFiles/event-parser.dir/src/tests.c.s
 
-CMakeFiles/event-parser.dir/tests/helper.c.o.requires:
-.PHONY : CMakeFiles/event-parser.dir/tests/helper.c.o.requires
+CMakeFiles/event-parser.dir/src/tests.c.o.requires:
+.PHONY : CMakeFiles/event-parser.dir/src/tests.c.o.requires
 
-CMakeFiles/event-parser.dir/tests/helper.c.o.provides: CMakeFiles/event-parser.dir/tests/helper.c.o.requires
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/helper.c.o.provides.build
-.PHONY : CMakeFiles/event-parser.dir/tests/helper.c.o.provides
+CMakeFiles/event-parser.dir/src/tests.c.o.provides: CMakeFiles/event-parser.dir/src/tests.c.o.requires
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/tests.c.o.provides.build
+.PHONY : CMakeFiles/event-parser.dir/src/tests.c.o.provides
 
-CMakeFiles/event-parser.dir/tests/helper.c.o.provides.build: CMakeFiles/event-parser.dir/tests/helper.c.o
+CMakeFiles/event-parser.dir/src/tests.c.o.provides.build: CMakeFiles/event-parser.dir/src/tests.c.o
 
 CMakeFiles/event-parser.dir/tests/test_de.c.o: CMakeFiles/event-parser.dir/flags.make
 CMakeFiles/event-parser.dir/tests/test_de.c.o: tests/test_de.c
@@ -158,20 +161,45 @@ CMakeFiles/event-parser.dir/tests/test_de.c.o.provides: CMakeFiles/event-parser.
 
 CMakeFiles/event-parser.dir/tests/test_de.c.o.provides.build: CMakeFiles/event-parser.dir/tests/test_de.c.o
 
+CMakeFiles/event-parser.dir/tests/test_en.c.o: CMakeFiles/event-parser.dir/flags.make
+CMakeFiles/event-parser.dir/tests/test_en.c.o: tests/test_en.c
+	$(CMAKE_COMMAND) -E cmake_progress_report /Users/lars/Desktop/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/event-parser.dir/tests/test_en.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/event-parser.dir/tests/test_en.c.o   -c /Users/lars/Desktop/event-parser/build/tests/test_en.c
+
+CMakeFiles/event-parser.dir/tests/test_en.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/event-parser.dir/tests/test_en.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /Users/lars/Desktop/event-parser/build/tests/test_en.c > CMakeFiles/event-parser.dir/tests/test_en.c.i
+
+CMakeFiles/event-parser.dir/tests/test_en.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/event-parser.dir/tests/test_en.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /Users/lars/Desktop/event-parser/build/tests/test_en.c -o CMakeFiles/event-parser.dir/tests/test_en.c.s
+
+CMakeFiles/event-parser.dir/tests/test_en.c.o.requires:
+.PHONY : CMakeFiles/event-parser.dir/tests/test_en.c.o.requires
+
+CMakeFiles/event-parser.dir/tests/test_en.c.o.provides: CMakeFiles/event-parser.dir/tests/test_en.c.o.requires
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/tests/test_en.c.o.provides.build
+.PHONY : CMakeFiles/event-parser.dir/tests/test_en.c.o.provides
+
+CMakeFiles/event-parser.dir/tests/test_en.c.o.provides.build: CMakeFiles/event-parser.dir/tests/test_en.c.o
+
 # Object files for target event-parser
 event__parser_OBJECTS = \
-"CMakeFiles/event-parser.dir/src/parser.c.o" \
+"CMakeFiles/event-parser.dir/src/parser_en.c.o" \
 "CMakeFiles/event-parser.dir/src/event.c.o" \
-"CMakeFiles/event-parser.dir/tests/helper.c.o" \
-"CMakeFiles/event-parser.dir/tests/test_de.c.o"
+"CMakeFiles/event-parser.dir/src/tests.c.o" \
+"CMakeFiles/event-parser.dir/tests/test_de.c.o" \
+"CMakeFiles/event-parser.dir/tests/test_en.c.o"
 
 # External object files for target event-parser
 event__parser_EXTERNAL_OBJECTS =
 
-event-parser: CMakeFiles/event-parser.dir/src/parser.c.o
+event-parser: CMakeFiles/event-parser.dir/src/parser_en.c.o
 event-parser: CMakeFiles/event-parser.dir/src/event.c.o
-event-parser: CMakeFiles/event-parser.dir/tests/helper.c.o
+event-parser: CMakeFiles/event-parser.dir/src/tests.c.o
 event-parser: CMakeFiles/event-parser.dir/tests/test_de.c.o
+event-parser: CMakeFiles/event-parser.dir/tests/test_en.c.o
 event-parser: CMakeFiles/event-parser.dir/build.make
 event-parser: CMakeFiles/event-parser.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking C executable event-parser"
@@ -181,20 +209,22 @@ event-parser: CMakeFiles/event-parser.dir/link.txt
 CMakeFiles/event-parser.dir/build: event-parser
 .PHONY : CMakeFiles/event-parser.dir/build
 
-CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/src/parser.c.o.requires
+CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/src/parser_en.c.o.requires
 CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/src/event.c.o.requires
-CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/tests/helper.c.o.requires
+CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/src/tests.c.o.requires
 CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/tests/test_de.c.o.requires
+CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/tests/test_en.c.o.requires
 .PHONY : CMakeFiles/event-parser.dir/requires
 
 CMakeFiles/event-parser.dir/clean:
 	$(CMAKE_COMMAND) -P CMakeFiles/event-parser.dir/cmake_clean.cmake
 .PHONY : CMakeFiles/event-parser.dir/clean
 
-CMakeFiles/event-parser.dir/depend: src/parser.c
+CMakeFiles/event-parser.dir/depend: src/parser_en.c
 CMakeFiles/event-parser.dir/depend: src/event.c
-CMakeFiles/event-parser.dir/depend: tests/helper.c
+CMakeFiles/event-parser.dir/depend: src/tests.c
 CMakeFiles/event-parser.dir/depend: tests/test_de.c
+CMakeFiles/event-parser.dir/depend: tests/test_en.c
 CMakeFiles/event-parser.dir/depend: event-parser_valac.stamp
 	cd /Users/lars/Desktop/event-parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/lars/Desktop/event-parser /Users/lars/Desktop/event-parser /Users/lars/Desktop/event-parser/build /Users/lars/Desktop/event-parser/build /Users/lars/Desktop/event-parser/build/CMakeFiles/event-parser.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/event-parser.dir/depend

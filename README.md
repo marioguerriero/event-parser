@@ -1,28 +1,35 @@
 # Event Parser
 
-A natural language parser for calendar events, written in Vala for Maya and Elementary OS. This event parser was made regarding this feature: https://www.bountysource.com/issues/5376499-use-natural-language-input-when-creating-events-200.
+A natural language parser for calendar events, written in Vala for Maya and Elementary OS. 
 
-It currently only supports german, here are all working german event tests:
 
+The issue on bountysource: https://www.bountysource.com/issues/5376499-use-natural-language-input-when-creating-events-200.
+
+
+Here are all correct working english tests:
 - Badminton
-- Sporttag morgen den ganzen Tag in der Sporthalle
-- Badminton um 18 Uhr
-- Badminton morgen um 12
-- Badminton um 12 morgen
-- Badminton übermorgen um 7:30
-- Badminton gestern um 22 Uhr
-- Morgen früh Badminton Training
-- Badminton Wettbewerb um 12 Uhr am 20. April
-- Badminton Wettbewerb von 12 bis 15 Uhr am 23. Januar
-- Von 12:00 bis 15:30 Uhr am 20. April Badminton Wettbewerb
-- Klavierunterricht um 12:30 in 4 Tagen
--   Klavier Konzert am 5.6.2016 nachmittags 
-- Geschenke auspacken Heiligabend 19 Uhr
-- Mac-Stammtisch übernächsten Mittwoch ab 18:30 h im Plan B
-- Mittagessen morgen in Mensa
-- Geburtstag von Max am 17.4
-- Lauftraining um 18 Uhr nächsten Sonntag
-- Marathon übernächsten Sonntag für 4h vormittags
-- Urlaub vom 5. bis 20. Juli
-- Ab morgen für 3 Wochen Urlaub
-- Morgen mittag für 30 Minuten in Berlin Schuhe kaufen
+- Badminton Class tomorrow the whole day in the gym
+- Badminton at 18pm
+- Badminton tomorrow at 12
+- Grocery shopping Thursday at 11:30pm
+- Clothes shopping Wednesday at 5:35pm at Nordstroms
+- Clothes shopping at Nordstroms in a month at 17:45
+- Clothes shopping at Nordstroms next Thursday at 5p
+- Hiking in Scotland thursday to saturday
+- Hiking in Scotland this weekend
+- Family vacation from 8/9 - 8/18
+- Family vacation from 8/1 - 8 at Sandy Lane
+- Family vacation from 8/9 - 18 at Sandy Lane
+- Family vacation from August 9th - 18th in Mexico
+- Family vacation from August 9th - 18 in Mexico
+- Family vacation from August 9 - 18 at The Marriot Hotel
+- Soccer practice Tuesday at noon
+- Soccer practice next week at 6am at JFK High School
+- Soccer practice next month at 7am at JFK High School
+- Soccer practice at JFK High School Wednesday at 6:15
+- Sams birthday on 5/16
+- Sams Birthday Party on 2nd January
+- Vacation in 4 weeks
+- Christmas on December 25th
+- Lunch with becca at cafe thu 1-2
+- Bob’s 25th anniversay on May, 14th 2020
