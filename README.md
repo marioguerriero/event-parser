@@ -1,12 +1,17 @@
 # Event Parser
 
-A natural language parser for calendar events, written in Vala for Maya and Elementary OS. 
+A natural language parser for calendar events, written in Vala. 
 
+The parser is made to solve this issue on bountysource: https://www.bountysource.com/issues/5376499-use-natural-language-input-when-creating-events-200.
 
-The issue on bountysource: https://www.bountysource.com/issues/5376499-use-natural-language-input-when-creating-events-200.
+Some examples for natural language input:
+- Badminton tomorrow at 12pm
+- Grocery shopping Thursday at 11:30pm
+- Family vacation from 8/9 - 8/18
+- Soccer practice next week at 6am at JFK High School
+- Bob’s 25th Anniversary on May, 14th 2020
 
-
-Here are all correct working english tests:
+The purser outputs the title, the start and end date, the location and if the event lasts all day. Here are all currently correct working test events:
 - Badminton
 - Badminton Class tomorrow the whole day in the gym
 - Badminton at 18pm
@@ -33,3 +38,6 @@ Here are all correct working english tests:
 - Christmas on December 25th
 - Lunch with becca at cafe thu 1-2
 - Bob’s 25th anniversay on May, 14th 2020
+
+
+A partial german translation of the parser and the tests are included.
