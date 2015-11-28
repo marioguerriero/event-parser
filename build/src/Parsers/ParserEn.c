@@ -60,7 +60,6 @@ struct _ParserEn {
 	GObject parent_instance;
 	ParserEnPrivate * priv;
 	GDateTime* simulated_dt;
-	gchar* language;
 	gchar* source;
 };
 
@@ -334,192 +333,188 @@ ParserEn* parser_en_construct (GType object_type, GDateTime* _simulated_dt) {
 	gchar* _tmp2_ = NULL;
 	gchar* _tmp3_ = NULL;
 	gchar* _tmp4_ = NULL;
-	gchar* _tmp5_ = NULL;
-	const gchar* _tmp16_ = NULL;
+	const gchar* _tmp15_ = NULL;
+	gchar* _tmp16_ = NULL;
 	gchar* _tmp17_ = NULL;
 	gchar* _tmp18_ = NULL;
 	gchar* _tmp19_ = NULL;
-	gchar* _tmp20_ = NULL;
-	const gchar* _tmp31_ = NULL;
+	const gchar* _tmp30_ = NULL;
+	gchar* _tmp31_ = NULL;
 	gchar* _tmp32_ = NULL;
 	gchar* _tmp33_ = NULL;
 	gchar* _tmp34_ = NULL;
-	gchar* _tmp35_ = NULL;
-	const gchar* _tmp46_ = NULL;
+	const gchar* _tmp45_ = NULL;
+	gchar* _tmp46_ = NULL;
 	gchar* _tmp47_ = NULL;
 	gchar* _tmp48_ = NULL;
-	gchar* _tmp49_ = NULL;
 	g_return_val_if_fail (_simulated_dt != NULL, NULL);
 	self = (ParserEn*) g_object_new (object_type, NULL);
 	_tmp0_ = _simulated_dt;
 	_tmp1_ = _g_date_time_ref0 (_tmp0_);
 	_g_date_time_unref0 (self->simulated_dt);
 	self->simulated_dt = _tmp1_;
-	_tmp2_ = g_strdup ("en");
-	_g_free0 (self->language);
-	self->language = _tmp2_;
-	_tmp3_ = g_strdup ("");
+	_tmp2_ = g_strdup ("");
 	_g_free0 (self->source);
-	self->source = _tmp3_;
-	_tmp4_ = g_strdup ("");
+	self->source = _tmp2_;
+	_tmp3_ = g_strdup ("");
 	_g_free0 (self->priv->remaining_source);
-	self->priv->remaining_source = _tmp4_;
-	_tmp5_ = g_strdup ("(");
+	self->priv->remaining_source = _tmp3_;
+	_tmp4_ = g_strdup ("(");
 	_g_free0 (self->priv->months_regex);
-	self->priv->months_regex = _tmp5_;
+	self->priv->months_regex = _tmp4_;
 	{
 		gint i = 0;
 		i = 0;
 		{
-			gboolean _tmp6_ = FALSE;
-			_tmp6_ = TRUE;
+			gboolean _tmp5_ = FALSE;
+			_tmp5_ = TRUE;
 			while (TRUE) {
-				gint _tmp8_ = 0;
-				const gchar* _tmp9_ = NULL;
-				gchar** _tmp10_ = NULL;
-				gint _tmp10__length1 = 0;
-				gint _tmp10__length2 = 0;
-				gint _tmp11_ = 0;
-				const gchar* _tmp12_ = NULL;
+				gint _tmp7_ = 0;
+				const gchar* _tmp8_ = NULL;
+				gchar** _tmp9_ = NULL;
+				gint _tmp9__length1 = 0;
+				gint _tmp9__length2 = 0;
+				gint _tmp10_ = 0;
+				const gchar* _tmp11_ = NULL;
+				gchar* _tmp12_ = NULL;
 				gchar* _tmp13_ = NULL;
 				gchar* _tmp14_ = NULL;
-				gchar* _tmp15_ = NULL;
-				if (!_tmp6_) {
-					gint _tmp7_ = 0;
-					_tmp7_ = i;
-					i = _tmp7_ + 1;
+				if (!_tmp5_) {
+					gint _tmp6_ = 0;
+					_tmp6_ = i;
+					i = _tmp6_ + 1;
 				}
-				_tmp6_ = FALSE;
-				_tmp8_ = i;
-				if (!(_tmp8_ < 12)) {
+				_tmp5_ = FALSE;
+				_tmp7_ = i;
+				if (!(_tmp7_ < 12)) {
 					break;
 				}
-				_tmp9_ = self->priv->months_regex;
-				_tmp10_ = self->priv->months;
-				_tmp10__length1 = self->priv->months_length1;
-				_tmp10__length2 = self->priv->months_length2;
-				_tmp11_ = i;
-				_tmp12_ = _tmp10_[(_tmp11_ * _tmp10__length2) + 0];
-				_tmp13_ = g_strconcat (_tmp12_, "|", NULL);
-				_tmp14_ = _tmp13_;
-				_tmp15_ = g_strconcat (_tmp9_, _tmp14_, NULL);
+				_tmp8_ = self->priv->months_regex;
+				_tmp9_ = self->priv->months;
+				_tmp9__length1 = self->priv->months_length1;
+				_tmp9__length2 = self->priv->months_length2;
+				_tmp10_ = i;
+				_tmp11_ = _tmp9_[(_tmp10_ * _tmp9__length2) + 0];
+				_tmp12_ = g_strconcat (_tmp11_, "|", NULL);
+				_tmp13_ = _tmp12_;
+				_tmp14_ = g_strconcat (_tmp8_, _tmp13_, NULL);
 				_g_free0 (self->priv->months_regex);
-				self->priv->months_regex = _tmp15_;
-				_g_free0 (_tmp14_);
+				self->priv->months_regex = _tmp14_;
+				_g_free0 (_tmp13_);
 			}
 		}
 	}
-	_tmp16_ = self->priv->months_regex;
-	_tmp17_ = string_slice (_tmp16_, (glong) 0, (glong) (-1));
-	_tmp18_ = _tmp17_;
-	_tmp19_ = g_strconcat (_tmp18_, ")", NULL);
+	_tmp15_ = self->priv->months_regex;
+	_tmp16_ = string_slice (_tmp15_, (glong) 0, (glong) (-1));
+	_tmp17_ = _tmp16_;
+	_tmp18_ = g_strconcat (_tmp17_, ")", NULL);
 	_g_free0 (self->priv->months_regex);
-	self->priv->months_regex = _tmp19_;
-	_g_free0 (_tmp18_);
-	_tmp20_ = g_strdup ("(");
+	self->priv->months_regex = _tmp18_;
+	_g_free0 (_tmp17_);
+	_tmp19_ = g_strdup ("(");
 	_g_free0 (self->priv->weekdays_regex);
-	self->priv->weekdays_regex = _tmp20_;
+	self->priv->weekdays_regex = _tmp19_;
 	{
 		gint i = 0;
 		i = 0;
 		{
-			gboolean _tmp21_ = FALSE;
-			_tmp21_ = TRUE;
+			gboolean _tmp20_ = FALSE;
+			_tmp20_ = TRUE;
 			while (TRUE) {
-				gint _tmp23_ = 0;
-				const gchar* _tmp24_ = NULL;
-				gchar** _tmp25_ = NULL;
-				gint _tmp25__length1 = 0;
-				gint _tmp25__length2 = 0;
-				gint _tmp26_ = 0;
-				const gchar* _tmp27_ = NULL;
+				gint _tmp22_ = 0;
+				const gchar* _tmp23_ = NULL;
+				gchar** _tmp24_ = NULL;
+				gint _tmp24__length1 = 0;
+				gint _tmp24__length2 = 0;
+				gint _tmp25_ = 0;
+				const gchar* _tmp26_ = NULL;
+				gchar* _tmp27_ = NULL;
 				gchar* _tmp28_ = NULL;
 				gchar* _tmp29_ = NULL;
-				gchar* _tmp30_ = NULL;
-				if (!_tmp21_) {
-					gint _tmp22_ = 0;
-					_tmp22_ = i;
-					i = _tmp22_ + 1;
+				if (!_tmp20_) {
+					gint _tmp21_ = 0;
+					_tmp21_ = i;
+					i = _tmp21_ + 1;
 				}
-				_tmp21_ = FALSE;
-				_tmp23_ = i;
-				if (!(_tmp23_ < 7)) {
+				_tmp20_ = FALSE;
+				_tmp22_ = i;
+				if (!(_tmp22_ < 7)) {
 					break;
 				}
-				_tmp24_ = self->priv->weekdays_regex;
-				_tmp25_ = self->priv->weekdays;
-				_tmp25__length1 = self->priv->weekdays_length1;
-				_tmp25__length2 = self->priv->weekdays_length2;
-				_tmp26_ = i;
-				_tmp27_ = _tmp25_[(_tmp26_ * _tmp25__length2) + 0];
-				_tmp28_ = g_strconcat (_tmp27_, "|", NULL);
-				_tmp29_ = _tmp28_;
-				_tmp30_ = g_strconcat (_tmp24_, _tmp29_, NULL);
+				_tmp23_ = self->priv->weekdays_regex;
+				_tmp24_ = self->priv->weekdays;
+				_tmp24__length1 = self->priv->weekdays_length1;
+				_tmp24__length2 = self->priv->weekdays_length2;
+				_tmp25_ = i;
+				_tmp26_ = _tmp24_[(_tmp25_ * _tmp24__length2) + 0];
+				_tmp27_ = g_strconcat (_tmp26_, "|", NULL);
+				_tmp28_ = _tmp27_;
+				_tmp29_ = g_strconcat (_tmp23_, _tmp28_, NULL);
 				_g_free0 (self->priv->weekdays_regex);
-				self->priv->weekdays_regex = _tmp30_;
-				_g_free0 (_tmp29_);
+				self->priv->weekdays_regex = _tmp29_;
+				_g_free0 (_tmp28_);
 			}
 		}
 	}
-	_tmp31_ = self->priv->weekdays_regex;
-	_tmp32_ = string_slice (_tmp31_, (glong) 0, (glong) (-1));
-	_tmp33_ = _tmp32_;
-	_tmp34_ = g_strconcat (_tmp33_, ")", NULL);
+	_tmp30_ = self->priv->weekdays_regex;
+	_tmp31_ = string_slice (_tmp30_, (glong) 0, (glong) (-1));
+	_tmp32_ = _tmp31_;
+	_tmp33_ = g_strconcat (_tmp32_, ")", NULL);
 	_g_free0 (self->priv->weekdays_regex);
-	self->priv->weekdays_regex = _tmp34_;
-	_g_free0 (_tmp33_);
-	_tmp35_ = g_strdup ("(");
+	self->priv->weekdays_regex = _tmp33_;
+	_g_free0 (_tmp32_);
+	_tmp34_ = g_strdup ("(");
 	_g_free0 (self->priv->number_words_regex);
-	self->priv->number_words_regex = _tmp35_;
+	self->priv->number_words_regex = _tmp34_;
 	{
 		gint i = 0;
 		i = 0;
 		{
-			gboolean _tmp36_ = FALSE;
-			_tmp36_ = TRUE;
+			gboolean _tmp35_ = FALSE;
+			_tmp35_ = TRUE;
 			while (TRUE) {
-				gint _tmp38_ = 0;
-				const gchar* _tmp39_ = NULL;
-				gchar** _tmp40_ = NULL;
-				gint _tmp40__length1 = 0;
-				gint _tmp40__length2 = 0;
-				gint _tmp41_ = 0;
-				const gchar* _tmp42_ = NULL;
+				gint _tmp37_ = 0;
+				const gchar* _tmp38_ = NULL;
+				gchar** _tmp39_ = NULL;
+				gint _tmp39__length1 = 0;
+				gint _tmp39__length2 = 0;
+				gint _tmp40_ = 0;
+				const gchar* _tmp41_ = NULL;
+				gchar* _tmp42_ = NULL;
 				gchar* _tmp43_ = NULL;
 				gchar* _tmp44_ = NULL;
-				gchar* _tmp45_ = NULL;
-				if (!_tmp36_) {
-					gint _tmp37_ = 0;
-					_tmp37_ = i;
-					i = _tmp37_ + 1;
+				if (!_tmp35_) {
+					gint _tmp36_ = 0;
+					_tmp36_ = i;
+					i = _tmp36_ + 1;
 				}
-				_tmp36_ = FALSE;
-				_tmp38_ = i;
-				if (!(_tmp38_ < 7)) {
+				_tmp35_ = FALSE;
+				_tmp37_ = i;
+				if (!(_tmp37_ < 7)) {
 					break;
 				}
-				_tmp39_ = self->priv->number_words_regex;
-				_tmp40_ = self->priv->number_words;
-				_tmp40__length1 = self->priv->number_words_length1;
-				_tmp40__length2 = self->priv->number_words_length2;
-				_tmp41_ = i;
-				_tmp42_ = _tmp40_[(_tmp41_ * _tmp40__length2) + 0];
-				_tmp43_ = g_strconcat (_tmp42_, "|", NULL);
-				_tmp44_ = _tmp43_;
-				_tmp45_ = g_strconcat (_tmp39_, _tmp44_, NULL);
+				_tmp38_ = self->priv->number_words_regex;
+				_tmp39_ = self->priv->number_words;
+				_tmp39__length1 = self->priv->number_words_length1;
+				_tmp39__length2 = self->priv->number_words_length2;
+				_tmp40_ = i;
+				_tmp41_ = _tmp39_[(_tmp40_ * _tmp39__length2) + 0];
+				_tmp42_ = g_strconcat (_tmp41_, "|", NULL);
+				_tmp43_ = _tmp42_;
+				_tmp44_ = g_strconcat (_tmp38_, _tmp43_, NULL);
 				_g_free0 (self->priv->number_words_regex);
-				self->priv->number_words_regex = _tmp45_;
-				_g_free0 (_tmp44_);
+				self->priv->number_words_regex = _tmp44_;
+				_g_free0 (_tmp43_);
 			}
 		}
 	}
-	_tmp46_ = self->priv->number_words_regex;
-	_tmp47_ = string_slice (_tmp46_, (glong) 0, (glong) (-1));
-	_tmp48_ = _tmp47_;
-	_tmp49_ = g_strconcat (_tmp48_, ")", NULL);
+	_tmp45_ = self->priv->number_words_regex;
+	_tmp46_ = string_slice (_tmp45_, (glong) 0, (glong) (-1));
+	_tmp47_ = _tmp46_;
+	_tmp48_ = g_strconcat (_tmp47_, ")", NULL);
 	_g_free0 (self->priv->number_words_regex);
-	self->priv->number_words_regex = _tmp49_;
-	_g_free0 (_tmp48_);
+	self->priv->number_words_regex = _tmp48_;
+	_g_free0 (_tmp47_);
 	return self;
 }
 
@@ -2818,8 +2813,8 @@ static ParsedEvent* parser_en_real_parse_source (EventParser* base, const gchar*
 	parser_en_analyze_pattern (self, "(this )?afternoon", ___lambda32__parserentranscribe_analysis, _data1_, TRUE);
 	parser_en_analyze_pattern (self, "(this )?evening", ___lambda33__parserentranscribe_analysis, _data1_, TRUE);
 	parser_en_analyze_pattern (self, "late", ___lambda34__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(?<p1>\\d{1,2})?(?<p2>(am|pm|p))?( to |-| - )(?<p3>\\d{1,2})?(?<p4>(am" \
-"|pm|p))?", ___lambda35__parserentranscribe_analysis, _data1_, TRUE);
+	parser_en_analyze_pattern (self, "(?<p1>\\d{1,2})?(?<p2>(am|pm|p))?(to |-| - )(?<p3>\\d{1,2})?(?<p4>(am|" \
+"pm|p))?", ___lambda35__parserentranscribe_analysis, _data1_, TRUE);
 	parser_en_analyze_pattern (self, "(at |@ ?)(?<p1>\\d{1,2})(:(?<p2>\\d{1,2}))?(?<p3>(am|pm|p))?", ___lambda36__parserentranscribe_analysis, _data1_, TRUE);
 	parser_en_analyze_pattern (self, "(at |@)(?<p1>\\d{4})", ___lambda37__parserentranscribe_analysis, _data1_, TRUE);
 	parser_en_analyze_pattern (self, "from (?<p1>\\d{1,2})(:(?<p3>\\d{1,2}))?(?<p5>(am|pm|p)?) to (?<p2>\\d{" \
@@ -2830,7 +2825,7 @@ static ParsedEvent* parser_en_real_parse_source (EventParser* base, const gchar*
 	parser_en_analyze_pattern (self, "for (?<p1>\\d+)(\\s?d| days)", ___lambda42__parserentranscribe_analysis, _data1_, TRUE);
 	parser_en_analyze_pattern (self, "for (?<p1>\\d+) weeks", ___lambda43__parserentranscribe_analysis, _data1_, TRUE);
 	parser_en_analyze_pattern (self, "(with)( the)? (?<p1>(\\w\\s?)+)", ___lambda44__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(at|in)( the)? (?<p1>(\\w\\s?)+)", ___lambda45__parserentranscribe_analysis, _data1_, TRUE);
+	parser_en_analyze_pattern (self, "(at|in)(the)? (?<p1>(\\w\\s?)+)", ___lambda45__parserentranscribe_analysis, _data1_, TRUE);
 	_tmp33_ = self->priv->remaining_source;
 	_tmp34_ = string_strip (_tmp33_);
 	_g_free0 (_data1_->event->title);
@@ -3140,7 +3135,6 @@ static void parser_en_finalize (GObject* obj) {
 	ParserEn * self;
 	self = G_TYPE_CHECK_INSTANCE_CAST (obj, TYPE_PARSER_EN, ParserEn);
 	_g_date_time_unref0 (self->simulated_dt);
-	_g_free0 (self->language);
 	_g_free0 (self->source);
 	_g_free0 (self->priv->remaining_source);
 	self->priv->months = (_vala_array_free (self->priv->months, self->priv->months_length1 * self->priv->months_length2, (GDestroyNotify) g_free), NULL);
