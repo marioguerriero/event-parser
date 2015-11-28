@@ -7,10 +7,13 @@ set (EXEC_NAME "event-parser")
 
 find_package(PkgConfig)
 
-pkg_check_modules(DEPS REQUIRED glib-2.0)
-pkg_check_modules(DEPS REQUIRED gobject-2.0)
+set(PARSER_DEPS
+  gobject-2.0
+  glib-2.0)
 
-add_definitions(${DEPS_CFLAGS})
+pkg_check_modules(DEPS REQUIRED ${PARSER_DEPS})
+
+add_definitions(${DEPS_CFLAGS} -lgthread-2.0)
 link_libraries(${DEPS_LIBRARIES})
 link_directories(${DEPS_LIBRARY_DIRS})
 
@@ -25,6 +28,8 @@ vala_precompile(VALA_C ${EXEC_NAME}
 	src/tests.vala
 	tests/test_de.vala
 	tests/test_en.vala
+PACKAGES
+	${PARSER_DEPS}
 )
 
 add_executable(${EXEC_NAME} ${VALA_C})

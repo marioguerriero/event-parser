@@ -81,14 +81,24 @@ void print_all_not_working_test_events (test_event[] test_events, DateTime dt_si
 	}
 }
 
-
-
-void main () {
-	var simulated_dt = new DateTime.utc (2015, 2, 17, 13, 25, 0);
+void main (string[] args) {
+	//var simulated_dt = new DateTime.utc (2015, 2, 17, 13, 25, 0);
 	
 	// test_de();
-	test_event[] test_events = test_en();
-	// analyze_test_events(test_events, simulated_dt);
-	print_all_working_test_events(test_events, simulated_dt);
-	print_all_not_working_test_events(test_events, simulated_dt);
+	//test_event[] test_events = test_en();
+	// analyze_test_events(test_events, new DateTime.now_local());
+	//print_all_working_test_events(test_events, simulated_dt);
+	//print_all_not_working_test_events(test_events, simulated_dt);
+
+	println ("Please enter an event:");
+	string ev_str = stdin.read_line ();
+	if (ev_str != null) {
+		var parser = new ParserEn(new DateTime.now_local());
+		var ev = parser.parse_source(ev_str); 
+		println("Title: " + ev.title);
+		println("Location: " + ev.location);
+		println("Participant: " + ev.participants);
+		println("From: " + ev.from.to_string());
+		println("To: " + ev.to.to_string());
+	}
 }

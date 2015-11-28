@@ -16,8 +16,6 @@ public class Event : GLib.Object {
 		this.all_day = _all_day;
 	}
 	
-	
-	
 	public void set_length_to_minutes (int minutes) {
 		this.to = this.from.add_minutes(minutes);
 	}
@@ -33,8 +31,6 @@ public class Event : GLib.Object {
 	public void set_length_to_weeks (int weeks) {
 		this.to = this.from.add_days(7 * weeks);
 	}
-	
-	
 	
 	public void from_set_second (int second) {
 		this.from = this.from.add_seconds(second - this.from.get_second());

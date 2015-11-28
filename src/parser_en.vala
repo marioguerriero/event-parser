@@ -174,6 +174,10 @@ public class ParserEn : GLib.Object {
 			event.set_one_entire_day();
 		});
 		
+		analyze_pattern("today", (data) => {
+			event.set_one_entire_day();
+		});
+
 		analyze_pattern("tomorrow", (data) => {
 			event.from = event.from.add_days(1);
 			event.set_one_entire_day();
