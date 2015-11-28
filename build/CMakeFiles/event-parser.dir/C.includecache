@@ -6,6 +6,16 @@
 
 #IncludeRegexTransform: 
 
+/home/mario/dev/vala/event-parser/build/src/EventParser.c
+glib.h
+-
+glib-object.h
+-
+stdlib.h
+-
+string.h
+-
+
 /home/mario/dev/vala/event-parser/build/src/event.c
 glib.h
 -

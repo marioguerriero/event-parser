@@ -8,6 +8,24 @@
 #include <string.h>
 
 
+#define TYPE_EVENT_PARSER (event_parser_get_type ())
+#define EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT_PARSER, EventParser))
+#define IS_EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT_PARSER))
+#define EVENT_PARSER_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), TYPE_EVENT_PARSER, EventParserIface))
+
+typedef struct _EventParser EventParser;
+typedef struct _EventParserIface EventParserIface;
+
+#define TYPE_EVENT (event_get_type ())
+#define EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT, Event))
+#define EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_EVENT, EventClass))
+#define IS_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT))
+#define IS_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_EVENT))
+#define EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_EVENT, EventClass))
+
+typedef struct _Event Event;
+typedef struct _EventClass EventClass;
+
 #define TYPE_PARSER_EN (parser_en_get_type ())
 #define PARSER_EN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_PARSER_EN, ParserEn))
 #define PARSER_EN_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_PARSER_EN, ParserEnClass))
@@ -26,19 +44,14 @@ typedef struct _ParserEnString_event ParserEnString_event;
 #define _g_regex_unref0(var) ((var == NULL) ? NULL : (var = (g_regex_unref (var), NULL)))
 #define _g_match_info_free0(var) ((var == NULL) ? NULL : (var = (g_match_info_free (var), NULL)))
 #define _g_array_unref0(var) ((var == NULL) ? NULL : (var = (g_array_unref (var), NULL)))
-
-#define TYPE_EVENT (event_get_type ())
-#define EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT, Event))
-#define EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_EVENT, EventClass))
-#define IS_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT))
-#define IS_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_EVENT))
-#define EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_EVENT, EventClass))
-
-typedef struct _Event Event;
-typedef struct _EventClass EventClass;
 typedef struct _Block1Data Block1Data;
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 typedef struct _EventPrivate EventPrivate;
+
+struct _EventParserIface {
+	GTypeInterface parent_iface;
+	Event* (*parse_source) (EventParser* self, const gchar* source);
+};
 
 struct _ParserEn {
 	GObject parent_instance;
@@ -100,7 +113,10 @@ struct _EventClass {
 
 
 static gpointer parser_en_parent_class = NULL;
+static EventParserIface* parser_en_event_parser_parent_iface = NULL;
 
+GType event_get_type (void) G_GNUC_CONST;
+GType event_parser_get_type (void) G_GNUC_CONST;
 GType parser_en_get_type (void) G_GNUC_CONST;
 #define PARSER_EN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), TYPE_PARSER_EN, ParserEnPrivate))
 enum  {
@@ -118,8 +134,7 @@ static void parser_en_string_event_copy (const ParserEnString_event* self, Parse
 static void parser_en_string_event_destroy (ParserEnString_event* self);
 static void parser_en_complete_string (ParserEn* self, const gchar* pattern, ParserEnString_event* result);
 static void parser_en_analyze_pattern (ParserEn* self, const gchar* pattern, ParserEntranscribe_analysis del, void* del_target, gboolean delete);
-GType event_get_type (void) G_GNUC_CONST;
-Event* parser_en_parse_source (ParserEn* self, const gchar* _source);
+static Event* parser_en_real_parse_source (EventParser* base, const gchar* _source);
 static Block1Data* block1_data_ref (Block1Data* _data1_);
 static void block1_data_unref (void * _userdata_);
 Event* event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
@@ -2664,7 +2679,8 @@ static gpointer _g_object_ref0 (gpointer self) {
 }
 
 
-Event* parser_en_parse_source (ParserEn* self, const gchar* _source) {
+static Event* parser_en_real_parse_source (EventParser* base, const gchar* _source) {
+	ParserEn * self;
 	Event* result = NULL;
 	Block1Data* _data1_;
 	const gchar* _tmp0_ = NULL;
@@ -2703,7 +2719,7 @@ Event* parser_en_parse_source (ParserEn* self, const gchar* _source) {
 	const gchar* _tmp33_ = NULL;
 	gchar* _tmp34_ = NULL;
 	Event* _tmp35_ = NULL;
-	g_return_val_if_fail (self != NULL, NULL);
+	self = (ParserEn*) base;
 	g_return_val_if_fail (_source != NULL, NULL);
 	_data1_ = g_slice_new0 (Block1Data);
 	_data1_->_ref_count_ = 1;
@@ -2874,6 +2890,12 @@ static void parser_en_class_init (ParserEnClass * klass) {
 	parser_en_parent_class = g_type_class_peek_parent (klass);
 	g_type_class_add_private (klass, sizeof (ParserEnPrivate));
 	G_OBJECT_CLASS (klass)->finalize = parser_en_finalize;
+}
+
+
+static void parser_en_event_parser_interface_init (EventParserIface * iface) {
+	parser_en_event_parser_parent_iface = g_type_interface_peek_parent (iface);
+	iface->parse_source = (Event* (*)(EventParser*, const gchar*)) parser_en_real_parse_source;
 }
 
 
@@ -3110,8 +3132,10 @@ GType parser_en_get_type (void) {
 	static volatile gsize parser_en_type_id__volatile = 0;
 	if (g_once_init_enter (&parser_en_type_id__volatile)) {
 		static const GTypeInfo g_define_type_info = { sizeof (ParserEnClass), (GBaseInitFunc) NULL, (GBaseFinalizeFunc) NULL, (GClassInitFunc) parser_en_class_init, (GClassFinalizeFunc) NULL, NULL, sizeof (ParserEn), 0, (GInstanceInitFunc) parser_en_instance_init, NULL };
+		static const GInterfaceInfo event_parser_info = { (GInterfaceInitFunc) parser_en_event_parser_interface_init, (GInterfaceFinalizeFunc) NULL, NULL};
 		GType parser_en_type_id;
 		parser_en_type_id = g_type_register_static (G_TYPE_OBJECT, "ParserEn", &g_define_type_info, 0);
+		g_type_add_interface_static (parser_en_type_id, TYPE_EVENT_PARSER, &event_parser_info);
 		g_once_init_leave (&parser_en_type_id__volatile, parser_en_type_id);
 	}
 	return parser_en_type_id__volatile;

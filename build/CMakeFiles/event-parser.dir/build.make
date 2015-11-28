@@ -57,6 +57,9 @@ src/event.c: src/parser_en.c
 src/tests.c: src/parser_en.c
 	@$(CMAKE_COMMAND) -E touch_nocreate src/tests.c
 
+src/EventParser.c: src/parser_en.c
+	@$(CMAKE_COMMAND) -E touch_nocreate src/EventParser.c
+
 tests/test_de.c: src/parser_en.c
 	@$(CMAKE_COMMAND) -E touch_nocreate tests/test_de.c
 
@@ -66,11 +69,12 @@ tests/test_en.c: src/parser_en.c
 event-parser_valac.stamp: ../src/parser_en.vala
 event-parser_valac.stamp: ../src/event.vala
 event-parser_valac.stamp: ../src/tests.vala
+event-parser_valac.stamp: ../src/EventParser.vala
 event-parser_valac.stamp: ../tests/test_de.vala
 event-parser_valac.stamp: ../tests/test_en.vala
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/mario/dev/vala/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating src/parser_en.c;src/event.c;src/tests.c;tests/test_de.c;tests/test_en.c"
-	/usr/bin/valac -C -b /home/mario/dev/vala/event-parser -d /home/mario/dev/vala/event-parser/build --pkg=gobject-2.0 --pkg=glib-2.0 /home/mario/dev/vala/event-parser/src/parser_en.vala /home/mario/dev/vala/event-parser/src/event.vala /home/mario/dev/vala/event-parser/src/tests.vala /home/mario/dev/vala/event-parser/tests/test_de.vala /home/mario/dev/vala/event-parser/tests/test_en.vala
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "Generating src/parser_en.c;src/event.c;src/tests.c;src/EventParser.c;tests/test_de.c;tests/test_en.c"
+	/usr/bin/valac -C -b /home/mario/dev/vala/event-parser -d /home/mario/dev/vala/event-parser/build --pkg=gobject-2.0 --pkg=glib-2.0 /home/mario/dev/vala/event-parser/src/parser_en.vala /home/mario/dev/vala/event-parser/src/event.vala /home/mario/dev/vala/event-parser/src/tests.vala /home/mario/dev/vala/event-parser/src/EventParser.vala /home/mario/dev/vala/event-parser/tests/test_de.vala /home/mario/dev/vala/event-parser/tests/test_en.vala
 	touch /home/mario/dev/vala/event-parser/build/event-parser_valac.stamp
 
 CMakeFiles/event-parser.dir/src/parser_en.c.o: CMakeFiles/event-parser.dir/flags.make
@@ -142,9 +146,32 @@ CMakeFiles/event-parser.dir/src/tests.c.o.provides: CMakeFiles/event-parser.dir/
 
 CMakeFiles/event-parser.dir/src/tests.c.o.provides.build: CMakeFiles/event-parser.dir/src/tests.c.o
 
+CMakeFiles/event-parser.dir/src/EventParser.c.o: CMakeFiles/event-parser.dir/flags.make
+CMakeFiles/event-parser.dir/src/EventParser.c.o: src/EventParser.c
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/mario/dev/vala/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/event-parser.dir/src/EventParser.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/event-parser.dir/src/EventParser.c.o   -c /home/mario/dev/vala/event-parser/build/src/EventParser.c
+
+CMakeFiles/event-parser.dir/src/EventParser.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/event-parser.dir/src/EventParser.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -E /home/mario/dev/vala/event-parser/build/src/EventParser.c > CMakeFiles/event-parser.dir/src/EventParser.c.i
+
+CMakeFiles/event-parser.dir/src/EventParser.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/event-parser.dir/src/EventParser.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -S /home/mario/dev/vala/event-parser/build/src/EventParser.c -o CMakeFiles/event-parser.dir/src/EventParser.c.s
+
+CMakeFiles/event-parser.dir/src/EventParser.c.o.requires:
+.PHONY : CMakeFiles/event-parser.dir/src/EventParser.c.o.requires
+
+CMakeFiles/event-parser.dir/src/EventParser.c.o.provides: CMakeFiles/event-parser.dir/src/EventParser.c.o.requires
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/EventParser.c.o.provides.build
+.PHONY : CMakeFiles/event-parser.dir/src/EventParser.c.o.provides
+
+CMakeFiles/event-parser.dir/src/EventParser.c.o.provides.build: CMakeFiles/event-parser.dir/src/EventParser.c.o
+
 CMakeFiles/event-parser.dir/tests/test_de.c.o: CMakeFiles/event-parser.dir/flags.make
 CMakeFiles/event-parser.dir/tests/test_de.c.o: tests/test_de.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/mario/dev/vala/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_5)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/mario/dev/vala/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_6)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/event-parser.dir/tests/test_de.c.o"
 	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/event-parser.dir/tests/test_de.c.o   -c /home/mario/dev/vala/event-parser/build/tests/test_de.c
 
@@ -167,7 +194,7 @@ CMakeFiles/event-parser.dir/tests/test_de.c.o.provides.build: CMakeFiles/event-p
 
 CMakeFiles/event-parser.dir/tests/test_en.c.o: CMakeFiles/event-parser.dir/flags.make
 CMakeFiles/event-parser.dir/tests/test_en.c.o: tests/test_en.c
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/mario/dev/vala/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/mario/dev/vala/event-parser/build/CMakeFiles $(CMAKE_PROGRESS_7)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building C object CMakeFiles/event-parser.dir/tests/test_en.c.o"
 	/usr/bin/cc  $(C_DEFINES) $(C_FLAGS) -o CMakeFiles/event-parser.dir/tests/test_en.c.o   -c /home/mario/dev/vala/event-parser/build/tests/test_en.c
 
@@ -193,6 +220,7 @@ event__parser_OBJECTS = \
 "CMakeFiles/event-parser.dir/src/parser_en.c.o" \
 "CMakeFiles/event-parser.dir/src/event.c.o" \
 "CMakeFiles/event-parser.dir/src/tests.c.o" \
+"CMakeFiles/event-parser.dir/src/EventParser.c.o" \
 "CMakeFiles/event-parser.dir/tests/test_de.c.o" \
 "CMakeFiles/event-parser.dir/tests/test_en.c.o"
 
@@ -202,6 +230,7 @@ event__parser_EXTERNAL_OBJECTS =
 event-parser: CMakeFiles/event-parser.dir/src/parser_en.c.o
 event-parser: CMakeFiles/event-parser.dir/src/event.c.o
 event-parser: CMakeFiles/event-parser.dir/src/tests.c.o
+event-parser: CMakeFiles/event-parser.dir/src/EventParser.c.o
 event-parser: CMakeFiles/event-parser.dir/tests/test_de.c.o
 event-parser: CMakeFiles/event-parser.dir/tests/test_en.c.o
 event-parser: CMakeFiles/event-parser.dir/build.make
@@ -216,6 +245,7 @@ CMakeFiles/event-parser.dir/build: event-parser
 CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/src/parser_en.c.o.requires
 CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/src/event.c.o.requires
 CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/src/tests.c.o.requires
+CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/src/EventParser.c.o.requires
 CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/tests/test_de.c.o.requires
 CMakeFiles/event-parser.dir/requires: CMakeFiles/event-parser.dir/tests/test_en.c.o.requires
 .PHONY : CMakeFiles/event-parser.dir/requires
@@ -227,6 +257,7 @@ CMakeFiles/event-parser.dir/clean:
 CMakeFiles/event-parser.dir/depend: src/parser_en.c
 CMakeFiles/event-parser.dir/depend: src/event.c
 CMakeFiles/event-parser.dir/depend: src/tests.c
+CMakeFiles/event-parser.dir/depend: src/EventParser.c
 CMakeFiles/event-parser.dir/depend: tests/test_de.c
 CMakeFiles/event-parser.dir/depend: tests/test_en.c
 CMakeFiles/event-parser.dir/depend: event-parser_valac.stamp

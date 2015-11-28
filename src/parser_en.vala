@@ -1,4 +1,4 @@
-public class ParserEn : GLib.Object {
+public class ParserEn : GLib.Object, EventParser {
 	
 	public DateTime simulated_dt;
 	public string language;

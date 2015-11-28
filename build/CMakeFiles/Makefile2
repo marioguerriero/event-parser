@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/mario/dev/vala/event-parser/build
 CMakeFiles/event-parser.dir/all:
 	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/depend
 	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/mario/dev/vala/event-parser/build/CMakeFiles  1 2 3 4 5 6
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/mario/dev/vala/event-parser/build/CMakeFiles  1 2 3 4 5 6 7
 	@echo "Built target event-parser"
 .PHONY : CMakeFiles/event-parser.dir/all
 
@@ -69,7 +69,7 @@ all: CMakeFiles/event-parser.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/event-parser.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mario/dev/vala/event-parser/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mario/dev/vala/event-parser/build/CMakeFiles 7
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/event-parser.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mario/dev/vala/event-parser/build/CMakeFiles 0
 .PHONY : CMakeFiles/event-parser.dir/rule

@@ -34,6 +34,14 @@ typedef struct _test_event test_event;
 
 typedef struct _ParserEn ParserEn;
 typedef struct _ParserEnClass ParserEnClass;
+
+#define TYPE_EVENT_PARSER (event_parser_get_type ())
+#define EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT_PARSER, EventParser))
+#define IS_EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT_PARSER))
+#define EVENT_PARSER_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), TYPE_EVENT_PARSER, EventParserIface))
+
+typedef struct _EventParser EventParser;
+typedef struct _EventParserIface EventParserIface;
 #define _g_string_free0(var) ((var == NULL) ? NULL : (var = (g_string_free (var, TRUE), NULL)))
 #define _g_date_time_unref0(var) ((var == NULL) ? NULL : (var = (g_date_time_unref (var), NULL)))
 
@@ -57,6 +65,11 @@ struct _test_event {
 	Event* target;
 };
 
+struct _EventParserIface {
+	GTypeInterface parent_iface;
+	Event* (*parse_source) (EventParser* self, const gchar* source);
+};
+
 
 
 #define show_format "%d-%m-%Y %X"
@@ -72,7 +85,8 @@ void analyze_test_events (test_event* test_events, int test_events_length1, GDat
 GType parser_en_get_type (void) G_GNUC_CONST;
 ParserEn* parser_en_new (GDateTime* _simulated_dt);
 ParserEn* parser_en_construct (GType object_type, GDateTime* _simulated_dt);
-Event* parser_en_parse_source (ParserEn* self, const gchar* _source);
+GType event_parser_get_type (void) G_GNUC_CONST;
+Event* event_parser_parse_source (EventParser* self, const gchar* source);
 void print_all_working_test_events (test_event* test_events, int test_events_length1, GDateTime* dt_simulated);
 void print_all_not_working_test_events (test_event* test_events, int test_events_length1, GDateTime* dt_simulated);
 void _vala_main (gchar** args, int args_length1);
@@ -325,7 +339,7 @@ void analyze_test_events (test_event* test_events, int test_events_length1, GDat
 				_tmp10_ = parser;
 				_tmp11_ = entry;
 				_tmp12_ = _tmp11_.source;
-				_tmp13_ = parser_en_parse_source (_tmp10_, _tmp12_);
+				_tmp13_ = event_parser_parse_source ((EventParser*) _tmp10_, _tmp12_);
 				cmp_event = _tmp13_;
 				_tmp14_ = cmp_event;
 				_tmp15_ = entry;
@@ -550,7 +564,7 @@ void print_all_working_test_events (test_event* test_events, int test_events_len
 				_tmp4_ = parser;
 				_tmp5_ = entry;
 				_tmp6_ = _tmp5_.source;
-				_tmp7_ = parser_en_parse_source (_tmp4_, _tmp6_);
+				_tmp7_ = event_parser_parse_source ((EventParser*) _tmp4_, _tmp6_);
 				cmp_event = _tmp7_;
 				_tmp8_ = cmp_event;
 				_tmp9_ = entry;
@@ -617,7 +631,7 @@ void print_all_not_working_test_events (test_event* test_events, int test_events
 				_tmp4_ = parser;
 				_tmp5_ = entry;
 				_tmp6_ = _tmp5_.source;
-				_tmp7_ = parser_en_parse_source (_tmp4_, _tmp6_);
+				_tmp7_ = event_parser_parse_source ((EventParser*) _tmp4_, _tmp6_);
 				cmp_event = _tmp7_;
 				_tmp8_ = cmp_event;
 				_tmp9_ = entry;
@@ -763,7 +777,7 @@ void _vala_main (gchar** args, int args_length1) {
 		parser = _tmp6_;
 		_tmp7_ = parser;
 		_tmp8_ = ev_str;
-		_tmp9_ = parser_en_parse_source (_tmp7_, _tmp8_);
+		_tmp9_ = event_parser_parse_source ((EventParser*) _tmp7_, _tmp8_);
 		ev = _tmp9_;
 		_tmp10_ = ev;
 		_tmp11_ = _tmp10_->title;

@@ -17,6 +17,8 @@ add_definitions(${DEPS_CFLAGS} -lgthread-2.0)
 link_libraries(${DEPS_LIBRARIES})
 link_directories(${DEPS_LIBRARY_DIRS})
 
+add_definitions(-w)
+
 find_package(Vala REQUIRED)
 include(ValaVersion)
 ensure_vala_version("0.24" MINIMUM)
@@ -26,6 +28,7 @@ vala_precompile(VALA_C ${EXEC_NAME}
 	src/parser_en.vala
 	src/event.vala
 	src/tests.vala
+	src/EventParser.vala
 	tests/test_de.vala
 	tests/test_en.vala
 PACKAGES

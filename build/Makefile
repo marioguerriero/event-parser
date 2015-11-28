@@ -155,6 +155,30 @@ event-parser/fast:
 	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/build
 .PHONY : event-parser/fast
 
+src/EventParser.o: src/EventParser.c.o
+.PHONY : src/EventParser.o
+
+# target to build an object file
+src/EventParser.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/EventParser.c.o
+.PHONY : src/EventParser.c.o
+
+src/EventParser.i: src/EventParser.c.i
+.PHONY : src/EventParser.i
+
+# target to preprocess a source file
+src/EventParser.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/EventParser.c.i
+.PHONY : src/EventParser.c.i
+
+src/EventParser.s: src/EventParser.c.s
+.PHONY : src/EventParser.s
+
+# target to generate assembly for a file
+src/EventParser.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/EventParser.c.s
+.PHONY : src/EventParser.c.s
+
 src/event.o: src/event.c.o
 .PHONY : src/event.o
 
@@ -288,6 +312,9 @@ help:
 	@echo "... event-parser"
 	@echo "... list_install_components"
 	@echo "... install/local"
+	@echo "... src/EventParser.o"
+	@echo "... src/EventParser.i"
+	@echo "... src/EventParser.s"
 	@echo "... src/event.o"
 	@echo "... src/event.i"
 	@echo "... src/event.s"
