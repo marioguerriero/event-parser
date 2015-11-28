@@ -224,6 +224,8 @@ void event_set_length_to_weeks (Event* self, gint weeks);
 static void ___lambda43__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
 static void __lambda44_ (Block1Data* _data1_, ParserEnString_event* data);
 static void ___lambda44__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
+static void __lambda45_ (Block1Data* _data1_, ParserEnString_event* data);
+static void ___lambda45__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
 static void parser_en_finalize (GObject* obj);
 static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func);
 static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func);
@@ -2569,6 +2571,59 @@ static void ___lambda43__parserentranscribe_analysis (ParserEnString_event* data
 
 static void __lambda44_ (Block1Data* _data1_, ParserEnString_event* data) {
 	ParserEn* self;
+	self = _data1_->self;
+	g_return_if_fail (data != NULL);
+	{
+		gint i = 0;
+		i = 0;
+		{
+			gboolean _tmp0_ = FALSE;
+			_tmp0_ = TRUE;
+			while (TRUE) {
+				gint _tmp2_ = 0;
+				ParserEnString_event _tmp3_ = {0};
+				GArray* _tmp4_ = NULL;
+				guint _tmp5_ = 0U;
+				const gchar* _tmp6_ = NULL;
+				ParserEnString_event _tmp7_ = {0};
+				GArray* _tmp8_ = NULL;
+				gint _tmp9_ = 0;
+				const gchar* _tmp10_ = NULL;
+				gchar* _tmp11_ = NULL;
+				if (!_tmp0_) {
+					gint _tmp1_ = 0;
+					_tmp1_ = i;
+					i = _tmp1_ + 1;
+				}
+				_tmp0_ = FALSE;
+				_tmp2_ = i;
+				_tmp3_ = *data;
+				_tmp4_ = _tmp3_.p;
+				_tmp5_ = _tmp4_->len;
+				if (!(((guint) _tmp2_) < _tmp5_)) {
+					break;
+				}
+				_tmp6_ = _data1_->event->participants;
+				_tmp7_ = *data;
+				_tmp8_ = _tmp7_.p;
+				_tmp9_ = i;
+				_tmp10_ = g_array_index (_tmp8_, gchar*, (guint) _tmp9_);
+				_tmp11_ = g_strconcat (_tmp6_, _tmp10_, NULL);
+				_g_free0 (_data1_->event->participants);
+				_data1_->event->participants = _tmp11_;
+			}
+		}
+	}
+}
+
+
+static void ___lambda44__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+	__lambda44_ (self, data);
+}
+
+
+static void __lambda45_ (Block1Data* _data1_, ParserEnString_event* data) {
+	ParserEn* self;
 	ParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
@@ -2584,8 +2639,8 @@ static void __lambda44_ (Block1Data* _data1_, ParserEnString_event* data) {
 }
 
 
-static void ___lambda44__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
-	__lambda44_ (self, data);
+static void ___lambda45__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+	__lambda45_ (self, data);
 }
 
 
@@ -2745,7 +2800,8 @@ Event* parser_en_parse_source (ParserEn* self, const gchar* _source) {
 	parser_en_analyze_pattern (self, "for (?<p1>\\d+)(\\s?h| hours)", ___lambda41__parserentranscribe_analysis, _data1_, TRUE);
 	parser_en_analyze_pattern (self, "for (?<p1>\\d+)(\\s?d| days)", ___lambda42__parserentranscribe_analysis, _data1_, TRUE);
 	parser_en_analyze_pattern (self, "for (?<p1>\\d+) weeks", ___lambda43__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(at|in)( the)? (?<p1>(\\w\\s?)+)", ___lambda44__parserentranscribe_analysis, _data1_, TRUE);
+	parser_en_analyze_pattern (self, "(with)( the)? (?<p1>(\\w\\s?)+)", ___lambda44__parserentranscribe_analysis, _data1_, TRUE);
+	parser_en_analyze_pattern (self, "(at|in)( the)? (?<p1>(\\w\\s?)+)", ___lambda45__parserentranscribe_analysis, _data1_, TRUE);
 	_tmp33_ = self->priv->remaining_source;
 	_tmp34_ = string_strip (_tmp33_);
 	_g_free0 (_data1_->event->title);

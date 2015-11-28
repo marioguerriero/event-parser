@@ -538,11 +538,12 @@ public class ParserEn : GLib.Object {
 
 		// --- Repetition ---
 		// --- Persons ---
-		
-		
+		analyze_pattern("(with)( the)? (?<p1>(\\w\\s?)+)", (data) => {
+			for (int i = 0; i < data.p.length ; i++)
+				event.participants += data.p.index(i);
+		});
 		
 		// --- Location ----
-		
 		analyze_pattern("(at|in)( the)? (?<p1>(\\w\\s?)+)", (data) => {
 			event.location = data.p.index(0);
 		});
