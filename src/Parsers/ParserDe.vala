@@ -19,6 +19,8 @@
   END LICENSE
 ***/
 
+namespace Maya.Services {
+
 public class ParserDe : GLib.Object, EventParser {
     
     public DateTime simulated_dt;
@@ -396,4 +398,6 @@ public class ParserDe : GLib.Object, EventParser {
     public string get_language () {
         return "de";
     }
+}
+
 }

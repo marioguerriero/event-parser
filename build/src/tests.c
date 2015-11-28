@@ -10,54 +10,54 @@
 #include <stdio.h>
 
 
-#define TYPE_PARSED_EVENT (parsed_event_get_type ())
-#define PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_PARSED_EVENT, ParsedEvent))
-#define PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_PARSED_EVENT, ParsedEventClass))
-#define IS_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_PARSED_EVENT))
-#define IS_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_PARSED_EVENT))
-#define PARSED_EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_PARSED_EVENT, ParsedEventClass))
+#define MAYA_SERVICES_TYPE_PARSED_EVENT (maya_services_parsed_event_get_type ())
+#define MAYA_SERVICES_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEvent))
+#define MAYA_SERVICES_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEventClass))
+#define MAYA_SERVICES_IS_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT))
+#define MAYA_SERVICES_IS_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MAYA_SERVICES_TYPE_PARSED_EVENT))
+#define MAYA_SERVICES_PARSED_EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEventClass))
 
-typedef struct _ParsedEvent ParsedEvent;
-typedef struct _ParsedEventClass ParsedEventClass;
-typedef struct _ParsedEventPrivate ParsedEventPrivate;
+typedef struct _MayaServicesParsedEvent MayaServicesParsedEvent;
+typedef struct _MayaServicesParsedEventClass MayaServicesParsedEventClass;
+typedef struct _MayaServicesParsedEventPrivate MayaServicesParsedEventPrivate;
 #define _g_free0(var) (var = (g_free (var), NULL))
 
 #define TYPE_TEST_EVENT (test_event_get_type ())
 typedef struct _test_event test_event;
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 
-#define TYPE_PARSER_EN (parser_en_get_type ())
-#define PARSER_EN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_PARSER_EN, ParserEn))
-#define PARSER_EN_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_PARSER_EN, ParserEnClass))
-#define IS_PARSER_EN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_PARSER_EN))
-#define IS_PARSER_EN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_PARSER_EN))
-#define PARSER_EN_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_PARSER_EN, ParserEnClass))
+#define MAYA_SERVICES_TYPE_PARSER_EN (maya_services_parser_en_get_type ())
+#define MAYA_SERVICES_PARSER_EN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAYA_SERVICES_TYPE_PARSER_EN, MayaServicesParserEn))
+#define MAYA_SERVICES_PARSER_EN_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MAYA_SERVICES_TYPE_PARSER_EN, MayaServicesParserEnClass))
+#define MAYA_SERVICES_IS_PARSER_EN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAYA_SERVICES_TYPE_PARSER_EN))
+#define MAYA_SERVICES_IS_PARSER_EN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MAYA_SERVICES_TYPE_PARSER_EN))
+#define MAYA_SERVICES_PARSER_EN_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), MAYA_SERVICES_TYPE_PARSER_EN, MayaServicesParserEnClass))
 
-typedef struct _ParserEn ParserEn;
-typedef struct _ParserEnClass ParserEnClass;
+typedef struct _MayaServicesParserEn MayaServicesParserEn;
+typedef struct _MayaServicesParserEnClass MayaServicesParserEnClass;
 
-#define TYPE_EVENT_PARSER (event_parser_get_type ())
-#define EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT_PARSER, EventParser))
-#define IS_EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT_PARSER))
-#define EVENT_PARSER_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), TYPE_EVENT_PARSER, EventParserIface))
+#define MAYA_SERVICES_TYPE_EVENT_PARSER (maya_services_event_parser_get_type ())
+#define MAYA_SERVICES_EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAYA_SERVICES_TYPE_EVENT_PARSER, MayaServicesEventParser))
+#define MAYA_SERVICES_IS_EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAYA_SERVICES_TYPE_EVENT_PARSER))
+#define MAYA_SERVICES_EVENT_PARSER_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), MAYA_SERVICES_TYPE_EVENT_PARSER, MayaServicesEventParserIface))
 
-typedef struct _EventParser EventParser;
-typedef struct _EventParserIface EventParserIface;
+typedef struct _MayaServicesEventParser MayaServicesEventParser;
+typedef struct _MayaServicesEventParserIface MayaServicesEventParserIface;
 #define _g_string_free0(var) ((var == NULL) ? NULL : (var = (g_string_free (var, TRUE), NULL)))
 
-#define TYPE_EVENT_PARSER_HANDLER (event_parser_handler_get_type ())
-#define EVENT_PARSER_HANDLER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT_PARSER_HANDLER, EventParserHandler))
-#define EVENT_PARSER_HANDLER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_EVENT_PARSER_HANDLER, EventParserHandlerClass))
-#define IS_EVENT_PARSER_HANDLER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT_PARSER_HANDLER))
-#define IS_EVENT_PARSER_HANDLER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_EVENT_PARSER_HANDLER))
-#define EVENT_PARSER_HANDLER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_EVENT_PARSER_HANDLER, EventParserHandlerClass))
+#define MAYA_SERVICES_TYPE_EVENT_PARSER_HANDLER (maya_services_event_parser_handler_get_type ())
+#define MAYA_SERVICES_EVENT_PARSER_HANDLER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAYA_SERVICES_TYPE_EVENT_PARSER_HANDLER, MayaServicesEventParserHandler))
+#define MAYA_SERVICES_EVENT_PARSER_HANDLER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MAYA_SERVICES_TYPE_EVENT_PARSER_HANDLER, MayaServicesEventParserHandlerClass))
+#define MAYA_SERVICES_IS_EVENT_PARSER_HANDLER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAYA_SERVICES_TYPE_EVENT_PARSER_HANDLER))
+#define MAYA_SERVICES_IS_EVENT_PARSER_HANDLER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MAYA_SERVICES_TYPE_EVENT_PARSER_HANDLER))
+#define MAYA_SERVICES_EVENT_PARSER_HANDLER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), MAYA_SERVICES_TYPE_EVENT_PARSER_HANDLER, MayaServicesEventParserHandlerClass))
 
-typedef struct _EventParserHandler EventParserHandler;
-typedef struct _EventParserHandlerClass EventParserHandlerClass;
+typedef struct _MayaServicesEventParserHandler MayaServicesEventParserHandler;
+typedef struct _MayaServicesEventParserHandlerClass MayaServicesEventParserHandlerClass;
 
-struct _ParsedEvent {
+struct _MayaServicesParsedEvent {
 	GObject parent_instance;
-	ParsedEventPrivate * priv;
+	MayaServicesParsedEventPrivate * priv;
 	gchar* title;
 	gchar* location;
 	gchar* participants;
@@ -66,46 +66,46 @@ struct _ParsedEvent {
 	gboolean all_day;
 };
 
-struct _ParsedEventClass {
+struct _MayaServicesParsedEventClass {
 	GObjectClass parent_class;
 };
 
 struct _test_event {
 	gchar* source;
-	ParsedEvent* target;
+	MayaServicesParsedEvent* target;
 };
 
-struct _EventParserIface {
+struct _MayaServicesEventParserIface {
 	GTypeInterface parent_iface;
-	ParsedEvent* (*parse_source) (EventParser* self, const gchar* source);
-	gchar* (*get_language) (EventParser* self);
+	MayaServicesParsedEvent* (*parse_source) (MayaServicesEventParser* self, const gchar* source);
+	gchar* (*get_language) (MayaServicesEventParser* self);
 };
 
 
 
 #define show_format "%d-%m-%Y %X"
 void println (const gchar* str);
-GType parsed_event_get_type (void) G_GNUC_CONST;
-gboolean compare_events (ParsedEvent* a, ParsedEvent* b);
+GType maya_services_parsed_event_get_type (void) G_GNUC_CONST;
+gboolean compare_events (MayaServicesParsedEvent* a, MayaServicesParsedEvent* b);
 GType test_event_get_type (void) G_GNUC_CONST;
 test_event* test_event_dup (const test_event* self);
 void test_event_free (test_event* self);
 void test_event_copy (const test_event* self, test_event* dest);
 void test_event_destroy (test_event* self);
 void analyze_test_events (test_event* test_events, int test_events_length1, GDateTime* dt_simulated);
-GType parser_en_get_type (void) G_GNUC_CONST;
-ParserEn* parser_en_new (GDateTime* _simulated_dt);
-ParserEn* parser_en_construct (GType object_type, GDateTime* _simulated_dt);
-GType event_parser_get_type (void) G_GNUC_CONST;
-ParsedEvent* event_parser_parse_source (EventParser* self, const gchar* source);
+GType maya_services_parser_en_get_type (void) G_GNUC_CONST;
+MayaServicesParserEn* maya_services_parser_en_new (GDateTime* _simulated_dt);
+MayaServicesParserEn* maya_services_parser_en_construct (GType object_type, GDateTime* _simulated_dt);
+GType maya_services_event_parser_get_type (void) G_GNUC_CONST;
+MayaServicesParsedEvent* maya_services_event_parser_parse_source (MayaServicesEventParser* self, const gchar* source);
 void print_all_working_test_events (test_event* test_events, int test_events_length1, GDateTime* dt_simulated);
 void print_all_not_working_test_events (test_event* test_events, int test_events_length1, GDateTime* dt_simulated);
 void _vala_main (gchar** args, int args_length1);
-GType event_parser_handler_get_type (void) G_GNUC_CONST;
-EventParserHandler* event_parser_handler_new (const gchar* lang);
-EventParserHandler* event_parser_handler_construct (GType object_type, const gchar* lang);
-EventParser* event_parser_handler_get_parser (EventParserHandler* self, const gchar* lang);
-const gchar* event_parser_handler_get_locale (EventParserHandler* self);
+GType maya_services_event_parser_handler_get_type (void) G_GNUC_CONST;
+MayaServicesEventParserHandler* maya_services_event_parser_handler_new (const gchar* lang);
+MayaServicesEventParserHandler* maya_services_event_parser_handler_construct (GType object_type, const gchar* lang);
+MayaServicesEventParser* maya_services_event_parser_handler_get_parser (MayaServicesEventParserHandler* self, const gchar* lang);
+const gchar* maya_services_event_parser_handler_get_locale (MayaServicesEventParserHandler* self);
 
 
 void println (const gchar* str) {
@@ -118,15 +118,15 @@ void println (const gchar* str) {
 }
 
 
-gboolean compare_events (ParsedEvent* a, ParsedEvent* b) {
+gboolean compare_events (MayaServicesParsedEvent* a, MayaServicesParsedEvent* b) {
 	gboolean result = FALSE;
 	gboolean _tmp0_ = FALSE;
 	gboolean _tmp1_ = FALSE;
 	gboolean _tmp2_ = FALSE;
 	gboolean _tmp3_ = FALSE;
-	ParsedEvent* _tmp4_ = NULL;
+	MayaServicesParsedEvent* _tmp4_ = NULL;
 	const gchar* _tmp5_ = NULL;
-	ParsedEvent* _tmp6_ = NULL;
+	MayaServicesParsedEvent* _tmp6_ = NULL;
 	const gchar* _tmp7_ = NULL;
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
@@ -135,11 +135,11 @@ gboolean compare_events (ParsedEvent* a, ParsedEvent* b) {
 	_tmp6_ = b;
 	_tmp7_ = _tmp6_->title;
 	if (g_strcmp0 (_tmp5_, _tmp7_) == 0) {
-		ParsedEvent* _tmp8_ = NULL;
+		MayaServicesParsedEvent* _tmp8_ = NULL;
 		GDateTime* _tmp9_ = NULL;
 		gchar* _tmp10_ = NULL;
 		gchar* _tmp11_ = NULL;
-		ParsedEvent* _tmp12_ = NULL;
+		MayaServicesParsedEvent* _tmp12_ = NULL;
 		GDateTime* _tmp13_ = NULL;
 		gchar* _tmp14_ = NULL;
 		gchar* _tmp15_ = NULL;
@@ -158,11 +158,11 @@ gboolean compare_events (ParsedEvent* a, ParsedEvent* b) {
 		_tmp3_ = FALSE;
 	}
 	if (_tmp3_) {
-		ParsedEvent* _tmp16_ = NULL;
+		MayaServicesParsedEvent* _tmp16_ = NULL;
 		GDateTime* _tmp17_ = NULL;
 		gchar* _tmp18_ = NULL;
 		gchar* _tmp19_ = NULL;
-		ParsedEvent* _tmp20_ = NULL;
+		MayaServicesParsedEvent* _tmp20_ = NULL;
 		GDateTime* _tmp21_ = NULL;
 		gchar* _tmp22_ = NULL;
 		gchar* _tmp23_ = NULL;
@@ -181,9 +181,9 @@ gboolean compare_events (ParsedEvent* a, ParsedEvent* b) {
 		_tmp2_ = FALSE;
 	}
 	if (_tmp2_) {
-		ParsedEvent* _tmp24_ = NULL;
+		MayaServicesParsedEvent* _tmp24_ = NULL;
 		const gchar* _tmp25_ = NULL;
-		ParsedEvent* _tmp26_ = NULL;
+		MayaServicesParsedEvent* _tmp26_ = NULL;
 		const gchar* _tmp27_ = NULL;
 		_tmp24_ = a;
 		_tmp25_ = _tmp24_->location;
@@ -194,9 +194,9 @@ gboolean compare_events (ParsedEvent* a, ParsedEvent* b) {
 		_tmp1_ = FALSE;
 	}
 	if (_tmp1_) {
-		ParsedEvent* _tmp28_ = NULL;
+		MayaServicesParsedEvent* _tmp28_ = NULL;
 		gboolean _tmp29_ = FALSE;
-		ParsedEvent* _tmp30_ = NULL;
+		MayaServicesParsedEvent* _tmp30_ = NULL;
 		gboolean _tmp31_ = FALSE;
 		_tmp28_ = a;
 		_tmp29_ = _tmp28_->all_day;
@@ -223,8 +223,8 @@ static gpointer _g_object_ref0 (gpointer self) {
 void test_event_copy (const test_event* self, test_event* dest) {
 	const gchar* _tmp0_ = NULL;
 	gchar* _tmp1_ = NULL;
-	ParsedEvent* _tmp2_ = NULL;
-	ParsedEvent* _tmp3_ = NULL;
+	MayaServicesParsedEvent* _tmp2_ = NULL;
+	MayaServicesParsedEvent* _tmp3_ = NULL;
 	_tmp0_ = (*self).source;
 	_tmp1_ = g_strdup (_tmp0_);
 	_g_free0 ((*dest).source);
@@ -298,9 +298,9 @@ void analyze_test_events (test_event* test_events, int test_events_length1, GDat
 	const gchar* _tmp3_ = NULL;
 	gchar* _tmp4_ = NULL;
 	gchar* _tmp5_ = NULL;
-	ParserEn* parser = NULL;
+	MayaServicesParserEn* parser = NULL;
 	GDateTime* _tmp6_ = NULL;
-	ParserEn* _tmp7_ = NULL;
+	MayaServicesParserEn* _tmp7_ = NULL;
 	gint N_error = 0;
 	gint N_success = 0;
 	test_event* _tmp8_ = NULL;
@@ -324,7 +324,7 @@ void analyze_test_events (test_event* test_events, int test_events_length1, GDat
 	_g_free0 (_tmp5_);
 	_g_free0 (_tmp2_);
 	_tmp6_ = dt_simulated;
-	_tmp7_ = parser_en_new (_tmp6_);
+	_tmp7_ = maya_services_parser_en_new (_tmp6_);
 	parser = _tmp7_;
 	N_error = 0;
 	N_success = 0;
@@ -343,19 +343,19 @@ void analyze_test_events (test_event* test_events, int test_events_length1, GDat
 			test_event_copy (&entry_collection[entry_it], &_tmp9_);
 			entry = _tmp9_;
 			{
-				ParsedEvent* cmp_event = NULL;
-				ParserEn* _tmp10_ = NULL;
+				MayaServicesParsedEvent* cmp_event = NULL;
+				MayaServicesParserEn* _tmp10_ = NULL;
 				test_event _tmp11_ = {0};
 				const gchar* _tmp12_ = NULL;
-				ParsedEvent* _tmp13_ = NULL;
-				ParsedEvent* _tmp14_ = NULL;
+				MayaServicesParsedEvent* _tmp13_ = NULL;
+				MayaServicesParsedEvent* _tmp14_ = NULL;
 				test_event _tmp15_ = {0};
-				ParsedEvent* _tmp16_ = NULL;
+				MayaServicesParsedEvent* _tmp16_ = NULL;
 				gboolean _tmp17_ = FALSE;
 				_tmp10_ = parser;
 				_tmp11_ = entry;
 				_tmp12_ = _tmp11_.source;
-				_tmp13_ = event_parser_parse_source ((EventParser*) _tmp10_, _tmp12_);
+				_tmp13_ = maya_services_event_parser_parse_source ((MayaServicesEventParser*) _tmp10_, _tmp12_);
 				cmp_event = _tmp13_;
 				_tmp14_ = cmp_event;
 				_tmp15_ = entry;
@@ -384,56 +384,56 @@ void analyze_test_events (test_event* test_events, int test_events_length1, GDat
 					const gchar* _tmp27_ = NULL;
 					gchar* _tmp28_ = NULL;
 					gchar* _tmp29_ = NULL;
-					ParsedEvent* _tmp30_ = NULL;
+					MayaServicesParsedEvent* _tmp30_ = NULL;
 					const gchar* _tmp31_ = NULL;
 					const gchar* _tmp32_ = NULL;
 					test_event _tmp33_ = {0};
-					ParsedEvent* _tmp34_ = NULL;
+					MayaServicesParsedEvent* _tmp34_ = NULL;
 					const gchar* _tmp35_ = NULL;
 					const gchar* _tmp36_ = NULL;
 					gchar* _tmp37_ = NULL;
 					gchar* _tmp38_ = NULL;
-					ParsedEvent* _tmp39_ = NULL;
+					MayaServicesParsedEvent* _tmp39_ = NULL;
 					GDateTime* _tmp40_ = NULL;
 					gchar* _tmp41_ = NULL;
 					gchar* _tmp42_ = NULL;
 					const gchar* _tmp43_ = NULL;
 					test_event _tmp44_ = {0};
-					ParsedEvent* _tmp45_ = NULL;
+					MayaServicesParsedEvent* _tmp45_ = NULL;
 					GDateTime* _tmp46_ = NULL;
 					gchar* _tmp47_ = NULL;
 					gchar* _tmp48_ = NULL;
 					const gchar* _tmp49_ = NULL;
 					gchar* _tmp50_ = NULL;
 					gchar* _tmp51_ = NULL;
-					ParsedEvent* _tmp52_ = NULL;
+					MayaServicesParsedEvent* _tmp52_ = NULL;
 					GDateTime* _tmp53_ = NULL;
 					gchar* _tmp54_ = NULL;
 					gchar* _tmp55_ = NULL;
 					const gchar* _tmp56_ = NULL;
 					test_event _tmp57_ = {0};
-					ParsedEvent* _tmp58_ = NULL;
+					MayaServicesParsedEvent* _tmp58_ = NULL;
 					GDateTime* _tmp59_ = NULL;
 					gchar* _tmp60_ = NULL;
 					gchar* _tmp61_ = NULL;
 					const gchar* _tmp62_ = NULL;
 					gchar* _tmp63_ = NULL;
 					gchar* _tmp64_ = NULL;
-					ParsedEvent* _tmp65_ = NULL;
+					MayaServicesParsedEvent* _tmp65_ = NULL;
 					const gchar* _tmp66_ = NULL;
 					const gchar* _tmp67_ = NULL;
 					test_event _tmp68_ = {0};
-					ParsedEvent* _tmp69_ = NULL;
+					MayaServicesParsedEvent* _tmp69_ = NULL;
 					const gchar* _tmp70_ = NULL;
 					const gchar* _tmp71_ = NULL;
 					gchar* _tmp72_ = NULL;
 					gchar* _tmp73_ = NULL;
-					ParsedEvent* _tmp74_ = NULL;
+					MayaServicesParsedEvent* _tmp74_ = NULL;
 					gboolean _tmp75_ = FALSE;
 					gchar* _tmp76_ = NULL;
 					gchar* _tmp77_ = NULL;
 					test_event _tmp78_ = {0};
-					ParsedEvent* _tmp79_ = NULL;
+					MayaServicesParsedEvent* _tmp79_ = NULL;
 					gboolean _tmp80_ = FALSE;
 					gchar* _tmp81_ = NULL;
 					gchar* _tmp82_ = NULL;
@@ -543,14 +543,14 @@ void analyze_test_events (test_event* test_events, int test_events_length1, GDat
 
 
 void print_all_working_test_events (test_event* test_events, int test_events_length1, GDateTime* dt_simulated) {
-	ParserEn* parser = NULL;
+	MayaServicesParserEn* parser = NULL;
 	GDateTime* _tmp0_ = NULL;
-	ParserEn* _tmp1_ = NULL;
+	MayaServicesParserEn* _tmp1_ = NULL;
 	test_event* _tmp2_ = NULL;
 	gint _tmp2__length1 = 0;
 	g_return_if_fail (dt_simulated != NULL);
 	_tmp0_ = dt_simulated;
-	_tmp1_ = parser_en_new (_tmp0_);
+	_tmp1_ = maya_services_parser_en_new (_tmp0_);
 	parser = _tmp1_;
 	println ("Working:");
 	_tmp2_ = test_events;
@@ -568,19 +568,19 @@ void print_all_working_test_events (test_event* test_events, int test_events_len
 			test_event_copy (&entry_collection[entry_it], &_tmp3_);
 			entry = _tmp3_;
 			{
-				ParsedEvent* cmp_event = NULL;
-				ParserEn* _tmp4_ = NULL;
+				MayaServicesParsedEvent* cmp_event = NULL;
+				MayaServicesParserEn* _tmp4_ = NULL;
 				test_event _tmp5_ = {0};
 				const gchar* _tmp6_ = NULL;
-				ParsedEvent* _tmp7_ = NULL;
-				ParsedEvent* _tmp8_ = NULL;
+				MayaServicesParsedEvent* _tmp7_ = NULL;
+				MayaServicesParsedEvent* _tmp8_ = NULL;
 				test_event _tmp9_ = {0};
-				ParsedEvent* _tmp10_ = NULL;
+				MayaServicesParsedEvent* _tmp10_ = NULL;
 				gboolean _tmp11_ = FALSE;
 				_tmp4_ = parser;
 				_tmp5_ = entry;
 				_tmp6_ = _tmp5_.source;
-				_tmp7_ = event_parser_parse_source ((EventParser*) _tmp4_, _tmp6_);
+				_tmp7_ = maya_services_event_parser_parse_source ((MayaServicesEventParser*) _tmp4_, _tmp6_);
 				cmp_event = _tmp7_;
 				_tmp8_ = cmp_event;
 				_tmp9_ = entry;
@@ -610,14 +610,14 @@ void print_all_working_test_events (test_event* test_events, int test_events_len
 
 
 void print_all_not_working_test_events (test_event* test_events, int test_events_length1, GDateTime* dt_simulated) {
-	ParserEn* parser = NULL;
+	MayaServicesParserEn* parser = NULL;
 	GDateTime* _tmp0_ = NULL;
-	ParserEn* _tmp1_ = NULL;
+	MayaServicesParserEn* _tmp1_ = NULL;
 	test_event* _tmp2_ = NULL;
 	gint _tmp2__length1 = 0;
 	g_return_if_fail (dt_simulated != NULL);
 	_tmp0_ = dt_simulated;
-	_tmp1_ = parser_en_new (_tmp0_);
+	_tmp1_ = maya_services_parser_en_new (_tmp0_);
 	parser = _tmp1_;
 	println ("Not Working:");
 	_tmp2_ = test_events;
@@ -635,19 +635,19 @@ void print_all_not_working_test_events (test_event* test_events, int test_events
 			test_event_copy (&entry_collection[entry_it], &_tmp3_);
 			entry = _tmp3_;
 			{
-				ParsedEvent* cmp_event = NULL;
-				ParserEn* _tmp4_ = NULL;
+				MayaServicesParsedEvent* cmp_event = NULL;
+				MayaServicesParserEn* _tmp4_ = NULL;
 				test_event _tmp5_ = {0};
 				const gchar* _tmp6_ = NULL;
-				ParsedEvent* _tmp7_ = NULL;
-				ParsedEvent* _tmp8_ = NULL;
+				MayaServicesParsedEvent* _tmp7_ = NULL;
+				MayaServicesParsedEvent* _tmp8_ = NULL;
 				test_event _tmp9_ = {0};
-				ParsedEvent* _tmp10_ = NULL;
+				MayaServicesParsedEvent* _tmp10_ = NULL;
 				gboolean _tmp11_ = FALSE;
 				_tmp4_ = parser;
 				_tmp5_ = entry;
 				_tmp6_ = _tmp5_.source;
-				_tmp7_ = event_parser_parse_source ((EventParser*) _tmp4_, _tmp6_);
+				_tmp7_ = maya_services_event_parser_parse_source ((MayaServicesEventParser*) _tmp4_, _tmp6_);
 				cmp_event = _tmp7_;
 				_tmp8_ = cmp_event;
 				_tmp9_ = entry;
@@ -752,51 +752,51 @@ void _vala_main (gchar** args, int args_length1) {
 	ev_str = _tmp1_;
 	_tmp2_ = ev_str;
 	if (_tmp2_ != NULL) {
-		EventParserHandler* handler = NULL;
-		EventParserHandler* _tmp3_ = NULL;
-		EventParser* parser = NULL;
-		EventParserHandler* _tmp4_ = NULL;
-		EventParserHandler* _tmp5_ = NULL;
+		MayaServicesEventParserHandler* handler = NULL;
+		MayaServicesEventParserHandler* _tmp3_ = NULL;
+		MayaServicesEventParser* parser = NULL;
+		MayaServicesEventParserHandler* _tmp4_ = NULL;
+		MayaServicesEventParserHandler* _tmp5_ = NULL;
 		const gchar* _tmp6_ = NULL;
-		EventParser* _tmp7_ = NULL;
-		ParsedEvent* ev = NULL;
-		EventParser* _tmp8_ = NULL;
+		MayaServicesEventParser* _tmp7_ = NULL;
+		MayaServicesParsedEvent* ev = NULL;
+		MayaServicesEventParser* _tmp8_ = NULL;
 		const gchar* _tmp9_ = NULL;
-		ParsedEvent* _tmp10_ = NULL;
-		ParsedEvent* _tmp11_ = NULL;
+		MayaServicesParsedEvent* _tmp10_ = NULL;
+		MayaServicesParsedEvent* _tmp11_ = NULL;
 		const gchar* _tmp12_ = NULL;
 		gchar* _tmp13_ = NULL;
 		gchar* _tmp14_ = NULL;
-		ParsedEvent* _tmp15_ = NULL;
+		MayaServicesParsedEvent* _tmp15_ = NULL;
 		const gchar* _tmp16_ = NULL;
 		gchar* _tmp17_ = NULL;
 		gchar* _tmp18_ = NULL;
-		ParsedEvent* _tmp19_ = NULL;
+		MayaServicesParsedEvent* _tmp19_ = NULL;
 		const gchar* _tmp20_ = NULL;
 		gchar* _tmp21_ = NULL;
 		gchar* _tmp22_ = NULL;
-		ParsedEvent* _tmp23_ = NULL;
+		MayaServicesParsedEvent* _tmp23_ = NULL;
 		GDateTime* _tmp24_ = NULL;
 		gchar* _tmp25_ = NULL;
 		gchar* _tmp26_ = NULL;
 		gchar* _tmp27_ = NULL;
 		gchar* _tmp28_ = NULL;
-		ParsedEvent* _tmp29_ = NULL;
+		MayaServicesParsedEvent* _tmp29_ = NULL;
 		GDateTime* _tmp30_ = NULL;
 		gchar* _tmp31_ = NULL;
 		gchar* _tmp32_ = NULL;
 		gchar* _tmp33_ = NULL;
 		gchar* _tmp34_ = NULL;
-		_tmp3_ = event_parser_handler_new (NULL);
+		_tmp3_ = maya_services_event_parser_handler_new (NULL);
 		handler = _tmp3_;
 		_tmp4_ = handler;
 		_tmp5_ = handler;
-		_tmp6_ = event_parser_handler_get_locale (_tmp5_);
-		_tmp7_ = event_parser_handler_get_parser (_tmp4_, _tmp6_);
+		_tmp6_ = maya_services_event_parser_handler_get_locale (_tmp5_);
+		_tmp7_ = maya_services_event_parser_handler_get_parser (_tmp4_, _tmp6_);
 		parser = _tmp7_;
 		_tmp8_ = parser;
 		_tmp9_ = ev_str;
-		_tmp10_ = event_parser_parse_source (_tmp8_, _tmp9_);
+		_tmp10_ = maya_services_event_parser_parse_source (_tmp8_, _tmp9_);
 		ev = _tmp10_;
 		_tmp11_ = ev;
 		_tmp12_ = _tmp11_->title;

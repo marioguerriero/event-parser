@@ -11,22 +11,22 @@
 #include <math.h>
 
 
-#define TYPE_PARSED_EVENT (parsed_event_get_type ())
-#define PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_PARSED_EVENT, ParsedEvent))
-#define PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_PARSED_EVENT, ParsedEventClass))
-#define IS_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_PARSED_EVENT))
-#define IS_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_PARSED_EVENT))
-#define PARSED_EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_PARSED_EVENT, ParsedEventClass))
+#define MAYA_SERVICES_TYPE_PARSED_EVENT (maya_services_parsed_event_get_type ())
+#define MAYA_SERVICES_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEvent))
+#define MAYA_SERVICES_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEventClass))
+#define MAYA_SERVICES_IS_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT))
+#define MAYA_SERVICES_IS_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MAYA_SERVICES_TYPE_PARSED_EVENT))
+#define MAYA_SERVICES_PARSED_EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEventClass))
 
-typedef struct _ParsedEvent ParsedEvent;
-typedef struct _ParsedEventClass ParsedEventClass;
-typedef struct _ParsedEventPrivate ParsedEventPrivate;
+typedef struct _MayaServicesParsedEvent MayaServicesParsedEvent;
+typedef struct _MayaServicesParsedEventClass MayaServicesParsedEventClass;
+typedef struct _MayaServicesParsedEventPrivate MayaServicesParsedEventPrivate;
 #define _g_free0(var) (var = (g_free (var), NULL))
 #define _g_date_time_unref0(var) ((var == NULL) ? NULL : (var = (g_date_time_unref (var), NULL)))
 
-struct _ParsedEvent {
+struct _MayaServicesParsedEvent {
 	GObject parent_instance;
-	ParsedEventPrivate * priv;
+	MayaServicesParsedEventPrivate * priv;
 	gchar* title;
 	gchar* location;
 	gchar* participants;
@@ -35,44 +35,44 @@ struct _ParsedEvent {
 	gboolean all_day;
 };
 
-struct _ParsedEventClass {
+struct _MayaServicesParsedEventClass {
 	GObjectClass parent_class;
 };
 
 
-static gpointer parsed_event_parent_class = NULL;
+static gpointer maya_services_parsed_event_parent_class = NULL;
 
-GType parsed_event_get_type (void) G_GNUC_CONST;
+GType maya_services_parsed_event_get_type (void) G_GNUC_CONST;
 enum  {
-	PARSED_EVENT_DUMMY_PROPERTY
+	MAYA_SERVICES_PARSED_EVENT_DUMMY_PROPERTY
 };
-ParsedEvent* parsed_event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
-ParsedEvent* parsed_event_construct (GType object_type, const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
-void parsed_event_set_length_to_minutes (ParsedEvent* self, gint minutes);
-void parsed_event_set_length_to_hours (ParsedEvent* self, gint hours);
-void parsed_event_set_length_to_days (ParsedEvent* self, gint days);
-void parsed_event_set_length_to_weeks (ParsedEvent* self, gint weeks);
-void parsed_event_from_set_second (ParsedEvent* self, gint second);
-void parsed_event_to_set_second (ParsedEvent* self, gint second);
-void parsed_event_from_set_minute (ParsedEvent* self, gint minute);
-void parsed_event_to_set_minute (ParsedEvent* self, gint minute);
-static gint parsed_event_hour_from_half (ParsedEvent* self, gint hour, const gchar* half);
-void parsed_event_from_set_hour (ParsedEvent* self, gint hour, const gchar* half);
-void parsed_event_to_set_hour (ParsedEvent* self, gint hour, const gchar* half);
-void parsed_event_from_set_day (ParsedEvent* self, gint day);
-void parsed_event_to_set_day (ParsedEvent* self, gint day);
-void parsed_event_from_set_month (ParsedEvent* self, gint month);
-void parsed_event_to_set_month (ParsedEvent* self, gint month);
-void parsed_event_from_set_year (ParsedEvent* self, gint year);
-void parsed_event_to_set_year (ParsedEvent* self, gint year);
-void parsed_event_set_all_day (ParsedEvent* self);
-void parsed_event_unset_all_day (ParsedEvent* self);
-void parsed_event_set_one_entire_day (ParsedEvent* self);
-void parsed_event_if_elapsed_delay_to_next_day (ParsedEvent* self, GDateTime* simulated_dt);
-void parsed_event_if_elapsed_delay_to_next_week (ParsedEvent* self, GDateTime* simulated_dt);
-void parsed_event_if_elapsed_delay_to_next_month (ParsedEvent* self, GDateTime* simulated_dt);
-void parsed_event_if_elapsed_delay_to_next_year (ParsedEvent* self, GDateTime* simulated_dt);
-static void parsed_event_finalize (GObject* obj);
+MayaServicesParsedEvent* maya_services_parsed_event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
+MayaServicesParsedEvent* maya_services_parsed_event_construct (GType object_type, const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
+void maya_services_parsed_event_set_length_to_minutes (MayaServicesParsedEvent* self, gint minutes);
+void maya_services_parsed_event_set_length_to_hours (MayaServicesParsedEvent* self, gint hours);
+void maya_services_parsed_event_set_length_to_days (MayaServicesParsedEvent* self, gint days);
+void maya_services_parsed_event_set_length_to_weeks (MayaServicesParsedEvent* self, gint weeks);
+void maya_services_parsed_event_from_set_second (MayaServicesParsedEvent* self, gint second);
+void maya_services_parsed_event_to_set_second (MayaServicesParsedEvent* self, gint second);
+void maya_services_parsed_event_from_set_minute (MayaServicesParsedEvent* self, gint minute);
+void maya_services_parsed_event_to_set_minute (MayaServicesParsedEvent* self, gint minute);
+static gint maya_services_parsed_event_hour_from_half (MayaServicesParsedEvent* self, gint hour, const gchar* half);
+void maya_services_parsed_event_from_set_hour (MayaServicesParsedEvent* self, gint hour, const gchar* half);
+void maya_services_parsed_event_to_set_hour (MayaServicesParsedEvent* self, gint hour, const gchar* half);
+void maya_services_parsed_event_from_set_day (MayaServicesParsedEvent* self, gint day);
+void maya_services_parsed_event_to_set_day (MayaServicesParsedEvent* self, gint day);
+void maya_services_parsed_event_from_set_month (MayaServicesParsedEvent* self, gint month);
+void maya_services_parsed_event_to_set_month (MayaServicesParsedEvent* self, gint month);
+void maya_services_parsed_event_from_set_year (MayaServicesParsedEvent* self, gint year);
+void maya_services_parsed_event_to_set_year (MayaServicesParsedEvent* self, gint year);
+void maya_services_parsed_event_set_all_day (MayaServicesParsedEvent* self);
+void maya_services_parsed_event_unset_all_day (MayaServicesParsedEvent* self);
+void maya_services_parsed_event_set_one_entire_day (MayaServicesParsedEvent* self);
+void maya_services_parsed_event_if_elapsed_delay_to_next_day (MayaServicesParsedEvent* self, GDateTime* simulated_dt);
+void maya_services_parsed_event_if_elapsed_delay_to_next_week (MayaServicesParsedEvent* self, GDateTime* simulated_dt);
+void maya_services_parsed_event_if_elapsed_delay_to_next_month (MayaServicesParsedEvent* self, GDateTime* simulated_dt);
+void maya_services_parsed_event_if_elapsed_delay_to_next_year (MayaServicesParsedEvent* self, GDateTime* simulated_dt);
+static void maya_services_parsed_event_finalize (GObject* obj);
 
 
 static gpointer _g_date_time_ref0 (gpointer self) {
@@ -80,8 +80,8 @@ static gpointer _g_date_time_ref0 (gpointer self) {
 }
 
 
-ParsedEvent* parsed_event_construct (GType object_type, const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants) {
-	ParsedEvent * self = NULL;
+MayaServicesParsedEvent* maya_services_parsed_event_construct (GType object_type, const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants) {
+	MayaServicesParsedEvent * self = NULL;
 	const gchar* _tmp0_ = NULL;
 	gchar* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
@@ -96,7 +96,7 @@ ParsedEvent* parsed_event_construct (GType object_type, const gchar* _title, GDa
 	g_return_val_if_fail (_title != NULL, NULL);
 	g_return_val_if_fail (_location != NULL, NULL);
 	g_return_val_if_fail (_participants != NULL, NULL);
-	self = (ParsedEvent*) g_object_new (object_type, NULL);
+	self = (MayaServicesParsedEvent*) g_object_new (object_type, NULL);
 	_tmp0_ = _title;
 	_tmp1_ = g_strdup (_tmp0_);
 	_g_free0 (self->title);
@@ -123,12 +123,12 @@ ParsedEvent* parsed_event_construct (GType object_type, const gchar* _title, GDa
 }
 
 
-ParsedEvent* parsed_event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants) {
-	return parsed_event_construct (TYPE_PARSED_EVENT, _title, _from, _to, _location, _all_day, _participants);
+MayaServicesParsedEvent* maya_services_parsed_event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants) {
+	return maya_services_parsed_event_construct (MAYA_SERVICES_TYPE_PARSED_EVENT, _title, _from, _to, _location, _all_day, _participants);
 }
 
 
-void parsed_event_set_length_to_minutes (ParsedEvent* self, gint minutes) {
+void maya_services_parsed_event_set_length_to_minutes (MayaServicesParsedEvent* self, gint minutes) {
 	GDateTime* _tmp0_ = NULL;
 	gint _tmp1_ = 0;
 	GDateTime* _tmp2_ = NULL;
@@ -141,7 +141,7 @@ void parsed_event_set_length_to_minutes (ParsedEvent* self, gint minutes) {
 }
 
 
-void parsed_event_set_length_to_hours (ParsedEvent* self, gint hours) {
+void maya_services_parsed_event_set_length_to_hours (MayaServicesParsedEvent* self, gint hours) {
 	GDateTime* _tmp0_ = NULL;
 	gint _tmp1_ = 0;
 	GDateTime* _tmp2_ = NULL;
@@ -154,7 +154,7 @@ void parsed_event_set_length_to_hours (ParsedEvent* self, gint hours) {
 }
 
 
-void parsed_event_set_length_to_days (ParsedEvent* self, gint days) {
+void maya_services_parsed_event_set_length_to_days (MayaServicesParsedEvent* self, gint days) {
 	GDateTime* _tmp0_ = NULL;
 	gint _tmp1_ = 0;
 	GDateTime* _tmp2_ = NULL;
@@ -167,7 +167,7 @@ void parsed_event_set_length_to_days (ParsedEvent* self, gint days) {
 }
 
 
-void parsed_event_set_length_to_weeks (ParsedEvent* self, gint weeks) {
+void maya_services_parsed_event_set_length_to_weeks (MayaServicesParsedEvent* self, gint weeks) {
 	GDateTime* _tmp0_ = NULL;
 	gint _tmp1_ = 0;
 	GDateTime* _tmp2_ = NULL;
@@ -180,7 +180,7 @@ void parsed_event_set_length_to_weeks (ParsedEvent* self, gint weeks) {
 }
 
 
-void parsed_event_from_set_second (ParsedEvent* self, gint second) {
+void maya_services_parsed_event_from_set_second (MayaServicesParsedEvent* self, gint second) {
 	GDateTime* _tmp0_ = NULL;
 	gint _tmp1_ = 0;
 	GDateTime* _tmp2_ = NULL;
@@ -197,7 +197,7 @@ void parsed_event_from_set_second (ParsedEvent* self, gint second) {
 }
 
 
-void parsed_event_to_set_second (ParsedEvent* self, gint second) {
+void maya_services_parsed_event_to_set_second (MayaServicesParsedEvent* self, gint second) {
 	GDateTime* _tmp0_ = NULL;
 	gint _tmp1_ = 0;
 	GDateTime* _tmp2_ = NULL;
@@ -214,7 +214,7 @@ void parsed_event_to_set_second (ParsedEvent* self, gint second) {
 }
 
 
-void parsed_event_from_set_minute (ParsedEvent* self, gint minute) {
+void maya_services_parsed_event_from_set_minute (MayaServicesParsedEvent* self, gint minute) {
 	GDateTime* _tmp0_ = NULL;
 	gint _tmp1_ = 0;
 	GDateTime* _tmp2_ = NULL;
@@ -231,7 +231,7 @@ void parsed_event_from_set_minute (ParsedEvent* self, gint minute) {
 }
 
 
-void parsed_event_to_set_minute (ParsedEvent* self, gint minute) {
+void maya_services_parsed_event_to_set_minute (MayaServicesParsedEvent* self, gint minute) {
 	GDateTime* _tmp0_ = NULL;
 	gint _tmp1_ = 0;
 	GDateTime* _tmp2_ = NULL;
@@ -248,7 +248,7 @@ void parsed_event_to_set_minute (ParsedEvent* self, gint minute) {
 }
 
 
-static gint parsed_event_hour_from_half (ParsedEvent* self, gint hour, const gchar* half) {
+static gint maya_services_parsed_event_hour_from_half (MayaServicesParsedEvent* self, gint hour, const gchar* half) {
 	gint result = 0;
 	gint _tmp0_ = 0;
 	const gchar* _tmp2_ = NULL;
@@ -294,7 +294,7 @@ static gint parsed_event_hour_from_half (ParsedEvent* self, gint hour, const gch
 }
 
 
-void parsed_event_from_set_hour (ParsedEvent* self, gint hour, const gchar* half) {
+void maya_services_parsed_event_from_set_hour (MayaServicesParsedEvent* self, gint hour, const gchar* half) {
 	gint _tmp0_ = 0;
 	const gchar* _tmp1_ = NULL;
 	gint _tmp2_ = 0;
@@ -307,7 +307,7 @@ void parsed_event_from_set_hour (ParsedEvent* self, gint hour, const gchar* half
 	g_return_if_fail (half != NULL);
 	_tmp0_ = hour;
 	_tmp1_ = half;
-	_tmp2_ = parsed_event_hour_from_half (self, _tmp0_, _tmp1_);
+	_tmp2_ = maya_services_parsed_event_hour_from_half (self, _tmp0_, _tmp1_);
 	hour = _tmp2_;
 	_tmp3_ = self->from;
 	_tmp4_ = hour;
@@ -319,7 +319,7 @@ void parsed_event_from_set_hour (ParsedEvent* self, gint hour, const gchar* half
 }
 
 
-void parsed_event_to_set_hour (ParsedEvent* self, gint hour, const gchar* half) {
+void maya_services_parsed_event_to_set_hour (MayaServicesParsedEvent* self, gint hour, const gchar* half) {
 	gint _tmp0_ = 0;
 	const gchar* _tmp1_ = NULL;
 	gint _tmp2_ = 0;
@@ -332,7 +332,7 @@ void parsed_event_to_set_hour (ParsedEvent* self, gint hour, const gchar* half) 
 	g_return_if_fail (half != NULL);
 	_tmp0_ = hour;
 	_tmp1_ = half;
-	_tmp2_ = parsed_event_hour_from_half (self, _tmp0_, _tmp1_);
+	_tmp2_ = maya_services_parsed_event_hour_from_half (self, _tmp0_, _tmp1_);
 	hour = _tmp2_;
 	_tmp3_ = self->to;
 	_tmp4_ = hour;
@@ -344,7 +344,7 @@ void parsed_event_to_set_hour (ParsedEvent* self, gint hour, const gchar* half) 
 }
 
 
-void parsed_event_from_set_day (ParsedEvent* self, gint day) {
+void maya_services_parsed_event_from_set_day (MayaServicesParsedEvent* self, gint day) {
 	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
 	_tmp0_ = day;
@@ -365,7 +365,7 @@ void parsed_event_from_set_day (ParsedEvent* self, gint day) {
 }
 
 
-void parsed_event_to_set_day (ParsedEvent* self, gint day) {
+void maya_services_parsed_event_to_set_day (MayaServicesParsedEvent* self, gint day) {
 	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
 	_tmp0_ = day;
@@ -386,7 +386,7 @@ void parsed_event_to_set_day (ParsedEvent* self, gint day) {
 }
 
 
-void parsed_event_from_set_month (ParsedEvent* self, gint month) {
+void maya_services_parsed_event_from_set_month (MayaServicesParsedEvent* self, gint month) {
 	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
 	_tmp0_ = month;
@@ -407,7 +407,7 @@ void parsed_event_from_set_month (ParsedEvent* self, gint month) {
 }
 
 
-void parsed_event_to_set_month (ParsedEvent* self, gint month) {
+void maya_services_parsed_event_to_set_month (MayaServicesParsedEvent* self, gint month) {
 	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
 	_tmp0_ = month;
@@ -428,7 +428,7 @@ void parsed_event_to_set_month (ParsedEvent* self, gint month) {
 }
 
 
-void parsed_event_from_set_year (ParsedEvent* self, gint year) {
+void maya_services_parsed_event_from_set_year (MayaServicesParsedEvent* self, gint year) {
 	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
 	_tmp0_ = year;
@@ -449,7 +449,7 @@ void parsed_event_from_set_year (ParsedEvent* self, gint year) {
 }
 
 
-void parsed_event_to_set_year (ParsedEvent* self, gint year) {
+void maya_services_parsed_event_to_set_year (MayaServicesParsedEvent* self, gint year) {
 	gint _tmp0_ = 0;
 	g_return_if_fail (self != NULL);
 	_tmp0_ = year;
@@ -470,7 +470,7 @@ void parsed_event_to_set_year (ParsedEvent* self, gint year) {
 }
 
 
-void parsed_event_set_all_day (ParsedEvent* self) {
+void maya_services_parsed_event_set_all_day (MayaServicesParsedEvent* self) {
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	gint _tmp2_ = 0;
@@ -514,14 +514,14 @@ void parsed_event_set_all_day (ParsedEvent* self) {
 }
 
 
-void parsed_event_unset_all_day (ParsedEvent* self) {
+void maya_services_parsed_event_unset_all_day (MayaServicesParsedEvent* self) {
 	g_return_if_fail (self != NULL);
-	parsed_event_set_length_to_hours (self, 1);
+	maya_services_parsed_event_set_length_to_hours (self, 1);
 	self->all_day = FALSE;
 }
 
 
-void parsed_event_set_one_entire_day (ParsedEvent* self) {
+void maya_services_parsed_event_set_one_entire_day (MayaServicesParsedEvent* self) {
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	gint _tmp2_ = 0;
@@ -552,7 +552,7 @@ void parsed_event_set_one_entire_day (ParsedEvent* self) {
 }
 
 
-void parsed_event_if_elapsed_delay_to_next_day (ParsedEvent* self, GDateTime* simulated_dt) {
+void maya_services_parsed_event_if_elapsed_delay_to_next_day (MayaServicesParsedEvent* self, GDateTime* simulated_dt) {
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	gint _tmp2_ = 0;
@@ -578,7 +578,7 @@ void parsed_event_if_elapsed_delay_to_next_day (ParsedEvent* self, GDateTime* si
 }
 
 
-void parsed_event_if_elapsed_delay_to_next_week (ParsedEvent* self, GDateTime* simulated_dt) {
+void maya_services_parsed_event_if_elapsed_delay_to_next_week (MayaServicesParsedEvent* self, GDateTime* simulated_dt) {
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	gint _tmp2_ = 0;
@@ -604,7 +604,7 @@ void parsed_event_if_elapsed_delay_to_next_week (ParsedEvent* self, GDateTime* s
 }
 
 
-void parsed_event_if_elapsed_delay_to_next_month (ParsedEvent* self, GDateTime* simulated_dt) {
+void maya_services_parsed_event_if_elapsed_delay_to_next_month (MayaServicesParsedEvent* self, GDateTime* simulated_dt) {
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	gint _tmp2_ = 0;
@@ -630,7 +630,7 @@ void parsed_event_if_elapsed_delay_to_next_month (ParsedEvent* self, GDateTime* 
 }
 
 
-void parsed_event_if_elapsed_delay_to_next_year (ParsedEvent* self, GDateTime* simulated_dt) {
+void maya_services_parsed_event_if_elapsed_delay_to_next_year (MayaServicesParsedEvent* self, GDateTime* simulated_dt) {
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	gint _tmp2_ = 0;
@@ -656,56 +656,37 @@ void parsed_event_if_elapsed_delay_to_next_year (ParsedEvent* self, GDateTime* s
 }
 
 
-static void parsed_event_class_init (ParsedEventClass * klass) {
-	parsed_event_parent_class = g_type_class_peek_parent (klass);
-	G_OBJECT_CLASS (klass)->finalize = parsed_event_finalize;
+static void maya_services_parsed_event_class_init (MayaServicesParsedEventClass * klass) {
+	maya_services_parsed_event_parent_class = g_type_class_peek_parent (klass);
+	G_OBJECT_CLASS (klass)->finalize = maya_services_parsed_event_finalize;
 }
 
 
-static void parsed_event_instance_init (ParsedEvent * self) {
+static void maya_services_parsed_event_instance_init (MayaServicesParsedEvent * self) {
 }
 
 
-static void parsed_event_finalize (GObject* obj) {
-	ParsedEvent * self;
-	self = G_TYPE_CHECK_INSTANCE_CAST (obj, TYPE_PARSED_EVENT, ParsedEvent);
+static void maya_services_parsed_event_finalize (GObject* obj) {
+	MayaServicesParsedEvent * self;
+	self = G_TYPE_CHECK_INSTANCE_CAST (obj, MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEvent);
 	_g_free0 (self->title);
 	_g_free0 (self->location);
 	_g_free0 (self->participants);
 	_g_date_time_unref0 (self->from);
 	_g_date_time_unref0 (self->to);
-	G_OBJECT_CLASS (parsed_event_parent_class)->finalize (obj);
+	G_OBJECT_CLASS (maya_services_parsed_event_parent_class)->finalize (obj);
 }
 
 
-/***
-  BEGIN LICENSE
-
-  Copyright (C) 2015 Mario Guerriero <marioguerriero33@gmail.com>
-                     pantor
-  This program is free software: you can redistribute it and/or modify it
-  under the terms of the GNU Lesser General Public License version 3, as published
-  by the Free Software Foundation.
-
-  This program is distributed in the hope that it will be useful, but
-  WITHOUT ANY WARRANTY; without even the implied warranties of
-  MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR
-  PURPOSE.  See the GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License along
-  with this program.  If not, see <http://www.gnu.org/licenses/>
-
-  END LICENSE
-***/
-GType parsed_event_get_type (void) {
-	static volatile gsize parsed_event_type_id__volatile = 0;
-	if (g_once_init_enter (&parsed_event_type_id__volatile)) {
-		static const GTypeInfo g_define_type_info = { sizeof (ParsedEventClass), (GBaseInitFunc) NULL, (GBaseFinalizeFunc) NULL, (GClassInitFunc) parsed_event_class_init, (GClassFinalizeFunc) NULL, NULL, sizeof (ParsedEvent), 0, (GInstanceInitFunc) parsed_event_instance_init, NULL };
-		GType parsed_event_type_id;
-		parsed_event_type_id = g_type_register_static (G_TYPE_OBJECT, "ParsedEvent", &g_define_type_info, 0);
-		g_once_init_leave (&parsed_event_type_id__volatile, parsed_event_type_id);
+GType maya_services_parsed_event_get_type (void) {
+	static volatile gsize maya_services_parsed_event_type_id__volatile = 0;
+	if (g_once_init_enter (&maya_services_parsed_event_type_id__volatile)) {
+		static const GTypeInfo g_define_type_info = { sizeof (MayaServicesParsedEventClass), (GBaseInitFunc) NULL, (GBaseFinalizeFunc) NULL, (GClassInitFunc) maya_services_parsed_event_class_init, (GClassFinalizeFunc) NULL, NULL, sizeof (MayaServicesParsedEvent), 0, (GInstanceInitFunc) maya_services_parsed_event_instance_init, NULL };
+		GType maya_services_parsed_event_type_id;
+		maya_services_parsed_event_type_id = g_type_register_static (G_TYPE_OBJECT, "MayaServicesParsedEvent", &g_define_type_info, 0);
+		g_once_init_leave (&maya_services_parsed_event_type_id__volatile, maya_services_parsed_event_type_id);
 	}
-	return parsed_event_type_id__volatile;
+	return maya_services_parsed_event_type_id__volatile;
 }
 
 

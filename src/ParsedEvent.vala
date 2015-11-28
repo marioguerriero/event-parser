@@ -19,6 +19,8 @@
   END LICENSE
 ***/
 
+namespace Maya.Services {
+
 public class ParsedEvent : GLib.Object {
     
     public string title;
@@ -176,4 +178,6 @@ public class ParsedEvent : GLib.Object {
             this.to = this.to.add_years (1);
         }
     }
+}
+
 }

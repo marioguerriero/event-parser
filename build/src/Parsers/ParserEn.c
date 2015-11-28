@@ -9,65 +9,65 @@
 #include <string.h>
 
 
-#define TYPE_EVENT_PARSER (event_parser_get_type ())
-#define EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT_PARSER, EventParser))
-#define IS_EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT_PARSER))
-#define EVENT_PARSER_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), TYPE_EVENT_PARSER, EventParserIface))
+#define MAYA_SERVICES_TYPE_EVENT_PARSER (maya_services_event_parser_get_type ())
+#define MAYA_SERVICES_EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAYA_SERVICES_TYPE_EVENT_PARSER, MayaServicesEventParser))
+#define MAYA_SERVICES_IS_EVENT_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAYA_SERVICES_TYPE_EVENT_PARSER))
+#define MAYA_SERVICES_EVENT_PARSER_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), MAYA_SERVICES_TYPE_EVENT_PARSER, MayaServicesEventParserIface))
 
-typedef struct _EventParser EventParser;
-typedef struct _EventParserIface EventParserIface;
+typedef struct _MayaServicesEventParser MayaServicesEventParser;
+typedef struct _MayaServicesEventParserIface MayaServicesEventParserIface;
 
-#define TYPE_PARSED_EVENT (parsed_event_get_type ())
-#define PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_PARSED_EVENT, ParsedEvent))
-#define PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_PARSED_EVENT, ParsedEventClass))
-#define IS_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_PARSED_EVENT))
-#define IS_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_PARSED_EVENT))
-#define PARSED_EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_PARSED_EVENT, ParsedEventClass))
+#define MAYA_SERVICES_TYPE_PARSED_EVENT (maya_services_parsed_event_get_type ())
+#define MAYA_SERVICES_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEvent))
+#define MAYA_SERVICES_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEventClass))
+#define MAYA_SERVICES_IS_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT))
+#define MAYA_SERVICES_IS_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MAYA_SERVICES_TYPE_PARSED_EVENT))
+#define MAYA_SERVICES_PARSED_EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEventClass))
 
-typedef struct _ParsedEvent ParsedEvent;
-typedef struct _ParsedEventClass ParsedEventClass;
+typedef struct _MayaServicesParsedEvent MayaServicesParsedEvent;
+typedef struct _MayaServicesParsedEventClass MayaServicesParsedEventClass;
 
-#define TYPE_PARSER_EN (parser_en_get_type ())
-#define PARSER_EN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_PARSER_EN, ParserEn))
-#define PARSER_EN_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_PARSER_EN, ParserEnClass))
-#define IS_PARSER_EN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_PARSER_EN))
-#define IS_PARSER_EN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_PARSER_EN))
-#define PARSER_EN_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_PARSER_EN, ParserEnClass))
+#define MAYA_SERVICES_TYPE_PARSER_EN (maya_services_parser_en_get_type ())
+#define MAYA_SERVICES_PARSER_EN(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAYA_SERVICES_TYPE_PARSER_EN, MayaServicesParserEn))
+#define MAYA_SERVICES_PARSER_EN_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MAYA_SERVICES_TYPE_PARSER_EN, MayaServicesParserEnClass))
+#define MAYA_SERVICES_IS_PARSER_EN(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAYA_SERVICES_TYPE_PARSER_EN))
+#define MAYA_SERVICES_IS_PARSER_EN_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MAYA_SERVICES_TYPE_PARSER_EN))
+#define MAYA_SERVICES_PARSER_EN_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), MAYA_SERVICES_TYPE_PARSER_EN, MayaServicesParserEnClass))
 
-typedef struct _ParserEn ParserEn;
-typedef struct _ParserEnClass ParserEnClass;
-typedef struct _ParserEnPrivate ParserEnPrivate;
+typedef struct _MayaServicesParserEn MayaServicesParserEn;
+typedef struct _MayaServicesParserEnClass MayaServicesParserEnClass;
+typedef struct _MayaServicesParserEnPrivate MayaServicesParserEnPrivate;
 #define _g_date_time_unref0(var) ((var == NULL) ? NULL : (var = (g_date_time_unref (var), NULL)))
 #define _g_free0(var) (var = (g_free (var), NULL))
 
-#define PARSER_EN_TYPE_STRING_EVENT (parser_en_string_event_get_type ())
-typedef struct _ParserEnString_event ParserEnString_event;
+#define MAYA_SERVICES_PARSER_EN_TYPE_STRING_EVENT (maya_services_parser_en_string_event_get_type ())
+typedef struct _MayaServicesParserEnString_event MayaServicesParserEnString_event;
 #define _g_regex_unref0(var) ((var == NULL) ? NULL : (var = (g_regex_unref (var), NULL)))
 #define _g_match_info_free0(var) ((var == NULL) ? NULL : (var = (g_match_info_free (var), NULL)))
 #define _g_array_unref0(var) ((var == NULL) ? NULL : (var = (g_array_unref (var), NULL)))
 #define _g_error_free0(var) ((var == NULL) ? NULL : (var = (g_error_free (var), NULL)))
 typedef struct _Block1Data Block1Data;
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
-typedef struct _ParsedEventPrivate ParsedEventPrivate;
+typedef struct _MayaServicesParsedEventPrivate MayaServicesParsedEventPrivate;
 
-struct _EventParserIface {
+struct _MayaServicesEventParserIface {
 	GTypeInterface parent_iface;
-	ParsedEvent* (*parse_source) (EventParser* self, const gchar* source);
-	gchar* (*get_language) (EventParser* self);
+	MayaServicesParsedEvent* (*parse_source) (MayaServicesEventParser* self, const gchar* source);
+	gchar* (*get_language) (MayaServicesEventParser* self);
 };
 
-struct _ParserEn {
+struct _MayaServicesParserEn {
 	GObject parent_instance;
-	ParserEnPrivate * priv;
+	MayaServicesParserEnPrivate * priv;
 	GDateTime* simulated_dt;
 	gchar* source;
 };
 
-struct _ParserEnClass {
+struct _MayaServicesParserEnClass {
 	GObjectClass parent_class;
 };
 
-struct _ParserEnPrivate {
+struct _MayaServicesParserEnPrivate {
 	gchar* remaining_source;
 	gchar** months;
 	gint months_length1;
@@ -83,7 +83,7 @@ struct _ParserEnPrivate {
 	gchar* number_words_regex;
 };
 
-struct _ParserEnString_event {
+struct _MayaServicesParserEnString_event {
 	gboolean matched;
 	gchar* matched_string;
 	gint pos;
@@ -91,16 +91,16 @@ struct _ParserEnString_event {
 	GArray* p;
 };
 
-typedef void (*ParserEntranscribe_analysis) (ParserEnString_event* data, void* user_data);
+typedef void (*MayaServicesParserEntranscribe_analysis) (MayaServicesParserEnString_event* data, void* user_data);
 struct _Block1Data {
 	int _ref_count_;
-	ParserEn* self;
-	ParsedEvent* event;
+	MayaServicesParserEn* self;
+	MayaServicesParsedEvent* event;
 };
 
-struct _ParsedEvent {
+struct _MayaServicesParsedEvent {
 	GObject parent_instance;
-	ParsedEventPrivate * priv;
+	MayaServicesParsedEventPrivate * priv;
 	gchar* title;
 	gchar* location;
 	gchar* participants;
@@ -109,143 +109,143 @@ struct _ParsedEvent {
 	gboolean all_day;
 };
 
-struct _ParsedEventClass {
+struct _MayaServicesParsedEventClass {
 	GObjectClass parent_class;
 };
 
 
-static gpointer parser_en_parent_class = NULL;
-static EventParserIface* parser_en_event_parser_parent_iface = NULL;
+static gpointer maya_services_parser_en_parent_class = NULL;
+static MayaServicesEventParserIface* maya_services_parser_en_maya_services_event_parser_parent_iface = NULL;
 
-GType parsed_event_get_type (void) G_GNUC_CONST;
-GType event_parser_get_type (void) G_GNUC_CONST;
-GType parser_en_get_type (void) G_GNUC_CONST;
-#define PARSER_EN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), TYPE_PARSER_EN, ParserEnPrivate))
+GType maya_services_parsed_event_get_type (void) G_GNUC_CONST;
+GType maya_services_event_parser_get_type (void) G_GNUC_CONST;
+GType maya_services_parser_en_get_type (void) G_GNUC_CONST;
+#define MAYA_SERVICES_PARSER_EN_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), MAYA_SERVICES_TYPE_PARSER_EN, MayaServicesParserEnPrivate))
 enum  {
-	PARSER_EN_DUMMY_PROPERTY
+	MAYA_SERVICES_PARSER_EN_DUMMY_PROPERTY
 };
-ParserEn* parser_en_new (GDateTime* _simulated_dt);
-ParserEn* parser_en_construct (GType object_type, GDateTime* _simulated_dt);
-static gint parser_en_get_number_of_month (ParserEn* self, const gchar* entry);
-static gint parser_en_get_number_of_weekday (ParserEn* self, const gchar* entry);
-static gint parser_en_get_number_of_word (ParserEn* self, const gchar* entry);
-static GType parser_en_string_event_get_type (void) G_GNUC_CONST G_GNUC_UNUSED;
-static ParserEnString_event* parser_en_string_event_dup (const ParserEnString_event* self);
-static void parser_en_string_event_free (ParserEnString_event* self);
-static void parser_en_string_event_copy (const ParserEnString_event* self, ParserEnString_event* dest);
-static void parser_en_string_event_destroy (ParserEnString_event* self);
-static void parser_en_complete_string (ParserEn* self, const gchar* pattern, ParserEnString_event* result);
-static void parser_en_analyze_pattern (ParserEn* self, const gchar* pattern, ParserEntranscribe_analysis del, void* del_target, gboolean delete);
-static ParsedEvent* parser_en_real_parse_source (EventParser* base, const gchar* _source);
+MayaServicesParserEn* maya_services_parser_en_new (GDateTime* _simulated_dt);
+MayaServicesParserEn* maya_services_parser_en_construct (GType object_type, GDateTime* _simulated_dt);
+static gint maya_services_parser_en_get_number_of_month (MayaServicesParserEn* self, const gchar* entry);
+static gint maya_services_parser_en_get_number_of_weekday (MayaServicesParserEn* self, const gchar* entry);
+static gint maya_services_parser_en_get_number_of_word (MayaServicesParserEn* self, const gchar* entry);
+static GType maya_services_parser_en_string_event_get_type (void) G_GNUC_CONST G_GNUC_UNUSED;
+static MayaServicesParserEnString_event* maya_services_parser_en_string_event_dup (const MayaServicesParserEnString_event* self);
+static void maya_services_parser_en_string_event_free (MayaServicesParserEnString_event* self);
+static void maya_services_parser_en_string_event_copy (const MayaServicesParserEnString_event* self, MayaServicesParserEnString_event* dest);
+static void maya_services_parser_en_string_event_destroy (MayaServicesParserEnString_event* self);
+static void maya_services_parser_en_complete_string (MayaServicesParserEn* self, const gchar* pattern, MayaServicesParserEnString_event* result);
+static void maya_services_parser_en_analyze_pattern (MayaServicesParserEn* self, const gchar* pattern, MayaServicesParserEntranscribe_analysis del, void* del_target, gboolean delete);
+static MayaServicesParsedEvent* maya_services_parser_en_real_parse_source (MayaServicesEventParser* base, const gchar* _source);
 static Block1Data* block1_data_ref (Block1Data* _data1_);
 static void block1_data_unref (void * _userdata_);
-ParsedEvent* parsed_event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
-ParsedEvent* parsed_event_construct (GType object_type, const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
-void parsed_event_from_set_minute (ParsedEvent* self, gint minute);
-void parsed_event_from_set_second (ParsedEvent* self, gint second);
-void parsed_event_set_length_to_hours (ParsedEvent* self, gint hours);
-static void __lambda4_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_set_one_entire_day (ParsedEvent* self);
-static void ___lambda4__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda5_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda5__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda6_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda6__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda7_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda7__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda8_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_set_all_day (ParsedEvent* self);
-static void ___lambda8__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda9_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda9__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda10_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda10__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda11_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda11__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda12_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda12__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda13_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda13__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda14_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda14__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda15_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda15__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda16_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda16__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda17_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda17__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda18_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_from_set_day (ParsedEvent* self, gint day);
-void parsed_event_from_set_month (ParsedEvent* self, gint month);
-void parsed_event_if_elapsed_delay_to_next_year (ParsedEvent* self, GDateTime* simulated_dt);
-void parsed_event_from_set_year (ParsedEvent* self, gint year);
-static void ___lambda18__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda19_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda19__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda20_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda20__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda21_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_to_set_day (ParsedEvent* self, gint day);
-void parsed_event_to_set_month (ParsedEvent* self, gint month);
-void parsed_event_if_elapsed_delay_to_next_month (ParsedEvent* self, GDateTime* simulated_dt);
-static void ___lambda21__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda22_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda22__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda23_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda23__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda24_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda24__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda25_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda25__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda26_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_from_set_hour (ParsedEvent* self, gint hour, const gchar* half);
-static void ___lambda26__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda27_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda27__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda28_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda28__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda29_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda29__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda30_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda30__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda31_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda31__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda32_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda32__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda33_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda33__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda34_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda34__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda35_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_to_set_hour (ParsedEvent* self, gint hour, const gchar* half);
-static void ___lambda35__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda36_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda36__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda37_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda37__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda38_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_to_set_minute (ParsedEvent* self, gint minute);
-static void ___lambda38__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda39_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda39__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda40_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_set_length_to_minutes (ParsedEvent* self, gint minutes);
-static void ___lambda40__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda41_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda41__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda42_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_set_length_to_days (ParsedEvent* self, gint days);
-static void ___lambda42__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda43_ (Block1Data* _data1_, ParserEnString_event* data);
-void parsed_event_set_length_to_weeks (ParsedEvent* self, gint weeks);
-static void ___lambda43__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda44_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda44__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static void __lambda45_ (Block1Data* _data1_, ParserEnString_event* data);
-static void ___lambda45__parserentranscribe_analysis (ParserEnString_event* data, gpointer self);
-static gchar* parser_en_real_get_language (EventParser* base);
-#define EVENT_PARSER_HANDLER_FALLBACK_LANG "en"
-static void parser_en_finalize (GObject* obj);
+MayaServicesParsedEvent* maya_services_parsed_event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
+MayaServicesParsedEvent* maya_services_parsed_event_construct (GType object_type, const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
+void maya_services_parsed_event_from_set_minute (MayaServicesParsedEvent* self, gint minute);
+void maya_services_parsed_event_from_set_second (MayaServicesParsedEvent* self, gint second);
+void maya_services_parsed_event_set_length_to_hours (MayaServicesParsedEvent* self, gint hours);
+static void __lambda4_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_set_one_entire_day (MayaServicesParsedEvent* self);
+static void ___lambda4__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda5_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda5__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda6_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda6__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda7_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda7__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda8_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_set_all_day (MayaServicesParsedEvent* self);
+static void ___lambda8__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda9_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda9__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda10_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda10__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda11_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda11__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda12_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda12__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda13_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda13__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda14_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda14__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda15_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda15__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda16_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda16__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda17_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda17__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda18_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_from_set_day (MayaServicesParsedEvent* self, gint day);
+void maya_services_parsed_event_from_set_month (MayaServicesParsedEvent* self, gint month);
+void maya_services_parsed_event_if_elapsed_delay_to_next_year (MayaServicesParsedEvent* self, GDateTime* simulated_dt);
+void maya_services_parsed_event_from_set_year (MayaServicesParsedEvent* self, gint year);
+static void ___lambda18__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda19_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda19__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda20_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda20__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda21_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_to_set_day (MayaServicesParsedEvent* self, gint day);
+void maya_services_parsed_event_to_set_month (MayaServicesParsedEvent* self, gint month);
+void maya_services_parsed_event_if_elapsed_delay_to_next_month (MayaServicesParsedEvent* self, GDateTime* simulated_dt);
+static void ___lambda21__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda22_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda22__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda23_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda23__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda24_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda24__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda25_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda25__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda26_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_from_set_hour (MayaServicesParsedEvent* self, gint hour, const gchar* half);
+static void ___lambda26__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda27_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda27__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda28_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda28__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda29_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda29__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda30_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda30__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda31_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda31__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda32_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda32__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda33_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda33__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda34_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda34__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda35_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_to_set_hour (MayaServicesParsedEvent* self, gint hour, const gchar* half);
+static void ___lambda35__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda36_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda36__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda37_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda37__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda38_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_to_set_minute (MayaServicesParsedEvent* self, gint minute);
+static void ___lambda38__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda39_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda39__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda40_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_set_length_to_minutes (MayaServicesParsedEvent* self, gint minutes);
+static void ___lambda40__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda41_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda41__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda42_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_set_length_to_days (MayaServicesParsedEvent* self, gint days);
+static void ___lambda42__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda43_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+void maya_services_parsed_event_set_length_to_weeks (MayaServicesParsedEvent* self, gint weeks);
+static void ___lambda43__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda44_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda44__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static void __lambda45_ (Block1Data* _data1_, MayaServicesParserEnString_event* data);
+static void ___lambda45__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self);
+static gchar* maya_services_parser_en_real_get_language (MayaServicesEventParser* base);
+#define MAYA_SERVICES_EVENT_PARSER_HANDLER_FALLBACK_LANG "en"
+static void maya_services_parser_en_finalize (GObject* obj);
 static void _vala_array_destroy (gpointer array, gint array_length, GDestroyNotify destroy_func);
 static void _vala_array_free (gpointer array, gint array_length, GDestroyNotify destroy_func);
 
@@ -326,8 +326,8 @@ static gchar* string_slice (const gchar* self, glong start, glong end) {
 }
 
 
-ParserEn* parser_en_construct (GType object_type, GDateTime* _simulated_dt) {
-	ParserEn * self = NULL;
+MayaServicesParserEn* maya_services_parser_en_construct (GType object_type, GDateTime* _simulated_dt) {
+	MayaServicesParserEn * self = NULL;
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	gchar* _tmp2_ = NULL;
@@ -348,7 +348,7 @@ ParserEn* parser_en_construct (GType object_type, GDateTime* _simulated_dt) {
 	gchar* _tmp47_ = NULL;
 	gchar* _tmp48_ = NULL;
 	g_return_val_if_fail (_simulated_dt != NULL, NULL);
-	self = (ParserEn*) g_object_new (object_type, NULL);
+	self = (MayaServicesParserEn*) g_object_new (object_type, NULL);
 	_tmp0_ = _simulated_dt;
 	_tmp1_ = _g_date_time_ref0 (_tmp0_);
 	_g_date_time_unref0 (self->simulated_dt);
@@ -519,12 +519,12 @@ ParserEn* parser_en_construct (GType object_type, GDateTime* _simulated_dt) {
 }
 
 
-ParserEn* parser_en_new (GDateTime* _simulated_dt) {
-	return parser_en_construct (TYPE_PARSER_EN, _simulated_dt);
+MayaServicesParserEn* maya_services_parser_en_new (GDateTime* _simulated_dt) {
+	return maya_services_parser_en_construct (MAYA_SERVICES_TYPE_PARSER_EN, _simulated_dt);
 }
 
 
-static gint parser_en_get_number_of_month (ParserEn* self, const gchar* entry) {
+static gint maya_services_parser_en_get_number_of_month (MayaServicesParserEn* self, const gchar* entry) {
 	gint result = 0;
 	g_return_val_if_fail (self != NULL, 0);
 	g_return_val_if_fail (entry != NULL, 0);
@@ -589,7 +589,7 @@ static gint parser_en_get_number_of_month (ParserEn* self, const gchar* entry) {
 }
 
 
-static gint parser_en_get_number_of_weekday (ParserEn* self, const gchar* entry) {
+static gint maya_services_parser_en_get_number_of_weekday (MayaServicesParserEn* self, const gchar* entry) {
 	gint result = 0;
 	g_return_val_if_fail (self != NULL, 0);
 	g_return_val_if_fail (entry != NULL, 0);
@@ -654,7 +654,7 @@ static gint parser_en_get_number_of_weekday (ParserEn* self, const gchar* entry)
 }
 
 
-static gint parser_en_get_number_of_word (ParserEn* self, const gchar* entry) {
+static gint maya_services_parser_en_get_number_of_word (MayaServicesParserEn* self, const gchar* entry) {
 	gint result = 0;
 	g_return_val_if_fail (self != NULL, 0);
 	g_return_val_if_fail (entry != NULL, 0);
@@ -750,7 +750,7 @@ static gpointer _g_array_ref0 (gpointer self) {
 }
 
 
-static void parser_en_complete_string (ParserEn* self, const gchar* pattern, ParserEnString_event* result) {
+static void maya_services_parser_en_complete_string (MayaServicesParserEn* self, const gchar* pattern, MayaServicesParserEnString_event* result) {
 	GRegex* regex = NULL;
 	GMatchInfo* match_info = NULL;
 	gchar* matched_string = NULL;
@@ -772,7 +772,7 @@ static void parser_en_complete_string (ParserEn* self, const gchar* pattern, Par
 	gchar* _tmp37_ = NULL;
 	GArray* _tmp38_ = NULL;
 	GArray* _tmp39_ = NULL;
-	ParserEnString_event _tmp40_ = {0};
+	MayaServicesParserEnString_event _tmp40_ = {0};
 	GError * _inner_error_ = NULL;
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (pattern != NULL);
@@ -805,8 +805,8 @@ static void parser_en_complete_string (ParserEn* self, const gchar* pattern, Par
 		is_matched = _tmp7_;
 		_tmp8_ = is_matched;
 		if (!_tmp8_) {
-			ParserEnString_event _tmp9_ = {0};
-			memset (&_tmp9_, 0, sizeof (ParserEnString_event));
+			MayaServicesParserEnString_event _tmp9_ = {0};
+			memset (&_tmp9_, 0, sizeof (MayaServicesParserEnString_event));
 			_tmp9_.matched = FALSE;
 			*result = _tmp9_;
 			_g_regex_unref0 (_tmp0_);
@@ -819,10 +819,10 @@ static void parser_en_complete_string (ParserEn* self, const gchar* pattern, Par
 	goto __finally0;
 	__catch0_g_error:
 	{
-		ParserEnString_event _tmp10_ = {0};
+		MayaServicesParserEnString_event _tmp10_ = {0};
 		g_clear_error (&_inner_error_);
 		_inner_error_ = NULL;
-		memset (&_tmp10_, 0, sizeof (ParserEnString_event));
+		memset (&_tmp10_, 0, sizeof (MayaServicesParserEnString_event));
 		_tmp10_.matched = FALSE;
 		*result = _tmp10_;
 		_g_match_info_free0 (match_info);
@@ -940,7 +940,7 @@ static void parser_en_complete_string (ParserEn* self, const gchar* pattern, Par
 	_tmp37_ = g_strdup (_tmp36_);
 	_tmp38_ = p;
 	_tmp39_ = _g_array_ref0 (_tmp38_);
-	memset (&_tmp40_, 0, sizeof (ParserEnString_event));
+	memset (&_tmp40_, 0, sizeof (MayaServicesParserEnString_event));
 	_tmp40_.matched = TRUE;
 	_tmp40_.pos = _tmp34_;
 	_tmp40_.length = _tmp35_;
@@ -1086,16 +1086,16 @@ static gchar* string_splice (const gchar* self, glong start, glong end, const gc
 }
 
 
-static void parser_en_analyze_pattern (ParserEn* self, const gchar* pattern, ParserEntranscribe_analysis del, void* del_target, gboolean delete) {
-	ParserEnString_event data = {0};
+static void maya_services_parser_en_analyze_pattern (MayaServicesParserEn* self, const gchar* pattern, MayaServicesParserEntranscribe_analysis del, void* del_target, gboolean delete) {
+	MayaServicesParserEnString_event data = {0};
 	const gchar* _tmp0_ = NULL;
 	gchar* _tmp1_ = NULL;
 	gchar* _tmp2_ = NULL;
 	gchar* _tmp3_ = NULL;
 	gchar* _tmp4_ = NULL;
-	ParserEnString_event _tmp5_ = {0};
-	ParserEnString_event _tmp6_ = {0};
-	ParserEnString_event _tmp7_ = {0};
+	MayaServicesParserEnString_event _tmp5_ = {0};
+	MayaServicesParserEnString_event _tmp6_ = {0};
+	MayaServicesParserEnString_event _tmp7_ = {0};
 	gboolean _tmp8_ = FALSE;
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (pattern != NULL);
@@ -1104,7 +1104,7 @@ static void parser_en_analyze_pattern (ParserEn* self, const gchar* pattern, Par
 	_tmp2_ = _tmp1_;
 	_tmp3_ = g_strconcat (_tmp2_, "\\b", NULL);
 	_tmp4_ = _tmp3_;
-	parser_en_complete_string (self, _tmp4_, &_tmp5_);
+	maya_services_parser_en_complete_string (self, _tmp4_, &_tmp5_);
 	_tmp6_ = _tmp5_;
 	_g_free0 (_tmp4_);
 	_g_free0 (_tmp2_);
@@ -1113,17 +1113,17 @@ static void parser_en_analyze_pattern (ParserEn* self, const gchar* pattern, Par
 	_tmp8_ = _tmp7_.matched;
 	if (_tmp8_) {
 		gboolean _tmp9_ = FALSE;
-		ParserEntranscribe_analysis _tmp18_ = NULL;
+		MayaServicesParserEntranscribe_analysis _tmp18_ = NULL;
 		void* _tmp18__target = NULL;
-		ParserEnString_event _tmp19_ = {0};
+		MayaServicesParserEnString_event _tmp19_ = {0};
 		_tmp9_ = delete;
 		if (_tmp9_) {
 			const gchar* _tmp10_ = NULL;
-			ParserEnString_event _tmp11_ = {0};
+			MayaServicesParserEnString_event _tmp11_ = {0};
 			gint _tmp12_ = 0;
-			ParserEnString_event _tmp13_ = {0};
+			MayaServicesParserEnString_event _tmp13_ = {0};
 			gint _tmp14_ = 0;
-			ParserEnString_event _tmp15_ = {0};
+			MayaServicesParserEnString_event _tmp15_ = {0};
 			gint _tmp16_ = 0;
 			gchar* _tmp17_ = NULL;
 			_tmp10_ = self->priv->remaining_source;
@@ -1142,7 +1142,7 @@ static void parser_en_analyze_pattern (ParserEn* self, const gchar* pattern, Par
 		_tmp19_ = data;
 		_tmp18_ (&_tmp19_, _tmp18__target);
 	}
-	parser_en_string_event_destroy (&data);
+	maya_services_parser_en_string_event_destroy (&data);
 }
 
 
@@ -1156,7 +1156,7 @@ static void block1_data_unref (void * _userdata_) {
 	Block1Data* _data1_;
 	_data1_ = (Block1Data*) _userdata_;
 	if (g_atomic_int_dec_and_test (&_data1_->_ref_count_)) {
-		ParserEn* self;
+		MayaServicesParserEn* self;
 		self = _data1_->self;
 		_g_object_unref0 (_data1_->event);
 		_g_object_unref0 (self);
@@ -1165,8 +1165,8 @@ static void block1_data_unref (void * _userdata_) {
 }
 
 
-static void __lambda4_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda4_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	self = _data1_->self;
@@ -1175,17 +1175,17 @@ static void __lambda4_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp1_ = g_date_time_add_days (_tmp0_, -2);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp1_;
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda4__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda4__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda4_ (self, data);
 }
 
 
-static void __lambda5_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda5_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	self = _data1_->self;
@@ -1194,30 +1194,30 @@ static void __lambda5_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp1_ = g_date_time_add_days (_tmp0_, -1);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp1_;
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda5__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda5__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda5_ (self, data);
 }
 
 
-static void __lambda6_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda6_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda6__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda6__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda6_ (self, data);
 }
 
 
-static void __lambda7_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda7_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	self = _data1_->self;
@@ -1226,17 +1226,17 @@ static void __lambda7_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp1_ = g_date_time_add_days (_tmp0_, 1);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp1_;
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda7__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda7__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda7_ (self, data);
 }
 
 
-static void __lambda8_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda8_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint add_days = 0;
 	GDateTime* _tmp0_ = NULL;
 	gint _tmp1_ = 0;
@@ -1257,43 +1257,43 @@ static void __lambda8_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp5_ = g_date_time_add_days (_tmp4_, 1);
 	_g_date_time_unref0 (_data1_->event->to);
 	_data1_->event->to = _tmp5_;
-	parsed_event_set_all_day (_data1_->event);
+	maya_services_parsed_event_set_all_day (_data1_->event);
 }
 
 
-static void ___lambda8__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda8__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda8_ (self, data);
 }
 
 
-static void __lambda9_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda9_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda9__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda9__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda9_ (self, data);
 }
 
 
-static void __lambda10_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda10_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda10__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda10__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda10_ (self, data);
 }
 
 
-static void __lambda11_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda11_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	self = _data1_->self;
@@ -1302,17 +1302,17 @@ static void __lambda11_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp1_ = g_date_time_add_days (_tmp0_, 7);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp1_;
-	parsed_event_set_all_day (_data1_->event);
+	maya_services_parsed_event_set_all_day (_data1_->event);
 }
 
 
-static void ___lambda11__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda11__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda11_ (self, data);
 }
 
 
-static void __lambda12_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda12_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	self = _data1_->self;
@@ -1321,19 +1321,19 @@ static void __lambda12_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp1_ = g_date_time_add_months (_tmp0_, 1);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp1_;
-	parsed_event_set_all_day (_data1_->event);
+	maya_services_parsed_event_set_all_day (_data1_->event);
 }
 
 
-static void ___lambda12__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda12__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda12_ (self, data);
 }
 
 
-static void __lambda13_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda13_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint days = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
@@ -1350,19 +1350,19 @@ static void __lambda13_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp5_ = g_date_time_add_days (_tmp4_, -days);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp5_;
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda13__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda13__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda13_ (self, data);
 }
 
 
-static void __lambda14_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda14_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint days = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
@@ -1379,19 +1379,19 @@ static void __lambda14_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp5_ = g_date_time_add_days (_tmp4_, days);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp5_;
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda14__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda14__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda14_ (self, data);
 }
 
 
-static void __lambda15_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda15_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint weeks = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
@@ -1408,11 +1408,11 @@ static void __lambda15_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp5_ = g_date_time_add_weeks (_tmp4_, weeks);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp5_;
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda15__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda15__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda15_ (self, data);
 }
 
@@ -1425,10 +1425,10 @@ static const gchar* string_to_string (const gchar* self) {
 }
 
 
-static void __lambda16_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda16_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint weekday = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
@@ -1442,7 +1442,7 @@ static void __lambda16_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp0_ = *data;
 	_tmp1_ = _tmp0_.p;
 	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
-	_tmp3_ = parser_en_get_number_of_weekday (self, _tmp2_);
+	_tmp3_ = maya_services_parser_en_get_number_of_weekday (self, _tmp2_);
 	weekday = _tmp3_;
 	_tmp4_ = self->simulated_dt;
 	_tmp5_ = g_date_time_get_day_of_week (_tmp4_);
@@ -1451,19 +1451,19 @@ static void __lambda16_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp7_ = g_date_time_add_days (_tmp6_, add_days);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp7_;
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda16__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda16__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda16_ (self, data);
 }
 
 
-static void __lambda17_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda17_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint weekday_1 = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
@@ -1474,7 +1474,7 @@ static void __lambda17_ (Block1Data* _data1_, ParserEnString_event* data) {
 	GDateTime* _tmp7_ = NULL;
 	gint _tmp8_ = 0;
 	GDateTime* _tmp9_ = NULL;
-	ParserEnString_event _tmp10_ = {0};
+	MayaServicesParserEnString_event _tmp10_ = {0};
 	GArray* _tmp11_ = NULL;
 	const gchar* _tmp12_ = NULL;
 	self = _data1_->self;
@@ -1482,7 +1482,7 @@ static void __lambda17_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp0_ = *data;
 	_tmp1_ = _tmp0_.p;
 	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
-	_tmp3_ = parser_en_get_number_of_weekday (self, _tmp2_);
+	_tmp3_ = maya_services_parser_en_get_number_of_weekday (self, _tmp2_);
 	weekday_1 = _tmp3_;
 	_tmp4_ = weekday_1;
 	_tmp5_ = self->simulated_dt;
@@ -1493,13 +1493,13 @@ static void __lambda17_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp9_ = g_date_time_add_days (_tmp7_, _tmp8_);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp9_;
-	parsed_event_set_all_day (_data1_->event);
+	maya_services_parsed_event_set_all_day (_data1_->event);
 	_tmp10_ = *data;
 	_tmp11_ = _tmp10_.p;
 	_tmp12_ = g_array_index (_tmp11_, gchar*, (guint) 1);
 	if (_tmp12_ != NULL) {
 		gint weekday_2 = 0;
-		ParserEnString_event _tmp13_ = {0};
+		MayaServicesParserEnString_event _tmp13_ = {0};
 		GArray* _tmp14_ = NULL;
 		const gchar* _tmp15_ = NULL;
 		gint _tmp16_ = 0;
@@ -1512,7 +1512,7 @@ static void __lambda17_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp13_ = *data;
 		_tmp14_ = _tmp13_.p;
 		_tmp15_ = g_array_index (_tmp14_, gchar*, (guint) 1);
-		_tmp16_ = parser_en_get_number_of_weekday (self, _tmp15_);
+		_tmp16_ = maya_services_parser_en_get_number_of_weekday (self, _tmp15_);
 		weekday_2 = _tmp16_;
 		_tmp17_ = weekday_2;
 		_tmp18_ = weekday_1;
@@ -1526,27 +1526,27 @@ static void __lambda17_ (Block1Data* _data1_, ParserEnString_event* data) {
 }
 
 
-static void ___lambda17__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda17__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda17_ (self, data);
 }
 
 
-static void __lambda18_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda18_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint day = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
 	gint month = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gint _tmp7_ = 0;
 	gint _tmp8_ = 0;
 	gint _tmp9_ = 0;
 	GDateTime* _tmp10_ = NULL;
-	ParserEnString_event _tmp11_ = {0};
+	MayaServicesParserEnString_event _tmp11_ = {0};
 	GArray* _tmp12_ = NULL;
 	const gchar* _tmp13_ = NULL;
 	self = _data1_->self;
@@ -1562,18 +1562,18 @@ static void __lambda18_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp7_ = atoi (_tmp6_);
 	month = _tmp7_;
 	_tmp8_ = day;
-	parsed_event_from_set_day (_data1_->event, _tmp8_);
+	maya_services_parsed_event_from_set_day (_data1_->event, _tmp8_);
 	_tmp9_ = month;
-	parsed_event_from_set_month (_data1_->event, _tmp9_);
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_from_set_month (_data1_->event, _tmp9_);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 	_tmp10_ = self->simulated_dt;
-	parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp10_);
+	maya_services_parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp10_);
 	_tmp11_ = *data;
 	_tmp12_ = _tmp11_.p;
 	_tmp13_ = g_array_index (_tmp12_, gchar*, (guint) 0);
 	if (_tmp13_ != NULL) {
 		gint year = 0;
-		ParserEnString_event _tmp14_ = {0};
+		MayaServicesParserEnString_event _tmp14_ = {0};
 		GArray* _tmp15_ = NULL;
 		const gchar* _tmp16_ = NULL;
 		gint _tmp17_ = 0;
@@ -1584,32 +1584,32 @@ static void __lambda18_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp17_ = atoi (_tmp16_);
 		year = _tmp17_;
 		_tmp18_ = year;
-		parsed_event_from_set_year (_data1_->event, _tmp18_);
+		maya_services_parsed_event_from_set_year (_data1_->event, _tmp18_);
 	}
 }
 
 
-static void ___lambda18__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda18__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda18_ (self, data);
 }
 
 
-static void __lambda19_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda19_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint day = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
 	gint month = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gint _tmp7_ = 0;
 	gint _tmp8_ = 0;
 	gint _tmp9_ = 0;
 	GDateTime* _tmp10_ = NULL;
-	ParserEnString_event _tmp11_ = {0};
+	MayaServicesParserEnString_event _tmp11_ = {0};
 	GArray* _tmp12_ = NULL;
 	const gchar* _tmp13_ = NULL;
 	self = _data1_->self;
@@ -1622,21 +1622,21 @@ static void __lambda19_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp4_ = *data;
 	_tmp5_ = _tmp4_.p;
 	_tmp6_ = g_array_index (_tmp5_, gchar*, (guint) 1);
-	_tmp7_ = parser_en_get_number_of_month (self, _tmp6_);
+	_tmp7_ = maya_services_parser_en_get_number_of_month (self, _tmp6_);
 	month = _tmp7_;
 	_tmp8_ = day;
-	parsed_event_from_set_day (_data1_->event, _tmp8_);
+	maya_services_parsed_event_from_set_day (_data1_->event, _tmp8_);
 	_tmp9_ = month;
-	parsed_event_from_set_month (_data1_->event, _tmp9_);
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_from_set_month (_data1_->event, _tmp9_);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 	_tmp10_ = self->simulated_dt;
-	parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp10_);
+	maya_services_parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp10_);
 	_tmp11_ = *data;
 	_tmp12_ = _tmp11_.p;
 	_tmp13_ = g_array_index (_tmp12_, gchar*, (guint) 2);
 	if (_tmp13_ != NULL) {
 		gint year = 0;
-		ParserEnString_event _tmp14_ = {0};
+		MayaServicesParserEnString_event _tmp14_ = {0};
 		GArray* _tmp15_ = NULL;
 		const gchar* _tmp16_ = NULL;
 		gint _tmp17_ = 0;
@@ -1647,31 +1647,31 @@ static void __lambda19_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp17_ = atoi (_tmp16_);
 		year = _tmp17_;
 		_tmp18_ = year;
-		parsed_event_from_set_year (_data1_->event, _tmp18_);
+		maya_services_parsed_event_from_set_year (_data1_->event, _tmp18_);
 	}
 }
 
 
-static void ___lambda19__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda19__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda19_ (self, data);
 }
 
 
-static void __lambda20_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda20_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint day = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
 	gint month = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gint _tmp7_ = 0;
 	gint _tmp8_ = 0;
 	gint _tmp9_ = 0;
-	ParserEnString_event _tmp10_ = {0};
+	MayaServicesParserEnString_event _tmp10_ = {0};
 	GArray* _tmp11_ = NULL;
 	const gchar* _tmp12_ = NULL;
 	GDateTime* _tmp18_ = NULL;
@@ -1685,19 +1685,19 @@ static void __lambda20_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp4_ = *data;
 	_tmp5_ = _tmp4_.p;
 	_tmp6_ = g_array_index (_tmp5_, gchar*, (guint) 0);
-	_tmp7_ = parser_en_get_number_of_month (self, _tmp6_);
+	_tmp7_ = maya_services_parser_en_get_number_of_month (self, _tmp6_);
 	month = _tmp7_;
 	_tmp8_ = day;
-	parsed_event_from_set_day (_data1_->event, _tmp8_);
+	maya_services_parsed_event_from_set_day (_data1_->event, _tmp8_);
 	_tmp9_ = month;
-	parsed_event_from_set_month (_data1_->event, _tmp9_);
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_from_set_month (_data1_->event, _tmp9_);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 	_tmp10_ = *data;
 	_tmp11_ = _tmp10_.p;
 	_tmp12_ = g_array_index (_tmp11_, gchar*, (guint) 2);
 	if (_tmp12_ != NULL) {
 		gint year = 0;
-		ParserEnString_event _tmp13_ = {0};
+		MayaServicesParserEnString_event _tmp13_ = {0};
 		GArray* _tmp14_ = NULL;
 		const gchar* _tmp15_ = NULL;
 		gint _tmp16_ = 0;
@@ -1708,33 +1708,33 @@ static void __lambda20_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp16_ = atoi (_tmp15_);
 		year = _tmp16_;
 		_tmp17_ = year;
-		parsed_event_from_set_year (_data1_->event, _tmp17_);
+		maya_services_parsed_event_from_set_year (_data1_->event, _tmp17_);
 	}
 	_tmp18_ = self->simulated_dt;
-	parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp18_);
+	maya_services_parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp18_);
 }
 
 
-static void ___lambda20__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda20__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda20_ (self, data);
 }
 
 
-static void __lambda21_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda21_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint day_1 = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
 	gint day_2 = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gint _tmp7_ = 0;
 	gint _tmp8_ = 0;
 	gint _tmp9_ = 0;
-	ParserEnString_event _tmp10_ = {0};
+	MayaServicesParserEnString_event _tmp10_ = {0};
 	GArray* _tmp11_ = NULL;
 	const gchar* _tmp12_ = NULL;
 	GDateTime* _tmp20_ = NULL;
@@ -1751,16 +1751,16 @@ static void __lambda21_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp7_ = atoi (_tmp6_);
 	day_2 = _tmp7_;
 	_tmp8_ = day_1;
-	parsed_event_from_set_day (_data1_->event, _tmp8_);
+	maya_services_parsed_event_from_set_day (_data1_->event, _tmp8_);
 	_tmp9_ = day_2;
-	parsed_event_to_set_day (_data1_->event, _tmp9_);
-	parsed_event_set_all_day (_data1_->event);
+	maya_services_parsed_event_to_set_day (_data1_->event, _tmp9_);
+	maya_services_parsed_event_set_all_day (_data1_->event);
 	_tmp10_ = *data;
 	_tmp11_ = _tmp10_.p;
 	_tmp12_ = g_array_index (_tmp11_, gchar*, (guint) 2);
 	if (_tmp12_ != NULL) {
 		gint month = 0;
-		ParserEnString_event _tmp13_ = {0};
+		MayaServicesParserEnString_event _tmp13_ = {0};
 		GArray* _tmp14_ = NULL;
 		const gchar* _tmp15_ = NULL;
 		gint _tmp16_ = 0;
@@ -1770,44 +1770,44 @@ static void __lambda21_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp13_ = *data;
 		_tmp14_ = _tmp13_.p;
 		_tmp15_ = g_array_index (_tmp14_, gchar*, (guint) 2);
-		_tmp16_ = parser_en_get_number_of_month (self, _tmp15_);
+		_tmp16_ = maya_services_parser_en_get_number_of_month (self, _tmp15_);
 		month = _tmp16_;
 		_tmp17_ = month;
-		parsed_event_from_set_month (_data1_->event, _tmp17_);
+		maya_services_parsed_event_from_set_month (_data1_->event, _tmp17_);
 		_tmp18_ = month;
-		parsed_event_to_set_month (_data1_->event, _tmp18_);
+		maya_services_parsed_event_to_set_month (_data1_->event, _tmp18_);
 		_tmp19_ = self->simulated_dt;
-		parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp19_);
+		maya_services_parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp19_);
 	}
 	_tmp20_ = self->simulated_dt;
-	parsed_event_if_elapsed_delay_to_next_month (_data1_->event, _tmp20_);
+	maya_services_parsed_event_if_elapsed_delay_to_next_month (_data1_->event, _tmp20_);
 }
 
 
-static void ___lambda21__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda21__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda21_ (self, data);
 }
 
 
-static void __lambda22_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda22_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint day_1 = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
 	gint day_2 = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gint _tmp7_ = 0;
 	gint month_1 = 0;
-	ParserEnString_event _tmp8_ = {0};
+	MayaServicesParserEnString_event _tmp8_ = {0};
 	GArray* _tmp9_ = NULL;
 	const gchar* _tmp10_ = NULL;
 	gint _tmp11_ = 0;
 	gint month_2 = 0;
-	ParserEnString_event _tmp12_ = {0};
+	MayaServicesParserEnString_event _tmp12_ = {0};
 	GArray* _tmp13_ = NULL;
 	const gchar* _tmp14_ = NULL;
 	gint _tmp15_ = 0;
@@ -1846,38 +1846,38 @@ static void __lambda22_ (Block1Data* _data1_, ParserEnString_event* data) {
 		month_2 = _tmp17_;
 	}
 	_tmp18_ = day_1;
-	parsed_event_from_set_day (_data1_->event, _tmp18_);
+	maya_services_parsed_event_from_set_day (_data1_->event, _tmp18_);
 	_tmp19_ = day_2;
-	parsed_event_to_set_day (_data1_->event, _tmp19_);
+	maya_services_parsed_event_to_set_day (_data1_->event, _tmp19_);
 	_tmp20_ = month_1;
-	parsed_event_from_set_month (_data1_->event, _tmp20_);
+	maya_services_parsed_event_from_set_month (_data1_->event, _tmp20_);
 	_tmp21_ = month_2;
-	parsed_event_to_set_month (_data1_->event, _tmp21_);
-	parsed_event_set_all_day (_data1_->event);
+	maya_services_parsed_event_to_set_month (_data1_->event, _tmp21_);
+	maya_services_parsed_event_set_all_day (_data1_->event);
 	_tmp22_ = self->simulated_dt;
-	parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp22_);
+	maya_services_parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp22_);
 }
 
 
-static void ___lambda22__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda22__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda22_ (self, data);
 }
 
 
-static void __lambda23_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda23_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint day_1 = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
 	gint day_2 = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gint _tmp7_ = 0;
 	gint month_1 = 0;
-	ParserEnString_event _tmp8_ = {0};
+	MayaServicesParserEnString_event _tmp8_ = {0};
 	GArray* _tmp9_ = NULL;
 	const gchar* _tmp10_ = NULL;
 	gint _tmp11_ = 0;
@@ -1897,25 +1897,25 @@ static void __lambda23_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp8_ = *data;
 	_tmp9_ = _tmp8_.p;
 	_tmp10_ = g_array_index (_tmp9_, gchar*, (guint) 0);
-	_tmp11_ = parser_en_get_number_of_month (self, _tmp10_);
+	_tmp11_ = maya_services_parser_en_get_number_of_month (self, _tmp10_);
 	month_1 = _tmp11_;
-	parsed_event_from_set_day (_data1_->event, day_1);
-	parsed_event_to_set_day (_data1_->event, day_2);
-	parsed_event_from_set_month (_data1_->event, month_1);
-	parsed_event_to_set_month (_data1_->event, month_1);
-	parsed_event_set_all_day (_data1_->event);
+	maya_services_parsed_event_from_set_day (_data1_->event, day_1);
+	maya_services_parsed_event_to_set_day (_data1_->event, day_2);
+	maya_services_parsed_event_from_set_month (_data1_->event, month_1);
+	maya_services_parsed_event_to_set_month (_data1_->event, month_1);
+	maya_services_parsed_event_set_all_day (_data1_->event);
 	_tmp12_ = self->simulated_dt;
-	parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp12_);
+	maya_services_parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp12_);
 }
 
 
-static void ___lambda23__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda23__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda23_ (self, data);
 }
 
 
-static void __lambda24_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda24_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	GDateTime* _tmp0_ = NULL;
 	GDateTime* _tmp1_ = NULL;
 	self = _data1_->self;
@@ -1924,188 +1924,188 @@ static void __lambda24_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp1_ = g_date_time_add_months (_tmp0_, 1);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp1_;
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 }
 
 
-static void ___lambda24__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda24__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda24_ (self, data);
 }
 
 
-static void __lambda25_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda25_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	GDateTime* _tmp0_ = NULL;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_month (_data1_->event, 12);
-	parsed_event_from_set_day (_data1_->event, 24);
-	parsed_event_set_one_entire_day (_data1_->event);
+	maya_services_parsed_event_from_set_month (_data1_->event, 12);
+	maya_services_parsed_event_from_set_day (_data1_->event, 24);
+	maya_services_parsed_event_set_one_entire_day (_data1_->event);
 	_tmp0_ = self->simulated_dt;
-	parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp0_);
+	maya_services_parsed_event_if_elapsed_delay_to_next_year (_data1_->event, _tmp0_);
 }
 
 
-static void ___lambda25__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda25__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda25_ (self, data);
 }
 
 
-static void __lambda26_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda26_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_hour (_data1_->event, 8, "");
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, 8, "");
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda26__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda26__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda26_ (self, data);
 }
 
 
-static void __lambda27_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda27_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_hour (_data1_->event, 13, "");
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, 13, "");
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda27__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda27__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda27_ (self, data);
 }
 
 
-static void __lambda28_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda28_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_hour (_data1_->event, 19, "");
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, 19, "");
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda28__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda28__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda28_ (self, data);
 }
 
 
-static void __lambda29_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda29_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_hour (_data1_->event, 9, "");
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, 9, "");
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda29__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda29__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda29_ (self, data);
 }
 
 
-static void __lambda30_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda30_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_hour (_data1_->event, 11, "");
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, 11, "");
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda30__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda30__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda30_ (self, data);
 }
 
 
-static void __lambda31_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda31_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_hour (_data1_->event, 12, "");
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, 12, "");
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda31__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda31__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda31_ (self, data);
 }
 
 
-static void __lambda32_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda32_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_hour (_data1_->event, 15, "");
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, 15, "");
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda32__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda32__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda32_ (self, data);
 }
 
 
-static void __lambda33_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda33_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_hour (_data1_->event, 18, "");
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, 18, "");
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda33__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda33__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda33_ (self, data);
 }
 
 
-static void __lambda34_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda34_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
-	parsed_event_from_set_hour (_data1_->event, 19, "");
-	parsed_event_set_length_to_hours (_data1_->event, 3);
+	maya_services_parsed_event_from_set_hour (_data1_->event, 19, "");
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 3);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda34__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda34__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda34_ (self, data);
 }
 
 
-static void __lambda35_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda35_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint hour_1 = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
 	gint hour_2 = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gint _tmp7_ = 0;
 	gchar* half_1 = NULL;
 	gchar* _tmp8_ = NULL;
-	ParserEnString_event _tmp9_ = {0};
+	MayaServicesParserEnString_event _tmp9_ = {0};
 	GArray* _tmp10_ = NULL;
 	const gchar* _tmp11_ = NULL;
 	gchar* half_2 = NULL;
 	gchar* _tmp16_ = NULL;
-	ParserEnString_event _tmp17_ = {0};
+	MayaServicesParserEnString_event _tmp17_ = {0};
 	GArray* _tmp18_ = NULL;
 	const gchar* _tmp19_ = NULL;
 	gint _tmp24_ = 0;
@@ -2130,7 +2130,7 @@ static void __lambda35_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp10_ = _tmp9_.p;
 	_tmp11_ = g_array_index (_tmp10_, gchar*, (guint) 1);
 	if (_tmp11_ != NULL) {
-		ParserEnString_event _tmp12_ = {0};
+		MayaServicesParserEnString_event _tmp12_ = {0};
 		GArray* _tmp13_ = NULL;
 		const gchar* _tmp14_ = NULL;
 		gchar* _tmp15_ = NULL;
@@ -2147,7 +2147,7 @@ static void __lambda35_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp18_ = _tmp17_.p;
 	_tmp19_ = g_array_index (_tmp18_, gchar*, (guint) 3);
 	if (_tmp19_ != NULL) {
-		ParserEnString_event _tmp20_ = {0};
+		MayaServicesParserEnString_event _tmp20_ = {0};
 		GArray* _tmp21_ = NULL;
 		const gchar* _tmp22_ = NULL;
 		gchar* _tmp23_ = NULL;
@@ -2160,34 +2160,34 @@ static void __lambda35_ (Block1Data* _data1_, ParserEnString_event* data) {
 	}
 	_tmp24_ = hour_1;
 	_tmp25_ = half_1;
-	parsed_event_from_set_hour (_data1_->event, _tmp24_, _tmp25_);
+	maya_services_parsed_event_from_set_hour (_data1_->event, _tmp24_, _tmp25_);
 	_tmp26_ = hour_2;
 	_tmp27_ = half_2;
-	parsed_event_to_set_hour (_data1_->event, _tmp26_, _tmp27_);
+	maya_services_parsed_event_to_set_hour (_data1_->event, _tmp26_, _tmp27_);
 	_data1_->event->all_day = FALSE;
 	_g_free0 (half_2);
 	_g_free0 (half_1);
 }
 
 
-static void ___lambda35__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda35__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda35_ (self, data);
 }
 
 
-static void __lambda36_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda36_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint hour = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gchar* half = NULL;
 	gchar* _tmp12_ = NULL;
-	ParserEnString_event _tmp13_ = {0};
+	MayaServicesParserEnString_event _tmp13_ = {0};
 	GArray* _tmp14_ = NULL;
 	const gchar* _tmp15_ = NULL;
 	gint _tmp20_ = 0;
@@ -2204,7 +2204,7 @@ static void __lambda36_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp6_ = g_array_index (_tmp5_, gchar*, (guint) 1);
 	if (_tmp6_ != NULL) {
 		gint minute_1 = 0;
-		ParserEnString_event _tmp7_ = {0};
+		MayaServicesParserEnString_event _tmp7_ = {0};
 		GArray* _tmp8_ = NULL;
 		const gchar* _tmp9_ = NULL;
 		gint _tmp10_ = 0;
@@ -2215,7 +2215,7 @@ static void __lambda36_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp10_ = atoi (_tmp9_);
 		minute_1 = _tmp10_;
 		_tmp11_ = minute_1;
-		parsed_event_from_set_minute (_data1_->event, _tmp11_);
+		maya_services_parsed_event_from_set_minute (_data1_->event, _tmp11_);
 	}
 	_tmp12_ = g_strdup ("");
 	half = _tmp12_;
@@ -2223,7 +2223,7 @@ static void __lambda36_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp14_ = _tmp13_.p;
 	_tmp15_ = g_array_index (_tmp14_, gchar*, (guint) 2);
 	if (_tmp15_ != NULL) {
-		ParserEnString_event _tmp16_ = {0};
+		MayaServicesParserEnString_event _tmp16_ = {0};
 		GArray* _tmp17_ = NULL;
 		const gchar* _tmp18_ = NULL;
 		gchar* _tmp19_ = NULL;
@@ -2236,31 +2236,31 @@ static void __lambda36_ (Block1Data* _data1_, ParserEnString_event* data) {
 	}
 	_tmp20_ = hour;
 	_tmp21_ = half;
-	parsed_event_from_set_hour (_data1_->event, _tmp20_, _tmp21_);
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, _tmp20_, _tmp21_);
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 	_g_free0 (half);
 }
 
 
-static void ___lambda36__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda36__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda36_ (self, data);
 }
 
 
-static void __lambda37_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda37_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint hour = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gchar* half = NULL;
 	gchar* _tmp12_ = NULL;
-	ParserEnString_event _tmp13_ = {0};
+	MayaServicesParserEnString_event _tmp13_ = {0};
 	GArray* _tmp14_ = NULL;
 	const gchar* _tmp15_ = NULL;
 	gint _tmp20_ = 0;
@@ -2277,7 +2277,7 @@ static void __lambda37_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp6_ = g_array_index (_tmp5_, gchar*, (guint) 1);
 	if (_tmp6_ != NULL) {
 		gint minute_1 = 0;
-		ParserEnString_event _tmp7_ = {0};
+		MayaServicesParserEnString_event _tmp7_ = {0};
 		GArray* _tmp8_ = NULL;
 		const gchar* _tmp9_ = NULL;
 		gint _tmp10_ = 0;
@@ -2288,7 +2288,7 @@ static void __lambda37_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp10_ = atoi (_tmp9_);
 		minute_1 = _tmp10_;
 		_tmp11_ = minute_1;
-		parsed_event_from_set_minute (_data1_->event, _tmp11_);
+		maya_services_parsed_event_from_set_minute (_data1_->event, _tmp11_);
 	}
 	_tmp12_ = g_strdup ("");
 	half = _tmp12_;
@@ -2296,7 +2296,7 @@ static void __lambda37_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp14_ = _tmp13_.p;
 	_tmp15_ = g_array_index (_tmp14_, gchar*, (guint) 2);
 	if (_tmp15_ != NULL) {
-		ParserEnString_event _tmp16_ = {0};
+		MayaServicesParserEnString_event _tmp16_ = {0};
 		GArray* _tmp17_ = NULL;
 		const gchar* _tmp18_ = NULL;
 		gchar* _tmp19_ = NULL;
@@ -2309,48 +2309,48 @@ static void __lambda37_ (Block1Data* _data1_, ParserEnString_event* data) {
 	}
 	_tmp20_ = hour;
 	_tmp21_ = half;
-	parsed_event_from_set_hour (_data1_->event, _tmp20_, _tmp21_);
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_from_set_hour (_data1_->event, _tmp20_, _tmp21_);
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 	_g_free0 (half);
 }
 
 
-static void ___lambda37__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda37__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda37_ (self, data);
 }
 
 
-static void __lambda38_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda38_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint hour_1 = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
 	gint hour_2 = 0;
-	ParserEnString_event _tmp4_ = {0};
+	MayaServicesParserEnString_event _tmp4_ = {0};
 	GArray* _tmp5_ = NULL;
 	const gchar* _tmp6_ = NULL;
 	gint _tmp7_ = 0;
 	gchar* half_1 = NULL;
 	gchar* _tmp8_ = NULL;
-	ParserEnString_event _tmp9_ = {0};
+	MayaServicesParserEnString_event _tmp9_ = {0};
 	GArray* _tmp10_ = NULL;
 	const gchar* _tmp11_ = NULL;
 	gint _tmp16_ = 0;
 	const gchar* _tmp17_ = NULL;
 	gchar* half_2 = NULL;
 	gchar* _tmp18_ = NULL;
-	ParserEnString_event _tmp19_ = {0};
+	MayaServicesParserEnString_event _tmp19_ = {0};
 	GArray* _tmp20_ = NULL;
 	const gchar* _tmp21_ = NULL;
 	gint _tmp26_ = 0;
 	const gchar* _tmp27_ = NULL;
-	ParserEnString_event _tmp28_ = {0};
+	MayaServicesParserEnString_event _tmp28_ = {0};
 	GArray* _tmp29_ = NULL;
 	const gchar* _tmp30_ = NULL;
-	ParserEnString_event _tmp36_ = {0};
+	MayaServicesParserEnString_event _tmp36_ = {0};
 	GArray* _tmp37_ = NULL;
 	const gchar* _tmp38_ = NULL;
 	self = _data1_->self;
@@ -2371,7 +2371,7 @@ static void __lambda38_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp10_ = _tmp9_.p;
 	_tmp11_ = g_array_index (_tmp10_, gchar*, (guint) 4);
 	if (_tmp11_ != NULL) {
-		ParserEnString_event _tmp12_ = {0};
+		MayaServicesParserEnString_event _tmp12_ = {0};
 		GArray* _tmp13_ = NULL;
 		const gchar* _tmp14_ = NULL;
 		gchar* _tmp15_ = NULL;
@@ -2384,14 +2384,14 @@ static void __lambda38_ (Block1Data* _data1_, ParserEnString_event* data) {
 	}
 	_tmp16_ = hour_1;
 	_tmp17_ = half_1;
-	parsed_event_from_set_hour (_data1_->event, _tmp16_, _tmp17_);
+	maya_services_parsed_event_from_set_hour (_data1_->event, _tmp16_, _tmp17_);
 	_tmp18_ = g_strdup ("");
 	half_2 = _tmp18_;
 	_tmp19_ = *data;
 	_tmp20_ = _tmp19_.p;
 	_tmp21_ = g_array_index (_tmp20_, gchar*, (guint) 5);
 	if (_tmp21_ != NULL) {
-		ParserEnString_event _tmp22_ = {0};
+		MayaServicesParserEnString_event _tmp22_ = {0};
 		GArray* _tmp23_ = NULL;
 		const gchar* _tmp24_ = NULL;
 		gchar* _tmp25_ = NULL;
@@ -2404,13 +2404,13 @@ static void __lambda38_ (Block1Data* _data1_, ParserEnString_event* data) {
 	}
 	_tmp26_ = hour_2;
 	_tmp27_ = half_2;
-	parsed_event_to_set_hour (_data1_->event, _tmp26_, _tmp27_);
+	maya_services_parsed_event_to_set_hour (_data1_->event, _tmp26_, _tmp27_);
 	_tmp28_ = *data;
 	_tmp29_ = _tmp28_.p;
 	_tmp30_ = g_array_index (_tmp29_, gchar*, (guint) 2);
 	if (_tmp30_ != NULL) {
 		gint minute_1 = 0;
-		ParserEnString_event _tmp31_ = {0};
+		MayaServicesParserEnString_event _tmp31_ = {0};
 		GArray* _tmp32_ = NULL;
 		const gchar* _tmp33_ = NULL;
 		gint _tmp34_ = 0;
@@ -2421,14 +2421,14 @@ static void __lambda38_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp34_ = atoi (_tmp33_);
 		minute_1 = _tmp34_;
 		_tmp35_ = minute_1;
-		parsed_event_from_set_minute (_data1_->event, _tmp35_);
+		maya_services_parsed_event_from_set_minute (_data1_->event, _tmp35_);
 	}
 	_tmp36_ = *data;
 	_tmp37_ = _tmp36_.p;
 	_tmp38_ = g_array_index (_tmp37_, gchar*, (guint) 3);
 	if (_tmp38_ != NULL) {
 		gint minute_2 = 0;
-		ParserEnString_event _tmp39_ = {0};
+		MayaServicesParserEnString_event _tmp39_ = {0};
 		GArray* _tmp40_ = NULL;
 		const gchar* _tmp41_ = NULL;
 		gint _tmp42_ = 0;
@@ -2439,7 +2439,7 @@ static void __lambda38_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp42_ = atoi (_tmp41_);
 		minute_2 = _tmp42_;
 		_tmp43_ = minute_2;
-		parsed_event_to_set_minute (_data1_->event, _tmp43_);
+		maya_services_parsed_event_to_set_minute (_data1_->event, _tmp43_);
 	}
 	_data1_->event->all_day = FALSE;
 	_g_free0 (half_2);
@@ -2447,20 +2447,20 @@ static void __lambda38_ (Block1Data* _data1_, ParserEnString_event* data) {
 }
 
 
-static void ___lambda38__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda38__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda38_ (self, data);
 }
 
 
-static void __lambda39_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda39_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint hour = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
 	gint _tmp4_ = 0;
-	ParserEnString_event _tmp5_ = {0};
+	MayaServicesParserEnString_event _tmp5_ = {0};
 	GArray* _tmp6_ = NULL;
 	const gchar* _tmp7_ = NULL;
 	self = _data1_->self;
@@ -2471,13 +2471,13 @@ static void __lambda39_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp3_ = atoi (_tmp2_);
 	hour = _tmp3_;
 	_tmp4_ = hour;
-	parsed_event_from_set_hour (_data1_->event, _tmp4_, "");
+	maya_services_parsed_event_from_set_hour (_data1_->event, _tmp4_, "");
 	_tmp5_ = *data;
 	_tmp6_ = _tmp5_.p;
 	_tmp7_ = g_array_index (_tmp6_, gchar*, (guint) 1);
 	if (_tmp7_ != NULL) {
 		gint minute_1 = 0;
-		ParserEnString_event _tmp8_ = {0};
+		MayaServicesParserEnString_event _tmp8_ = {0};
 		GArray* _tmp9_ = NULL;
 		const gchar* _tmp10_ = NULL;
 		gint _tmp11_ = 0;
@@ -2488,22 +2488,22 @@ static void __lambda39_ (Block1Data* _data1_, ParserEnString_event* data) {
 		_tmp11_ = atoi (_tmp10_);
 		minute_1 = _tmp11_;
 		_tmp12_ = minute_1;
-		parsed_event_from_set_minute (_data1_->event, _tmp12_);
+		maya_services_parsed_event_from_set_minute (_data1_->event, _tmp12_);
 	}
-	parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
 	_data1_->event->all_day = FALSE;
 }
 
 
-static void ___lambda39__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda39__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda39_ (self, data);
 }
 
 
-static void __lambda40_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda40_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint minutes = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
@@ -2514,19 +2514,19 @@ static void __lambda40_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
 	_tmp3_ = atoi (_tmp2_);
 	minutes = _tmp3_;
-	parsed_event_set_length_to_minutes (_data1_->event, minutes);
+	maya_services_parsed_event_set_length_to_minutes (_data1_->event, minutes);
 }
 
 
-static void ___lambda40__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda40__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda40_ (self, data);
 }
 
 
-static void __lambda41_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda41_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint hours = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
@@ -2537,19 +2537,19 @@ static void __lambda41_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
 	_tmp3_ = atoi (_tmp2_);
 	hours = _tmp3_;
-	parsed_event_set_length_to_hours (_data1_->event, hours);
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, hours);
 }
 
 
-static void ___lambda41__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda41__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda41_ (self, data);
 }
 
 
-static void __lambda42_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda42_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint days = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
@@ -2560,19 +2560,19 @@ static void __lambda42_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
 	_tmp3_ = atoi (_tmp2_);
 	days = _tmp3_;
-	parsed_event_set_length_to_days (_data1_->event, days);
+	maya_services_parsed_event_set_length_to_days (_data1_->event, days);
 }
 
 
-static void ___lambda42__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda42__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda42_ (self, data);
 }
 
 
-static void __lambda43_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda43_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	gint weeks = 0;
-	ParserEnString_event _tmp0_ = {0};
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gint _tmp3_ = 0;
@@ -2583,17 +2583,17 @@ static void __lambda43_ (Block1Data* _data1_, ParserEnString_event* data) {
 	_tmp2_ = g_array_index (_tmp1_, gchar*, (guint) 0);
 	_tmp3_ = atoi (_tmp2_);
 	weeks = _tmp3_;
-	parsed_event_set_length_to_weeks (_data1_->event, weeks);
+	maya_services_parsed_event_set_length_to_weeks (_data1_->event, weeks);
 }
 
 
-static void ___lambda43__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda43__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda43_ (self, data);
 }
 
 
-static void __lambda44_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
+static void __lambda44_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
 	self = _data1_->self;
 	g_return_if_fail (data != NULL);
 	{
@@ -2604,11 +2604,11 @@ static void __lambda44_ (Block1Data* _data1_, ParserEnString_event* data) {
 			_tmp0_ = TRUE;
 			while (TRUE) {
 				gint _tmp2_ = 0;
-				ParserEnString_event _tmp3_ = {0};
+				MayaServicesParserEnString_event _tmp3_ = {0};
 				GArray* _tmp4_ = NULL;
 				guint _tmp5_ = 0U;
 				const gchar* _tmp6_ = NULL;
-				ParserEnString_event _tmp7_ = {0};
+				MayaServicesParserEnString_event _tmp7_ = {0};
 				GArray* _tmp8_ = NULL;
 				gint _tmp9_ = 0;
 				const gchar* _tmp10_ = NULL;
@@ -2640,14 +2640,14 @@ static void __lambda44_ (Block1Data* _data1_, ParserEnString_event* data) {
 }
 
 
-static void ___lambda44__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda44__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda44_ (self, data);
 }
 
 
-static void __lambda45_ (Block1Data* _data1_, ParserEnString_event* data) {
-	ParserEn* self;
-	ParserEnString_event _tmp0_ = {0};
+static void __lambda45_ (Block1Data* _data1_, MayaServicesParserEnString_event* data) {
+	MayaServicesParserEn* self;
+	MayaServicesParserEnString_event _tmp0_ = {0};
 	GArray* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gchar* _tmp3_ = NULL;
@@ -2662,7 +2662,7 @@ static void __lambda45_ (Block1Data* _data1_, ParserEnString_event* data) {
 }
 
 
-static void ___lambda45__parserentranscribe_analysis (ParserEnString_event* data, gpointer self) {
+static void ___lambda45__mayaservicesparserentranscribe_analysis (MayaServicesParserEnString_event* data, gpointer self) {
 	__lambda45_ (self, data);
 }
 
@@ -2687,15 +2687,15 @@ static gpointer _g_object_ref0 (gpointer self) {
 }
 
 
-static ParsedEvent* parser_en_real_parse_source (EventParser* base, const gchar* _source) {
-	ParserEn * self;
-	ParsedEvent* result = NULL;
+static MayaServicesParsedEvent* maya_services_parser_en_real_parse_source (MayaServicesEventParser* base, const gchar* _source) {
+	MayaServicesParserEn * self;
+	MayaServicesParsedEvent* result = NULL;
 	Block1Data* _data1_;
 	const gchar* _tmp0_ = NULL;
 	gchar* _tmp1_ = NULL;
 	const gchar* _tmp2_ = NULL;
 	gchar* _tmp3_ = NULL;
-	ParsedEvent* _tmp4_ = NULL;
+	MayaServicesParsedEvent* _tmp4_ = NULL;
 	GDateTime* _tmp5_ = NULL;
 	GDateTime* _tmp6_ = NULL;
 	const gchar* _tmp7_ = NULL;
@@ -2726,8 +2726,8 @@ static ParsedEvent* parser_en_real_parse_source (EventParser* base, const gchar*
 	gchar* _tmp32_ = NULL;
 	const gchar* _tmp33_ = NULL;
 	gchar* _tmp34_ = NULL;
-	ParsedEvent* _tmp35_ = NULL;
-	self = (ParserEn*) base;
+	MayaServicesParsedEvent* _tmp35_ = NULL;
+	self = (MayaServicesParserEn*) base;
 	g_return_val_if_fail (_source != NULL, NULL);
 	_data1_ = g_slice_new0 (Block1Data);
 	_data1_->_ref_count_ = 1;
@@ -2740,32 +2740,32 @@ static ParsedEvent* parser_en_real_parse_source (EventParser* base, const gchar*
 	_tmp3_ = g_strdup (_tmp2_);
 	_g_free0 (self->priv->remaining_source);
 	self->priv->remaining_source = _tmp3_;
-	_tmp4_ = parsed_event_new ("", NULL, NULL, "", FALSE, "");
+	_tmp4_ = maya_services_parsed_event_new ("", NULL, NULL, "", FALSE, "");
 	_data1_->event = _tmp4_;
 	_tmp5_ = self->simulated_dt;
 	_tmp6_ = g_date_time_add_hours (_tmp5_, 1);
 	_g_date_time_unref0 (_data1_->event->from);
 	_data1_->event->from = _tmp6_;
-	parsed_event_from_set_minute (_data1_->event, 0);
-	parsed_event_from_set_second (_data1_->event, 0);
-	parsed_event_set_length_to_hours (_data1_->event, 1);
-	parser_en_analyze_pattern (self, "two days ago", ___lambda4__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "yesterday", ___lambda5__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "today", ___lambda6__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "tomorrow", ___lambda7__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "this weekend", ___lambda8__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "all day", ___lambda9__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "the whole day", ___lambda10__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "next week", ___lambda11__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "next month", ___lambda12__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(?<p1>\\d+) days ago", ___lambda13__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "in (?<p1>\\d+) days", ___lambda14__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "in (?<p1>\\d+) weeks", ___lambda15__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parsed_event_from_set_minute (_data1_->event, 0);
+	maya_services_parsed_event_from_set_second (_data1_->event, 0);
+	maya_services_parsed_event_set_length_to_hours (_data1_->event, 1);
+	maya_services_parser_en_analyze_pattern (self, "two days ago", ___lambda4__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "yesterday", ___lambda5__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "today", ___lambda6__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "tomorrow", ___lambda7__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "this weekend", ___lambda8__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "all day", ___lambda9__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "the whole day", ___lambda10__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "next week", ___lambda11__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "next month", ___lambda12__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(?<p1>\\d+) days ago", ___lambda13__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "in (?<p1>\\d+) days", ___lambda14__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "in (?<p1>\\d+) weeks", ___lambda15__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_tmp7_ = self->priv->weekdays_regex;
 	_tmp8_ = string_to_string (_tmp7_);
 	_tmp9_ = g_strconcat ("(next|on) (?<p1>", _tmp8_, ")", NULL);
 	_tmp10_ = _tmp9_;
-	parser_en_analyze_pattern (self, _tmp10_, ___lambda16__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, _tmp10_, ___lambda16__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_g_free0 (_tmp10_);
 	_tmp11_ = self->priv->weekdays_regex;
 	_tmp12_ = string_to_string (_tmp11_);
@@ -2773,59 +2773,59 @@ static ParsedEvent* parser_en_real_parse_source (EventParser* base, const gchar*
 	_tmp14_ = string_to_string (_tmp13_);
 	_tmp15_ = g_strconcat ("(this )?(?<p1>", _tmp12_, ")( to (?<p2>", _tmp14_, "))?", NULL);
 	_tmp16_ = _tmp15_;
-	parser_en_analyze_pattern (self, _tmp16_, ___lambda17__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, _tmp16_, ___lambda17__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_g_free0 (_tmp16_);
-	parser_en_analyze_pattern (self, "on ((?<p1>\\d{2,4})/)?(?<p2>\\d{1,2})/(?<p3>\\d{1,2})(st|nd|rd|th)?", ___lambda18__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "on ((?<p1>\\d{2,4})/)?(?<p2>\\d{1,2})/(?<p3>\\d{1,2})(st|nd|rd|th)?", ___lambda18__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_tmp17_ = self->priv->months_regex;
 	_tmp18_ = string_to_string (_tmp17_);
 	_tmp19_ = g_strconcat ("on (?<p1>\\d{0,1})(st|nd|rd|th)? (?<p2>", _tmp18_, ")( (?<p3>\\d{2,4}))?", NULL);
 	_tmp20_ = _tmp19_;
-	parser_en_analyze_pattern (self, _tmp20_, ___lambda19__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, _tmp20_, ___lambda19__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_g_free0 (_tmp20_);
 	_tmp21_ = self->priv->months_regex;
 	_tmp22_ = string_to_string (_tmp21_);
 	_tmp23_ = g_strconcat ("on (?<p1>", _tmp22_, ")(,)? (?<p2>\\d{1,2})(st|nd|rd|th)?( (?<p3>\\d{2,4}))?", NULL);
 	_tmp24_ = _tmp23_;
-	parser_en_analyze_pattern (self, _tmp24_, ___lambda20__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, _tmp24_, ___lambda20__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_g_free0 (_tmp24_);
 	_tmp25_ = self->priv->months_regex;
 	_tmp26_ = string_to_string (_tmp25_);
 	_tmp27_ = g_strconcat ("from (?<p1>\\d{1,2})(.)? to (?<p2>\\d{1,2}). ((?<p3>", _tmp26_, "))?", NULL);
 	_tmp28_ = _tmp27_;
-	parser_en_analyze_pattern (self, _tmp28_, ___lambda21__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, _tmp28_, ___lambda21__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_g_free0 (_tmp28_);
-	parser_en_analyze_pattern (self, "from (?<p1>\\d{1,2})/(?<p2>\\d{1,2}) - ((?<p3>\\d{1,2})/)?(?<p4>\\d{1," \
-"2})", ___lambda22__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "from (?<p1>\\d{1,2})/(?<p2>\\d{1,2}) - ((?<p3>\\d{1,2})/)?(?<p4>\\d{1," \
+"2})", ___lambda22__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_tmp29_ = self->priv->months_regex;
 	_tmp30_ = string_to_string (_tmp29_);
 	_tmp31_ = g_strconcat ("from (?<p1>", _tmp30_, ") (?<p2>\\d{1,2})(st|nd|rd|th)? - (?<p3>\\d{1,2})(st|nd|rd|th)?", NULL);
 	_tmp32_ = _tmp31_;
-	parser_en_analyze_pattern (self, _tmp32_, ___lambda23__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, _tmp32_, ___lambda23__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_g_free0 (_tmp32_);
-	parser_en_analyze_pattern (self, "in a month", ___lambda24__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "christmas eve", ___lambda25__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "breakfast", ___lambda26__parserentranscribe_analysis, _data1_, FALSE);
-	parser_en_analyze_pattern (self, "lunch", ___lambda27__parserentranscribe_analysis, _data1_, FALSE);
-	parser_en_analyze_pattern (self, "dinner", ___lambda28__parserentranscribe_analysis, _data1_, FALSE);
-	parser_en_analyze_pattern (self, "early", ___lambda29__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(this )?morning", ___lambda30__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(at |this )?noon", ___lambda31__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(this )?afternoon", ___lambda32__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(this )?evening", ___lambda33__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "late", ___lambda34__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(?<p1>\\d{1,2})?(?<p2>(am|pm|p))?(to |-| - )(?<p3>\\d{1,2})?(?<p4>(am|" \
-"pm|p))?", ___lambda35__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(at |@ ?)(?<p1>\\d{1,2})(:(?<p2>\\d{1,2}))?(?<p3>(am|pm|p))?", ___lambda36__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(at |@)(?<p1>\\d{4})", ___lambda37__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "from (?<p1>\\d{1,2})(:(?<p3>\\d{1,2}))?(?<p5>(am|pm|p)?) to (?<p2>\\d{" \
-"1,2})(:(?<p4>\\d{1,2}))?(?<p6>(am|pm|p)?)", ___lambda38__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(?<p1>\\d{1,2})(:(?<p2>\\d{1,2}))? (o'clock|h)", ___lambda39__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "for (?<p1>\\d+)(\\s?min| minutes)", ___lambda40__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "for (?<p1>\\d+)(\\s?h| hours)", ___lambda41__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "for (?<p1>\\d+)(\\s?d| days)", ___lambda42__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "for (?<p1>\\d+) weeks", ___lambda43__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(with)( the)? (?<p1>(\\w\\s?)+)", ___lambda44__parserentranscribe_analysis, _data1_, TRUE);
-	parser_en_analyze_pattern (self, "(at|in)(the)? (?<p1>(\\w\\s?)+)", ___lambda45__parserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "in a month", ___lambda24__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "christmas eve", ___lambda25__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "breakfast", ___lambda26__mayaservicesparserentranscribe_analysis, _data1_, FALSE);
+	maya_services_parser_en_analyze_pattern (self, "lunch", ___lambda27__mayaservicesparserentranscribe_analysis, _data1_, FALSE);
+	maya_services_parser_en_analyze_pattern (self, "dinner", ___lambda28__mayaservicesparserentranscribe_analysis, _data1_, FALSE);
+	maya_services_parser_en_analyze_pattern (self, "early", ___lambda29__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(this )?morning", ___lambda30__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(at |this )?noon", ___lambda31__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(this )?afternoon", ___lambda32__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(this )?evening", ___lambda33__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "late", ___lambda34__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(?<p1>\\d{1,2})?(?<p2>(am|pm|p))?(to |-| - )(?<p3>\\d{1,2})?(?<p4>(am|" \
+"pm|p))?", ___lambda35__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(at |@ ?)(?<p1>\\d{1,2})(:(?<p2>\\d{1,2}))?(?<p3>(am|pm|p))?", ___lambda36__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(at |@)(?<p1>\\d{4})", ___lambda37__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "from (?<p1>\\d{1,2})(:(?<p3>\\d{1,2}))?(?<p5>(am|pm|p)?) to (?<p2>\\d{" \
+"1,2})(:(?<p4>\\d{1,2}))?(?<p6>(am|pm|p)?)", ___lambda38__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(?<p1>\\d{1,2})(:(?<p2>\\d{1,2}))? (o'clock|h)", ___lambda39__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "for (?<p1>\\d+)(\\s?min| minutes)", ___lambda40__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "for (?<p1>\\d+)(\\s?h| hours)", ___lambda41__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "for (?<p1>\\d+)(\\s?d| days)", ___lambda42__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "for (?<p1>\\d+) weeks", ___lambda43__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(with)( the)? (?<p1>(\\w\\s?)+)", ___lambda44__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
+	maya_services_parser_en_analyze_pattern (self, "(at|in)(the)? (?<p1>(\\w\\s?)+)", ___lambda45__mayaservicesparserentranscribe_analysis, _data1_, TRUE);
 	_tmp33_ = self->priv->remaining_source;
 	_tmp34_ = string_strip (_tmp33_);
 	_g_free0 (_data1_->event->title);
@@ -2838,18 +2838,18 @@ static ParsedEvent* parser_en_real_parse_source (EventParser* base, const gchar*
 }
 
 
-static gchar* parser_en_real_get_language (EventParser* base) {
-	ParserEn * self;
+static gchar* maya_services_parser_en_real_get_language (MayaServicesEventParser* base) {
+	MayaServicesParserEn * self;
 	gchar* result = NULL;
 	gchar* _tmp0_ = NULL;
-	self = (ParserEn*) base;
-	_tmp0_ = g_strdup (EVENT_PARSER_HANDLER_FALLBACK_LANG);
+	self = (MayaServicesParserEn*) base;
+	_tmp0_ = g_strdup (MAYA_SERVICES_EVENT_PARSER_HANDLER_FALLBACK_LANG);
 	result = _tmp0_;
 	return result;
 }
 
 
-static void parser_en_string_event_copy (const ParserEnString_event* self, ParserEnString_event* dest) {
+static void maya_services_parser_en_string_event_copy (const MayaServicesParserEnString_event* self, MayaServicesParserEnString_event* dest) {
 	gboolean _tmp0_ = FALSE;
 	const gchar* _tmp1_ = NULL;
 	gchar* _tmp2_ = NULL;
@@ -2874,52 +2874,52 @@ static void parser_en_string_event_copy (const ParserEnString_event* self, Parse
 }
 
 
-static void parser_en_string_event_destroy (ParserEnString_event* self) {
+static void maya_services_parser_en_string_event_destroy (MayaServicesParserEnString_event* self) {
 	_g_free0 ((*self).matched_string);
 	_g_array_unref0 ((*self).p);
 }
 
 
-static ParserEnString_event* parser_en_string_event_dup (const ParserEnString_event* self) {
-	ParserEnString_event* dup;
-	dup = g_new0 (ParserEnString_event, 1);
-	parser_en_string_event_copy (self, dup);
+static MayaServicesParserEnString_event* maya_services_parser_en_string_event_dup (const MayaServicesParserEnString_event* self) {
+	MayaServicesParserEnString_event* dup;
+	dup = g_new0 (MayaServicesParserEnString_event, 1);
+	maya_services_parser_en_string_event_copy (self, dup);
 	return dup;
 }
 
 
-static void parser_en_string_event_free (ParserEnString_event* self) {
-	parser_en_string_event_destroy (self);
+static void maya_services_parser_en_string_event_free (MayaServicesParserEnString_event* self) {
+	maya_services_parser_en_string_event_destroy (self);
 	g_free (self);
 }
 
 
-static GType parser_en_string_event_get_type (void) {
-	static volatile gsize parser_en_string_event_type_id__volatile = 0;
-	if (g_once_init_enter (&parser_en_string_event_type_id__volatile)) {
-		GType parser_en_string_event_type_id;
-		parser_en_string_event_type_id = g_boxed_type_register_static ("ParserEnString_event", (GBoxedCopyFunc) parser_en_string_event_dup, (GBoxedFreeFunc) parser_en_string_event_free);
-		g_once_init_leave (&parser_en_string_event_type_id__volatile, parser_en_string_event_type_id);
+static GType maya_services_parser_en_string_event_get_type (void) {
+	static volatile gsize maya_services_parser_en_string_event_type_id__volatile = 0;
+	if (g_once_init_enter (&maya_services_parser_en_string_event_type_id__volatile)) {
+		GType maya_services_parser_en_string_event_type_id;
+		maya_services_parser_en_string_event_type_id = g_boxed_type_register_static ("MayaServicesParserEnString_event", (GBoxedCopyFunc) maya_services_parser_en_string_event_dup, (GBoxedFreeFunc) maya_services_parser_en_string_event_free);
+		g_once_init_leave (&maya_services_parser_en_string_event_type_id__volatile, maya_services_parser_en_string_event_type_id);
 	}
-	return parser_en_string_event_type_id__volatile;
+	return maya_services_parser_en_string_event_type_id__volatile;
 }
 
 
-static void parser_en_class_init (ParserEnClass * klass) {
-	parser_en_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (ParserEnPrivate));
-	G_OBJECT_CLASS (klass)->finalize = parser_en_finalize;
+static void maya_services_parser_en_class_init (MayaServicesParserEnClass * klass) {
+	maya_services_parser_en_parent_class = g_type_class_peek_parent (klass);
+	g_type_class_add_private (klass, sizeof (MayaServicesParserEnPrivate));
+	G_OBJECT_CLASS (klass)->finalize = maya_services_parser_en_finalize;
 }
 
 
-static void parser_en_event_parser_interface_init (EventParserIface * iface) {
-	parser_en_event_parser_parent_iface = g_type_interface_peek_parent (iface);
-	iface->parse_source = (ParsedEvent* (*)(EventParser*, const gchar*)) parser_en_real_parse_source;
-	iface->get_language = (gchar* (*)(EventParser*)) parser_en_real_get_language;
+static void maya_services_parser_en_maya_services_event_parser_interface_init (MayaServicesEventParserIface * iface) {
+	maya_services_parser_en_maya_services_event_parser_parent_iface = g_type_interface_peek_parent (iface);
+	iface->parse_source = (MayaServicesParsedEvent* (*)(MayaServicesEventParser*, const gchar*)) maya_services_parser_en_real_parse_source;
+	iface->get_language = (gchar* (*)(MayaServicesEventParser*)) maya_services_parser_en_real_get_language;
 }
 
 
-static void parser_en_instance_init (ParserEn * self) {
+static void maya_services_parser_en_instance_init (MayaServicesParserEn * self) {
 	gchar* _tmp0_ = NULL;
 	gchar* _tmp1_ = NULL;
 	gchar* _tmp2_ = NULL;
@@ -2987,7 +2987,7 @@ static void parser_en_instance_init (ParserEn * self) {
 	gchar* _tmp64_ = NULL;
 	gchar* _tmp65_ = NULL;
 	gchar** _tmp66_ = NULL;
-	self->priv = PARSER_EN_GET_PRIVATE (self);
+	self->priv = MAYA_SERVICES_PARSER_EN_GET_PRIVATE (self);
 	_tmp0_ = g_strdup ("january");
 	_tmp1_ = g_strdup ("1");
 	_tmp2_ = g_strdup ("february");
@@ -3131,9 +3131,9 @@ static void parser_en_instance_init (ParserEn * self) {
 }
 
 
-static void parser_en_finalize (GObject* obj) {
-	ParserEn * self;
-	self = G_TYPE_CHECK_INSTANCE_CAST (obj, TYPE_PARSER_EN, ParserEn);
+static void maya_services_parser_en_finalize (GObject* obj) {
+	MayaServicesParserEn * self;
+	self = G_TYPE_CHECK_INSTANCE_CAST (obj, MAYA_SERVICES_TYPE_PARSER_EN, MayaServicesParserEn);
 	_g_date_time_unref0 (self->simulated_dt);
 	_g_free0 (self->source);
 	_g_free0 (self->priv->remaining_source);
@@ -3143,40 +3143,21 @@ static void parser_en_finalize (GObject* obj) {
 	_g_free0 (self->priv->months_regex);
 	_g_free0 (self->priv->weekdays_regex);
 	_g_free0 (self->priv->number_words_regex);
-	G_OBJECT_CLASS (parser_en_parent_class)->finalize (obj);
+	G_OBJECT_CLASS (maya_services_parser_en_parent_class)->finalize (obj);
 }
 
 
-/***
-  BEGIN LICENSE
-
-  Copyright (C) 2015 Mario Guerriero <marioguerriero33@gmail.com>
-                     pantor
-  This program is free software: you can redistribute it and/or modify it
-  under the terms of the GNU Lesser General Public License version 3, as published
-  by the Free Software Foundation.
-
-  This program is distributed in the hope that it will be useful, but
-  WITHOUT ANY WARRANTY; without even the implied warranties of
-  MERCHANTABILITY, SATISFACTORY QUALITY, or FITNESS FOR A PARTICULAR
-  PURPOSE.  See the GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License along
-  with this program.  If not, see <http://www.gnu.org/licenses/>
-
-  END LICENSE
-***/
-GType parser_en_get_type (void) {
-	static volatile gsize parser_en_type_id__volatile = 0;
-	if (g_once_init_enter (&parser_en_type_id__volatile)) {
-		static const GTypeInfo g_define_type_info = { sizeof (ParserEnClass), (GBaseInitFunc) NULL, (GBaseFinalizeFunc) NULL, (GClassInitFunc) parser_en_class_init, (GClassFinalizeFunc) NULL, NULL, sizeof (ParserEn), 0, (GInstanceInitFunc) parser_en_instance_init, NULL };
-		static const GInterfaceInfo event_parser_info = { (GInterfaceInitFunc) parser_en_event_parser_interface_init, (GInterfaceFinalizeFunc) NULL, NULL};
-		GType parser_en_type_id;
-		parser_en_type_id = g_type_register_static (G_TYPE_OBJECT, "ParserEn", &g_define_type_info, 0);
-		g_type_add_interface_static (parser_en_type_id, TYPE_EVENT_PARSER, &event_parser_info);
-		g_once_init_leave (&parser_en_type_id__volatile, parser_en_type_id);
+GType maya_services_parser_en_get_type (void) {
+	static volatile gsize maya_services_parser_en_type_id__volatile = 0;
+	if (g_once_init_enter (&maya_services_parser_en_type_id__volatile)) {
+		static const GTypeInfo g_define_type_info = { sizeof (MayaServicesParserEnClass), (GBaseInitFunc) NULL, (GBaseFinalizeFunc) NULL, (GClassInitFunc) maya_services_parser_en_class_init, (GClassFinalizeFunc) NULL, NULL, sizeof (MayaServicesParserEn), 0, (GInstanceInitFunc) maya_services_parser_en_instance_init, NULL };
+		static const GInterfaceInfo maya_services_event_parser_info = { (GInterfaceInitFunc) maya_services_parser_en_maya_services_event_parser_interface_init, (GInterfaceFinalizeFunc) NULL, NULL};
+		GType maya_services_parser_en_type_id;
+		maya_services_parser_en_type_id = g_type_register_static (G_TYPE_OBJECT, "MayaServicesParserEn", &g_define_type_info, 0);
+		g_type_add_interface_static (maya_services_parser_en_type_id, MAYA_SERVICES_TYPE_EVENT_PARSER, &maya_services_event_parser_info);
+		g_once_init_leave (&maya_services_parser_en_type_id__volatile, maya_services_parser_en_type_id);
 	}
-	return parser_en_type_id__volatile;
+	return maya_services_parser_en_type_id__volatile;
 }
 
 

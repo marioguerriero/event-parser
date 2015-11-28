@@ -18,6 +18,8 @@
   END LICENSE
 ***/
 
+namespace Maya.Services {
+
 public class EventParserHandler : GLib.Object {
 
     public const string FALLBACK_LANG = "en";
@@ -52,4 +54,6 @@ public class EventParserHandler : GLib.Object {
     public unowned string? get_locale () {
         return Environment.get_variable ("LANGUAGE").split (":")[0];
     }
+}
+
 }

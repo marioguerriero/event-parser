@@ -13,15 +13,15 @@
 
 #define TYPE_TEST_EVENT (test_event_get_type ())
 
-#define TYPE_PARSED_EVENT (parsed_event_get_type ())
-#define PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_PARSED_EVENT, ParsedEvent))
-#define PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_PARSED_EVENT, ParsedEventClass))
-#define IS_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_PARSED_EVENT))
-#define IS_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_PARSED_EVENT))
-#define PARSED_EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_PARSED_EVENT, ParsedEventClass))
+#define MAYA_SERVICES_TYPE_PARSED_EVENT (maya_services_parsed_event_get_type ())
+#define MAYA_SERVICES_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEvent))
+#define MAYA_SERVICES_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEventClass))
+#define MAYA_SERVICES_IS_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT))
+#define MAYA_SERVICES_IS_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), MAYA_SERVICES_TYPE_PARSED_EVENT))
+#define MAYA_SERVICES_PARSED_EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), MAYA_SERVICES_TYPE_PARSED_EVENT, MayaServicesParsedEventClass))
 
-typedef struct _ParsedEvent ParsedEvent;
-typedef struct _ParsedEventClass ParsedEventClass;
+typedef struct _MayaServicesParsedEvent MayaServicesParsedEvent;
+typedef struct _MayaServicesParsedEventClass MayaServicesParsedEventClass;
 typedef struct _test_event test_event;
 #define _g_free0(var) (var = (g_free (var), NULL))
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
@@ -29,20 +29,20 @@ typedef struct _test_event test_event;
 
 struct _test_event {
 	gchar* source;
-	ParsedEvent* target;
+	MayaServicesParsedEvent* target;
 };
 
 
 
 GType test_event_get_type (void) G_GNUC_CONST;
-GType parsed_event_get_type (void) G_GNUC_CONST;
+GType maya_services_parsed_event_get_type (void) G_GNUC_CONST;
 test_event* test_event_dup (const test_event* self);
 void test_event_free (test_event* self);
 void test_event_copy (const test_event* self, test_event* dest);
 void test_event_destroy (test_event* self);
 test_event* test_de (int* result_length1);
-ParsedEvent* parsed_event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
-ParsedEvent* parsed_event_construct (GType object_type, const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
+MayaServicesParsedEvent* maya_services_parsed_event_new (const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
+MayaServicesParsedEvent* maya_services_parsed_event_construct (GType object_type, const gchar* _title, GDateTime* _from, GDateTime* _to, const gchar* _location, gboolean _all_day, const gchar* _participants);
 static void _vala_test_event_array_free (test_event* array, gint array_length);
 
 
@@ -84,154 +84,154 @@ test_event* test_de (int* result_length1) {
 	GDateTime* _tmp2_ = NULL;
 	GDateTime* _tmp3_ = NULL;
 	GDateTime* _tmp4_ = NULL;
-	ParsedEvent* _tmp5_ = NULL;
+	MayaServicesParsedEvent* _tmp5_ = NULL;
 	test_event _tmp6_ = {0};
 	gchar* _tmp7_ = NULL;
 	GDateTime* _tmp8_ = NULL;
 	GDateTime* _tmp9_ = NULL;
 	GDateTime* _tmp10_ = NULL;
 	GDateTime* _tmp11_ = NULL;
-	ParsedEvent* _tmp12_ = NULL;
+	MayaServicesParsedEvent* _tmp12_ = NULL;
 	test_event _tmp13_ = {0};
 	gchar* _tmp14_ = NULL;
 	GDateTime* _tmp15_ = NULL;
 	GDateTime* _tmp16_ = NULL;
 	GDateTime* _tmp17_ = NULL;
 	GDateTime* _tmp18_ = NULL;
-	ParsedEvent* _tmp19_ = NULL;
+	MayaServicesParsedEvent* _tmp19_ = NULL;
 	test_event _tmp20_ = {0};
 	gchar* _tmp21_ = NULL;
 	GDateTime* _tmp22_ = NULL;
 	GDateTime* _tmp23_ = NULL;
 	GDateTime* _tmp24_ = NULL;
 	GDateTime* _tmp25_ = NULL;
-	ParsedEvent* _tmp26_ = NULL;
+	MayaServicesParsedEvent* _tmp26_ = NULL;
 	test_event _tmp27_ = {0};
 	gchar* _tmp28_ = NULL;
 	GDateTime* _tmp29_ = NULL;
 	GDateTime* _tmp30_ = NULL;
 	GDateTime* _tmp31_ = NULL;
 	GDateTime* _tmp32_ = NULL;
-	ParsedEvent* _tmp33_ = NULL;
+	MayaServicesParsedEvent* _tmp33_ = NULL;
 	test_event _tmp34_ = {0};
 	gchar* _tmp35_ = NULL;
 	GDateTime* _tmp36_ = NULL;
 	GDateTime* _tmp37_ = NULL;
 	GDateTime* _tmp38_ = NULL;
 	GDateTime* _tmp39_ = NULL;
-	ParsedEvent* _tmp40_ = NULL;
+	MayaServicesParsedEvent* _tmp40_ = NULL;
 	test_event _tmp41_ = {0};
 	gchar* _tmp42_ = NULL;
 	GDateTime* _tmp43_ = NULL;
 	GDateTime* _tmp44_ = NULL;
 	GDateTime* _tmp45_ = NULL;
 	GDateTime* _tmp46_ = NULL;
-	ParsedEvent* _tmp47_ = NULL;
+	MayaServicesParsedEvent* _tmp47_ = NULL;
 	test_event _tmp48_ = {0};
 	gchar* _tmp49_ = NULL;
 	GDateTime* _tmp50_ = NULL;
 	GDateTime* _tmp51_ = NULL;
 	GDateTime* _tmp52_ = NULL;
 	GDateTime* _tmp53_ = NULL;
-	ParsedEvent* _tmp54_ = NULL;
+	MayaServicesParsedEvent* _tmp54_ = NULL;
 	test_event _tmp55_ = {0};
 	gchar* _tmp56_ = NULL;
 	GDateTime* _tmp57_ = NULL;
 	GDateTime* _tmp58_ = NULL;
 	GDateTime* _tmp59_ = NULL;
 	GDateTime* _tmp60_ = NULL;
-	ParsedEvent* _tmp61_ = NULL;
+	MayaServicesParsedEvent* _tmp61_ = NULL;
 	test_event _tmp62_ = {0};
 	gchar* _tmp63_ = NULL;
 	GDateTime* _tmp64_ = NULL;
 	GDateTime* _tmp65_ = NULL;
 	GDateTime* _tmp66_ = NULL;
 	GDateTime* _tmp67_ = NULL;
-	ParsedEvent* _tmp68_ = NULL;
+	MayaServicesParsedEvent* _tmp68_ = NULL;
 	test_event _tmp69_ = {0};
 	gchar* _tmp70_ = NULL;
 	GDateTime* _tmp71_ = NULL;
 	GDateTime* _tmp72_ = NULL;
 	GDateTime* _tmp73_ = NULL;
 	GDateTime* _tmp74_ = NULL;
-	ParsedEvent* _tmp75_ = NULL;
+	MayaServicesParsedEvent* _tmp75_ = NULL;
 	test_event _tmp76_ = {0};
 	gchar* _tmp77_ = NULL;
 	GDateTime* _tmp78_ = NULL;
 	GDateTime* _tmp79_ = NULL;
 	GDateTime* _tmp80_ = NULL;
 	GDateTime* _tmp81_ = NULL;
-	ParsedEvent* _tmp82_ = NULL;
+	MayaServicesParsedEvent* _tmp82_ = NULL;
 	test_event _tmp83_ = {0};
 	gchar* _tmp84_ = NULL;
 	GDateTime* _tmp85_ = NULL;
 	GDateTime* _tmp86_ = NULL;
 	GDateTime* _tmp87_ = NULL;
 	GDateTime* _tmp88_ = NULL;
-	ParsedEvent* _tmp89_ = NULL;
+	MayaServicesParsedEvent* _tmp89_ = NULL;
 	test_event _tmp90_ = {0};
 	gchar* _tmp91_ = NULL;
 	GDateTime* _tmp92_ = NULL;
 	GDateTime* _tmp93_ = NULL;
 	GDateTime* _tmp94_ = NULL;
 	GDateTime* _tmp95_ = NULL;
-	ParsedEvent* _tmp96_ = NULL;
+	MayaServicesParsedEvent* _tmp96_ = NULL;
 	test_event _tmp97_ = {0};
 	gchar* _tmp98_ = NULL;
 	GDateTime* _tmp99_ = NULL;
 	GDateTime* _tmp100_ = NULL;
 	GDateTime* _tmp101_ = NULL;
 	GDateTime* _tmp102_ = NULL;
-	ParsedEvent* _tmp103_ = NULL;
+	MayaServicesParsedEvent* _tmp103_ = NULL;
 	test_event _tmp104_ = {0};
 	gchar* _tmp105_ = NULL;
 	GDateTime* _tmp106_ = NULL;
 	GDateTime* _tmp107_ = NULL;
 	GDateTime* _tmp108_ = NULL;
 	GDateTime* _tmp109_ = NULL;
-	ParsedEvent* _tmp110_ = NULL;
+	MayaServicesParsedEvent* _tmp110_ = NULL;
 	test_event _tmp111_ = {0};
 	gchar* _tmp112_ = NULL;
 	GDateTime* _tmp113_ = NULL;
 	GDateTime* _tmp114_ = NULL;
 	GDateTime* _tmp115_ = NULL;
 	GDateTime* _tmp116_ = NULL;
-	ParsedEvent* _tmp117_ = NULL;
+	MayaServicesParsedEvent* _tmp117_ = NULL;
 	test_event _tmp118_ = {0};
 	gchar* _tmp119_ = NULL;
 	GDateTime* _tmp120_ = NULL;
 	GDateTime* _tmp121_ = NULL;
 	GDateTime* _tmp122_ = NULL;
 	GDateTime* _tmp123_ = NULL;
-	ParsedEvent* _tmp124_ = NULL;
+	MayaServicesParsedEvent* _tmp124_ = NULL;
 	test_event _tmp125_ = {0};
 	gchar* _tmp126_ = NULL;
 	GDateTime* _tmp127_ = NULL;
 	GDateTime* _tmp128_ = NULL;
 	GDateTime* _tmp129_ = NULL;
 	GDateTime* _tmp130_ = NULL;
-	ParsedEvent* _tmp131_ = NULL;
+	MayaServicesParsedEvent* _tmp131_ = NULL;
 	test_event _tmp132_ = {0};
 	gchar* _tmp133_ = NULL;
 	GDateTime* _tmp134_ = NULL;
 	GDateTime* _tmp135_ = NULL;
 	GDateTime* _tmp136_ = NULL;
 	GDateTime* _tmp137_ = NULL;
-	ParsedEvent* _tmp138_ = NULL;
+	MayaServicesParsedEvent* _tmp138_ = NULL;
 	test_event _tmp139_ = {0};
 	gchar* _tmp140_ = NULL;
 	GDateTime* _tmp141_ = NULL;
 	GDateTime* _tmp142_ = NULL;
 	GDateTime* _tmp143_ = NULL;
 	GDateTime* _tmp144_ = NULL;
-	ParsedEvent* _tmp145_ = NULL;
+	MayaServicesParsedEvent* _tmp145_ = NULL;
 	test_event _tmp146_ = {0};
 	gchar* _tmp147_ = NULL;
 	GDateTime* _tmp148_ = NULL;
 	GDateTime* _tmp149_ = NULL;
 	GDateTime* _tmp150_ = NULL;
 	GDateTime* _tmp151_ = NULL;
-	ParsedEvent* _tmp152_ = NULL;
+	MayaServicesParsedEvent* _tmp152_ = NULL;
 	test_event _tmp153_ = {0};
 	test_event* _tmp154_ = NULL;
 	test_event* _tmp155_ = NULL;
@@ -245,7 +245,7 @@ test_event* test_de (int* result_length1) {
 	_tmp2_ = _tmp1_;
 	_tmp3_ = g_date_time_new_utc (2015, 2, 17, 15, 0, (gdouble) 0);
 	_tmp4_ = _tmp3_;
-	_tmp5_ = parsed_event_new ("Badminton", _tmp2_, _tmp4_, "", FALSE, "");
+	_tmp5_ = maya_services_parsed_event_new ("Badminton", _tmp2_, _tmp4_, "", FALSE, "");
 	memset (&_tmp6_, 0, sizeof (test_event));
 	_g_free0 (_tmp6_.source);
 	_tmp6_.source = _tmp0_;
@@ -256,7 +256,7 @@ test_event* test_de (int* result_length1) {
 	_tmp9_ = _tmp8_;
 	_tmp10_ = g_date_time_new_utc (2015, 2, 18, 0, 0, (gdouble) 0);
 	_tmp11_ = _tmp10_;
-	_tmp12_ = parsed_event_new ("Sporttag", _tmp9_, _tmp11_, "Sporthalle", TRUE, "");
+	_tmp12_ = maya_services_parsed_event_new ("Sporttag", _tmp9_, _tmp11_, "Sporthalle", TRUE, "");
 	memset (&_tmp13_, 0, sizeof (test_event));
 	_g_free0 (_tmp13_.source);
 	_tmp13_.source = _tmp7_;
@@ -267,7 +267,7 @@ test_event* test_de (int* result_length1) {
 	_tmp16_ = _tmp15_;
 	_tmp17_ = g_date_time_new_utc (2015, 2, 17, 19, 0, (gdouble) 0);
 	_tmp18_ = _tmp17_;
-	_tmp19_ = parsed_event_new ("Badminton", _tmp16_, _tmp18_, "", FALSE, "");
+	_tmp19_ = maya_services_parsed_event_new ("Badminton", _tmp16_, _tmp18_, "", FALSE, "");
 	memset (&_tmp20_, 0, sizeof (test_event));
 	_g_free0 (_tmp20_.source);
 	_tmp20_.source = _tmp14_;
@@ -278,7 +278,7 @@ test_event* test_de (int* result_length1) {
 	_tmp23_ = _tmp22_;
 	_tmp24_ = g_date_time_new_utc (2015, 2, 18, 13, 0, (gdouble) 0);
 	_tmp25_ = _tmp24_;
-	_tmp26_ = parsed_event_new ("Badminton", _tmp23_, _tmp25_, "", FALSE, "");
+	_tmp26_ = maya_services_parsed_event_new ("Badminton", _tmp23_, _tmp25_, "", FALSE, "");
 	memset (&_tmp27_, 0, sizeof (test_event));
 	_g_free0 (_tmp27_.source);
 	_tmp27_.source = _tmp21_;
@@ -289,7 +289,7 @@ test_event* test_de (int* result_length1) {
 	_tmp30_ = _tmp29_;
 	_tmp31_ = g_date_time_new_utc (2015, 2, 18, 13, 0, (gdouble) 0);
 	_tmp32_ = _tmp31_;
-	_tmp33_ = parsed_event_new ("Badminton", _tmp30_, _tmp32_, "", FALSE, "");
+	_tmp33_ = maya_services_parsed_event_new ("Badminton", _tmp30_, _tmp32_, "", FALSE, "");
 	memset (&_tmp34_, 0, sizeof (test_event));
 	_g_free0 (_tmp34_.source);
 	_tmp34_.source = _tmp28_;
@@ -300,7 +300,7 @@ test_event* test_de (int* result_length1) {
 	_tmp37_ = _tmp36_;
 	_tmp38_ = g_date_time_new_utc (2015, 2, 19, 8, 30, (gdouble) 0);
 	_tmp39_ = _tmp38_;
-	_tmp40_ = parsed_event_new ("Badminton", _tmp37_, _tmp39_, "", FALSE, "");
+	_tmp40_ = maya_services_parsed_event_new ("Badminton", _tmp37_, _tmp39_, "", FALSE, "");
 	memset (&_tmp41_, 0, sizeof (test_event));
 	_g_free0 (_tmp41_.source);
 	_tmp41_.source = _tmp35_;
@@ -311,7 +311,7 @@ test_event* test_de (int* result_length1) {
 	_tmp44_ = _tmp43_;
 	_tmp45_ = g_date_time_new_utc (2015, 2, 16, 23, 0, (gdouble) 0);
 	_tmp46_ = _tmp45_;
-	_tmp47_ = parsed_event_new ("Badminton", _tmp44_, _tmp46_, "", FALSE, "");
+	_tmp47_ = maya_services_parsed_event_new ("Badminton", _tmp44_, _tmp46_, "", FALSE, "");
 	memset (&_tmp48_, 0, sizeof (test_event));
 	_g_free0 (_tmp48_.source);
 	_tmp48_.source = _tmp42_;
@@ -322,7 +322,7 @@ test_event* test_de (int* result_length1) {
 	_tmp51_ = _tmp50_;
 	_tmp52_ = g_date_time_new_utc (2015, 2, 18, 10, 0, (gdouble) 0);
 	_tmp53_ = _tmp52_;
-	_tmp54_ = parsed_event_new ("Badminton Training", _tmp51_, _tmp53_, "", FALSE, "");
+	_tmp54_ = maya_services_parsed_event_new ("Badminton Training", _tmp51_, _tmp53_, "", FALSE, "");
 	memset (&_tmp55_, 0, sizeof (test_event));
 	_g_free0 (_tmp55_.source);
 	_tmp55_.source = _tmp49_;
@@ -333,7 +333,7 @@ test_event* test_de (int* result_length1) {
 	_tmp58_ = _tmp57_;
 	_tmp59_ = g_date_time_new_utc (2015, 4, 20, 13, 0, (gdouble) 0);
 	_tmp60_ = _tmp59_;
-	_tmp61_ = parsed_event_new ("Badminton Wettbewerb", _tmp58_, _tmp60_, "", FALSE, "");
+	_tmp61_ = maya_services_parsed_event_new ("Badminton Wettbewerb", _tmp58_, _tmp60_, "", FALSE, "");
 	memset (&_tmp62_, 0, sizeof (test_event));
 	_g_free0 (_tmp62_.source);
 	_tmp62_.source = _tmp56_;
@@ -344,7 +344,7 @@ test_event* test_de (int* result_length1) {
 	_tmp65_ = _tmp64_;
 	_tmp66_ = g_date_time_new_utc (2016, 1, 23, 15, 0, (gdouble) 0);
 	_tmp67_ = _tmp66_;
-	_tmp68_ = parsed_event_new ("Badminton Wettbewerb", _tmp65_, _tmp67_, "", FALSE, "");
+	_tmp68_ = maya_services_parsed_event_new ("Badminton Wettbewerb", _tmp65_, _tmp67_, "", FALSE, "");
 	memset (&_tmp69_, 0, sizeof (test_event));
 	_g_free0 (_tmp69_.source);
 	_tmp69_.source = _tmp63_;
@@ -355,7 +355,7 @@ test_event* test_de (int* result_length1) {
 	_tmp72_ = _tmp71_;
 	_tmp73_ = g_date_time_new_utc (2015, 4, 20, 15, 30, (gdouble) 0);
 	_tmp74_ = _tmp73_;
-	_tmp75_ = parsed_event_new ("Badminton Wettbewerb", _tmp72_, _tmp74_, "", FALSE, "");
+	_tmp75_ = maya_services_parsed_event_new ("Badminton Wettbewerb", _tmp72_, _tmp74_, "", FALSE, "");
 	memset (&_tmp76_, 0, sizeof (test_event));
 	_g_free0 (_tmp76_.source);
 	_tmp76_.source = _tmp70_;
@@ -366,7 +366,7 @@ test_event* test_de (int* result_length1) {
 	_tmp79_ = _tmp78_;
 	_tmp80_ = g_date_time_new_utc (2015, 2, 21, 13, 30, (gdouble) 0);
 	_tmp81_ = _tmp80_;
-	_tmp82_ = parsed_event_new ("Klavierunterricht", _tmp79_, _tmp81_, "", FALSE, "");
+	_tmp82_ = maya_services_parsed_event_new ("Klavierunterricht", _tmp79_, _tmp81_, "", FALSE, "");
 	memset (&_tmp83_, 0, sizeof (test_event));
 	_g_free0 (_tmp83_.source);
 	_tmp83_.source = _tmp77_;
@@ -377,7 +377,7 @@ test_event* test_de (int* result_length1) {
 	_tmp86_ = _tmp85_;
 	_tmp87_ = g_date_time_new_utc (2016, 6, 5, 16, 0, (gdouble) 0);
 	_tmp88_ = _tmp87_;
-	_tmp89_ = parsed_event_new ("Klavier Konzert", _tmp86_, _tmp88_, "", FALSE, "");
+	_tmp89_ = maya_services_parsed_event_new ("Klavier Konzert", _tmp86_, _tmp88_, "", FALSE, "");
 	memset (&_tmp90_, 0, sizeof (test_event));
 	_g_free0 (_tmp90_.source);
 	_tmp90_.source = _tmp84_;
@@ -388,7 +388,7 @@ test_event* test_de (int* result_length1) {
 	_tmp93_ = _tmp92_;
 	_tmp94_ = g_date_time_new_utc (2015, 12, 24, 20, 0, (gdouble) 0);
 	_tmp95_ = _tmp94_;
-	_tmp96_ = parsed_event_new ("Geschenke auspacken", _tmp93_, _tmp95_, "", FALSE, "");
+	_tmp96_ = maya_services_parsed_event_new ("Geschenke auspacken", _tmp93_, _tmp95_, "", FALSE, "");
 	memset (&_tmp97_, 0, sizeof (test_event));
 	_g_free0 (_tmp97_.source);
 	_tmp97_.source = _tmp91_;
@@ -399,7 +399,7 @@ test_event* test_de (int* result_length1) {
 	_tmp100_ = _tmp99_;
 	_tmp101_ = g_date_time_new_utc (2015, 2, 25, 19, 30, (gdouble) 0);
 	_tmp102_ = _tmp101_;
-	_tmp103_ = parsed_event_new ("Mac-Stammtisch", _tmp100_, _tmp102_, "Plan B", FALSE, "");
+	_tmp103_ = maya_services_parsed_event_new ("Mac-Stammtisch", _tmp100_, _tmp102_, "Plan B", FALSE, "");
 	memset (&_tmp104_, 0, sizeof (test_event));
 	_g_free0 (_tmp104_.source);
 	_tmp104_.source = _tmp98_;
@@ -410,7 +410,7 @@ test_event* test_de (int* result_length1) {
 	_tmp107_ = _tmp106_;
 	_tmp108_ = g_date_time_new_utc (2015, 2, 18, 0, 0, (gdouble) 0);
 	_tmp109_ = _tmp108_;
-	_tmp110_ = parsed_event_new ("Mittagessen", _tmp107_, _tmp109_, "Mensa", TRUE, "");
+	_tmp110_ = maya_services_parsed_event_new ("Mittagessen", _tmp107_, _tmp109_, "Mensa", TRUE, "");
 	memset (&_tmp111_, 0, sizeof (test_event));
 	_g_free0 (_tmp111_.source);
 	_tmp111_.source = _tmp105_;
@@ -421,7 +421,7 @@ test_event* test_de (int* result_length1) {
 	_tmp114_ = _tmp113_;
 	_tmp115_ = g_date_time_new_utc (2015, 4, 17, 0, 0, (gdouble) 0);
 	_tmp116_ = _tmp115_;
-	_tmp117_ = parsed_event_new ("Geburtstag von Max", _tmp114_, _tmp116_, "", TRUE, "");
+	_tmp117_ = maya_services_parsed_event_new ("Geburtstag von Max", _tmp114_, _tmp116_, "", TRUE, "");
 	memset (&_tmp118_, 0, sizeof (test_event));
 	_g_free0 (_tmp118_.source);
 	_tmp118_.source = _tmp112_;
@@ -432,7 +432,7 @@ test_event* test_de (int* result_length1) {
 	_tmp121_ = _tmp120_;
 	_tmp122_ = g_date_time_new_utc (2015, 2, 22, 19, 0, (gdouble) 0);
 	_tmp123_ = _tmp122_;
-	_tmp124_ = parsed_event_new ("Lauftraining", _tmp121_, _tmp123_, "", FALSE, "");
+	_tmp124_ = maya_services_parsed_event_new ("Lauftraining", _tmp121_, _tmp123_, "", FALSE, "");
 	memset (&_tmp125_, 0, sizeof (test_event));
 	_g_free0 (_tmp125_.source);
 	_tmp125_.source = _tmp119_;
@@ -443,7 +443,7 @@ test_event* test_de (int* result_length1) {
 	_tmp128_ = _tmp127_;
 	_tmp129_ = g_date_time_new_utc (2015, 3, 1, 15, 0, (gdouble) 0);
 	_tmp130_ = _tmp129_;
-	_tmp131_ = parsed_event_new ("Marathon", _tmp128_, _tmp130_, "", FALSE, "");
+	_tmp131_ = maya_services_parsed_event_new ("Marathon", _tmp128_, _tmp130_, "", FALSE, "");
 	memset (&_tmp132_, 0, sizeof (test_event));
 	_g_free0 (_tmp132_.source);
 	_tmp132_.source = _tmp126_;
@@ -454,7 +454,7 @@ test_event* test_de (int* result_length1) {
 	_tmp135_ = _tmp134_;
 	_tmp136_ = g_date_time_new_utc (2015, 7, 20, 0, 0, (gdouble) 0);
 	_tmp137_ = _tmp136_;
-	_tmp138_ = parsed_event_new ("Urlaub", _tmp135_, _tmp137_, "", TRUE, "");
+	_tmp138_ = maya_services_parsed_event_new ("Urlaub", _tmp135_, _tmp137_, "", TRUE, "");
 	memset (&_tmp139_, 0, sizeof (test_event));
 	_g_free0 (_tmp139_.source);
 	_tmp139_.source = _tmp133_;
@@ -465,7 +465,7 @@ test_event* test_de (int* result_length1) {
 	_tmp142_ = _tmp141_;
 	_tmp143_ = g_date_time_new_utc (2015, 3, 11, 0, 0, (gdouble) 0);
 	_tmp144_ = _tmp143_;
-	_tmp145_ = parsed_event_new ("Urlaub", _tmp142_, _tmp144_, "", TRUE, "");
+	_tmp145_ = maya_services_parsed_event_new ("Urlaub", _tmp142_, _tmp144_, "", TRUE, "");
 	memset (&_tmp146_, 0, sizeof (test_event));
 	_g_free0 (_tmp146_.source);
 	_tmp146_.source = _tmp140_;
@@ -476,7 +476,7 @@ test_event* test_de (int* result_length1) {
 	_tmp149_ = _tmp148_;
 	_tmp150_ = g_date_time_new_utc (2015, 2, 18, 12, 30, (gdouble) 0);
 	_tmp151_ = _tmp150_;
-	_tmp152_ = parsed_event_new ("Schuhe kaufen", _tmp149_, _tmp151_, "Berlin", FALSE, "");
+	_tmp152_ = maya_services_parsed_event_new ("Schuhe kaufen", _tmp149_, _tmp151_, "Berlin", FALSE, "");
 	memset (&_tmp153_, 0, sizeof (test_event));
 	_g_free0 (_tmp153_.source);
 	_tmp153_.source = _tmp147_;

@@ -19,6 +19,8 @@
   END LICENSE
 ***/
 
+using Maya.Services;
+
 // ParsedEvent (Name, DateTime Begin, DateTime End, Location = "", All_Day = false)
 
 test_event[] test_en () {	
