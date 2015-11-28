@@ -1,3 +1,4 @@
-public interface EventParser {
-	public abstract Event parse_source (string source);
+public interface EventParser : GLib.Object {
+	public abstract ParsedEvent parse_source (string source);
+	public abstract string get_language ();
 }

@@ -1,7 +1,6 @@
-public class Parser : GLib.Object : EventParser {
+public class ParserDe : GLib.Object, EventParser {
 	
 	public DateTime simulated_dt;
-	public string language;
 	
 	public string source;
 	private string remaining_source;
@@ -42,9 +41,8 @@ public class Parser : GLib.Object : EventParser {
 	
 	
 
-	public Parser (DateTime _simulated_dt, string _language) {
+	public ParserDe (DateTime _simulated_dt = new DateTime.now_local ()) {
 		this.simulated_dt = _simulated_dt;
-		this.language = _language;
 		
 		this.source = "";
 		this.remaining_source = "";
@@ -119,12 +117,12 @@ public class Parser : GLib.Object : EventParser {
 	}
 	
 	
-	public Event parse_source (string _source) {
+	public ParsedEvent parse_source (string _source) {
 		this.source = _source;
 		this.remaining_source = this.source;
 		
 		
-		var event = new Event();
+		var event = new ParsedEvent();
 		event.from = this.simulated_dt.add_hours(1);
 		event.from_set_minute(0);
 		event.from_set_second(0);
@@ -383,5 +381,9 @@ public class Parser : GLib.Object : EventParser {
 		
 		
 		return event;
+	}
+
+	public string get_language () {
+		return "de";
 	}
 }

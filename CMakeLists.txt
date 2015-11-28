@@ -9,7 +9,8 @@ find_package(PkgConfig)
 
 set(PARSER_DEPS
   gobject-2.0
-  glib-2.0)
+  glib-2.0
+  gee-0.8)
 
 pkg_check_modules(DEPS REQUIRED ${PARSER_DEPS})
 
@@ -25,10 +26,12 @@ ensure_vala_version("0.24" MINIMUM)
 
 include(ValaPrecompile)
 vala_precompile(VALA_C ${EXEC_NAME}
-	src/parser_en.vala
-	src/event.vala
+	src/Parsers/ParserEn.vala
+	src/Parsers/ParserDe.vala
+	src/ParsedEvent.vala
 	src/tests.vala
 	src/EventParser.vala
+	src/EventParserHandler.vala
 	tests/test_de.vala
 	tests/test_en.vala
 PACKAGES

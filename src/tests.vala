@@ -1,11 +1,12 @@
-const string show_format = "%d-%m-%Y %X";
 
+
+const string show_format = "%d-%m-%Y %X";
 
 void println (string str) {
 	stdout.printf ("%s\n", str);
 }
 
-bool compare_events (Event a, Event b) {
+bool compare_events (ParsedEvent a, ParsedEvent b) {
 	/* println("Compare");
 	println(a.title);
 	println(b.title);
@@ -25,7 +26,7 @@ bool compare_events (Event a, Event b) {
 	return false;
 }
 
-public struct test_event { string source; Event target; }
+public struct test_event { string source; ParsedEvent target; }
 
 void analyze_test_events(test_event[] test_events, DateTime dt_simulated) {
 	println(@"\n\n--- Simulated Time: $(dt_simulated.format(show_format))\n");
@@ -35,7 +36,7 @@ void analyze_test_events(test_event[] test_events, DateTime dt_simulated) {
 	int N_error = 0, N_success = 0;
 	
 	foreach (test_event entry in test_events) {
-		Event cmp_event = parser.parse_source(entry.source);
+		ParsedEvent cmp_event = parser.parse_source(entry.source);
 		if (compare_events (cmp_event, entry.target)) {
 			N_success += 1;
 			println(@"Success - $(entry.source)\n");
@@ -64,7 +65,7 @@ void print_all_working_test_events (test_event[] test_events, DateTime dt_simula
 	var parser = new ParserEn(dt_simulated);
 	println("Working:");
 	foreach (test_event entry in test_events) {
-		Event cmp_event = parser.parse_source(entry.source);
+		ParsedEvent cmp_event = parser.parse_source(entry.source);
 		if (compare_events(cmp_event, entry.target))
 			println(@"- $(entry.source)");
 	}
@@ -75,30 +76,23 @@ void print_all_not_working_test_events (test_event[] test_events, DateTime dt_si
 	var parser = new ParserEn(dt_simulated);
 	println("Not Working:");
 	foreach (test_event entry in test_events) {
-		Event cmp_event = parser.parse_source(entry.source);
+		ParsedEvent cmp_event = parser.parse_source(entry.source);
 		if (!compare_events(cmp_event, entry.target))
 			println(@"- $(entry.source)");
 	}
 }
 
 void main (string[] args) {
-	//var simulated_dt = new DateTime.utc (2015, 2, 17, 13, 25, 0);
-	
-	// test_de();
-	//test_event[] test_events = test_en();
-	// analyze_test_events(test_events, new DateTime.now_local());
-	//print_all_working_test_events(test_events, simulated_dt);
-	//print_all_not_working_test_events(test_events, simulated_dt);
-
 	println ("Please enter an event:");
 	string ev_str = stdin.read_line ();
 	if (ev_str != null) {
-		var parser = new ParserEn(new DateTime.now_local());
-		var ev = parser.parse_source(ev_str); 
-		println("Title: " + ev.title);
-		println("Location: " + ev.location);
-		println("Participant: " + ev.participants);
-		println("From: " + ev.from.to_string());
-		println("To: " + ev.to.to_string());
+		var handler = new EventParserHandler ();
+		var parser = handler.get_parser (handler.get_locale ());
+		var ev = parser.parse_source (ev_str); 
+		println ("Title: " + ev.title);
+		println ("Location: " + ev.location);
+		println ("Participant: " + ev.participants);
+		println ("From: " + ev.from.to_string());
+		println ("To: " + ev.to.to_string());
 	}
 }

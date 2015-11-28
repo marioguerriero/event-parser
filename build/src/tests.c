@@ -9,16 +9,16 @@
 #include <stdio.h>
 
 
-#define TYPE_EVENT (event_get_type ())
-#define EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT, Event))
-#define EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_EVENT, EventClass))
-#define IS_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT))
-#define IS_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_EVENT))
-#define EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_EVENT, EventClass))
+#define TYPE_PARSED_EVENT (parsed_event_get_type ())
+#define PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_PARSED_EVENT, ParsedEvent))
+#define PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_PARSED_EVENT, ParsedEventClass))
+#define IS_PARSED_EVENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_PARSED_EVENT))
+#define IS_PARSED_EVENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_PARSED_EVENT))
+#define PARSED_EVENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_PARSED_EVENT, ParsedEventClass))
 
-typedef struct _Event Event;
-typedef struct _EventClass EventClass;
-typedef struct _EventPrivate EventPrivate;
+typedef struct _ParsedEvent ParsedEvent;
+typedef struct _ParsedEventClass ParsedEventClass;
+typedef struct _ParsedEventPrivate ParsedEventPrivate;
 #define _g_free0(var) (var = (g_free (var), NULL))
 
 #define TYPE_TEST_EVENT (test_event_get_type ())
@@ -43,11 +43,20 @@ typedef struct _ParserEnClass ParserEnClass;
 typedef struct _EventParser EventParser;
 typedef struct _EventParserIface EventParserIface;
 #define _g_string_free0(var) ((var == NULL) ? NULL : (var = (g_string_free (var, TRUE), NULL)))
-#define _g_date_time_unref0(var) ((var == NULL) ? NULL : (var = (g_date_time_unref (var), NULL)))
 
-struct _Event {
+#define TYPE_EVENT_PARSER_HANDLER (event_parser_handler_get_type ())
+#define EVENT_PARSER_HANDLER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_EVENT_PARSER_HANDLER, EventParserHandler))
+#define EVENT_PARSER_HANDLER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_EVENT_PARSER_HANDLER, EventParserHandlerClass))
+#define IS_EVENT_PARSER_HANDLER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_EVENT_PARSER_HANDLER))
+#define IS_EVENT_PARSER_HANDLER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_EVENT_PARSER_HANDLER))
+#define EVENT_PARSER_HANDLER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), TYPE_EVENT_PARSER_HANDLER, EventParserHandlerClass))
+
+typedef struct _EventParserHandler EventParserHandler;
+typedef struct _EventParserHandlerClass EventParserHandlerClass;
+
+struct _ParsedEvent {
 	GObject parent_instance;
-	EventPrivate * priv;
+	ParsedEventPrivate * priv;
 	gchar* title;
 	gchar* location;
 	gchar* participants;
@@ -56,26 +65,27 @@ struct _Event {
 	gboolean all_day;
 };
 
-struct _EventClass {
+struct _ParsedEventClass {
 	GObjectClass parent_class;
 };
 
 struct _test_event {
 	gchar* source;
-	Event* target;
+	ParsedEvent* target;
 };
 
 struct _EventParserIface {
 	GTypeInterface parent_iface;
-	Event* (*parse_source) (EventParser* self, const gchar* source);
+	ParsedEvent* (*parse_source) (EventParser* self, const gchar* source);
+	gchar* (*get_language) (EventParser* self);
 };
 
 
 
 #define show_format "%d-%m-%Y %X"
 void println (const gchar* str);
-GType event_get_type (void) G_GNUC_CONST;
-gboolean compare_events (Event* a, Event* b);
+GType parsed_event_get_type (void) G_GNUC_CONST;
+gboolean compare_events (ParsedEvent* a, ParsedEvent* b);
 GType test_event_get_type (void) G_GNUC_CONST;
 test_event* test_event_dup (const test_event* self);
 void test_event_free (test_event* self);
@@ -86,10 +96,15 @@ GType parser_en_get_type (void) G_GNUC_CONST;
 ParserEn* parser_en_new (GDateTime* _simulated_dt);
 ParserEn* parser_en_construct (GType object_type, GDateTime* _simulated_dt);
 GType event_parser_get_type (void) G_GNUC_CONST;
-Event* event_parser_parse_source (EventParser* self, const gchar* source);
+ParsedEvent* event_parser_parse_source (EventParser* self, const gchar* source);
 void print_all_working_test_events (test_event* test_events, int test_events_length1, GDateTime* dt_simulated);
 void print_all_not_working_test_events (test_event* test_events, int test_events_length1, GDateTime* dt_simulated);
 void _vala_main (gchar** args, int args_length1);
+GType event_parser_handler_get_type (void) G_GNUC_CONST;
+EventParserHandler* event_parser_handler_new (const gchar* lang);
+EventParserHandler* event_parser_handler_construct (GType object_type, const gchar* lang);
+EventParser* event_parser_handler_get_parser (EventParserHandler* self, const gchar* lang);
+const gchar* event_parser_handler_get_locale (EventParserHandler* self);
 
 
 void println (const gchar* str) {
@@ -102,15 +117,15 @@ void println (const gchar* str) {
 }
 
 
-gboolean compare_events (Event* a, Event* b) {
+gboolean compare_events (ParsedEvent* a, ParsedEvent* b) {
 	gboolean result = FALSE;
 	gboolean _tmp0_ = FALSE;
 	gboolean _tmp1_ = FALSE;
 	gboolean _tmp2_ = FALSE;
 	gboolean _tmp3_ = FALSE;
-	Event* _tmp4_ = NULL;
+	ParsedEvent* _tmp4_ = NULL;
 	const gchar* _tmp5_ = NULL;
-	Event* _tmp6_ = NULL;
+	ParsedEvent* _tmp6_ = NULL;
 	const gchar* _tmp7_ = NULL;
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
@@ -119,11 +134,11 @@ gboolean compare_events (Event* a, Event* b) {
 	_tmp6_ = b;
 	_tmp7_ = _tmp6_->title;
 	if (g_strcmp0 (_tmp5_, _tmp7_) == 0) {
-		Event* _tmp8_ = NULL;
+		ParsedEvent* _tmp8_ = NULL;
 		GDateTime* _tmp9_ = NULL;
 		gchar* _tmp10_ = NULL;
 		gchar* _tmp11_ = NULL;
-		Event* _tmp12_ = NULL;
+		ParsedEvent* _tmp12_ = NULL;
 		GDateTime* _tmp13_ = NULL;
 		gchar* _tmp14_ = NULL;
 		gchar* _tmp15_ = NULL;
@@ -142,11 +157,11 @@ gboolean compare_events (Event* a, Event* b) {
 		_tmp3_ = FALSE;
 	}
 	if (_tmp3_) {
-		Event* _tmp16_ = NULL;
+		ParsedEvent* _tmp16_ = NULL;
 		GDateTime* _tmp17_ = NULL;
 		gchar* _tmp18_ = NULL;
 		gchar* _tmp19_ = NULL;
-		Event* _tmp20_ = NULL;
+		ParsedEvent* _tmp20_ = NULL;
 		GDateTime* _tmp21_ = NULL;
 		gchar* _tmp22_ = NULL;
 		gchar* _tmp23_ = NULL;
@@ -165,9 +180,9 @@ gboolean compare_events (Event* a, Event* b) {
 		_tmp2_ = FALSE;
 	}
 	if (_tmp2_) {
-		Event* _tmp24_ = NULL;
+		ParsedEvent* _tmp24_ = NULL;
 		const gchar* _tmp25_ = NULL;
-		Event* _tmp26_ = NULL;
+		ParsedEvent* _tmp26_ = NULL;
 		const gchar* _tmp27_ = NULL;
 		_tmp24_ = a;
 		_tmp25_ = _tmp24_->location;
@@ -178,9 +193,9 @@ gboolean compare_events (Event* a, Event* b) {
 		_tmp1_ = FALSE;
 	}
 	if (_tmp1_) {
-		Event* _tmp28_ = NULL;
+		ParsedEvent* _tmp28_ = NULL;
 		gboolean _tmp29_ = FALSE;
-		Event* _tmp30_ = NULL;
+		ParsedEvent* _tmp30_ = NULL;
 		gboolean _tmp31_ = FALSE;
 		_tmp28_ = a;
 		_tmp29_ = _tmp28_->all_day;
@@ -207,8 +222,8 @@ static gpointer _g_object_ref0 (gpointer self) {
 void test_event_copy (const test_event* self, test_event* dest) {
 	const gchar* _tmp0_ = NULL;
 	gchar* _tmp1_ = NULL;
-	Event* _tmp2_ = NULL;
-	Event* _tmp3_ = NULL;
+	ParsedEvent* _tmp2_ = NULL;
+	ParsedEvent* _tmp3_ = NULL;
 	_tmp0_ = (*self).source;
 	_tmp1_ = g_strdup (_tmp0_);
 	_g_free0 ((*dest).source);
@@ -327,14 +342,14 @@ void analyze_test_events (test_event* test_events, int test_events_length1, GDat
 			test_event_copy (&entry_collection[entry_it], &_tmp9_);
 			entry = _tmp9_;
 			{
-				Event* cmp_event = NULL;
+				ParsedEvent* cmp_event = NULL;
 				ParserEn* _tmp10_ = NULL;
 				test_event _tmp11_ = {0};
 				const gchar* _tmp12_ = NULL;
-				Event* _tmp13_ = NULL;
-				Event* _tmp14_ = NULL;
+				ParsedEvent* _tmp13_ = NULL;
+				ParsedEvent* _tmp14_ = NULL;
 				test_event _tmp15_ = {0};
-				Event* _tmp16_ = NULL;
+				ParsedEvent* _tmp16_ = NULL;
 				gboolean _tmp17_ = FALSE;
 				_tmp10_ = parser;
 				_tmp11_ = entry;
@@ -368,56 +383,56 @@ void analyze_test_events (test_event* test_events, int test_events_length1, GDat
 					const gchar* _tmp27_ = NULL;
 					gchar* _tmp28_ = NULL;
 					gchar* _tmp29_ = NULL;
-					Event* _tmp30_ = NULL;
+					ParsedEvent* _tmp30_ = NULL;
 					const gchar* _tmp31_ = NULL;
 					const gchar* _tmp32_ = NULL;
 					test_event _tmp33_ = {0};
-					Event* _tmp34_ = NULL;
+					ParsedEvent* _tmp34_ = NULL;
 					const gchar* _tmp35_ = NULL;
 					const gchar* _tmp36_ = NULL;
 					gchar* _tmp37_ = NULL;
 					gchar* _tmp38_ = NULL;
-					Event* _tmp39_ = NULL;
+					ParsedEvent* _tmp39_ = NULL;
 					GDateTime* _tmp40_ = NULL;
 					gchar* _tmp41_ = NULL;
 					gchar* _tmp42_ = NULL;
 					const gchar* _tmp43_ = NULL;
 					test_event _tmp44_ = {0};
-					Event* _tmp45_ = NULL;
+					ParsedEvent* _tmp45_ = NULL;
 					GDateTime* _tmp46_ = NULL;
 					gchar* _tmp47_ = NULL;
 					gchar* _tmp48_ = NULL;
 					const gchar* _tmp49_ = NULL;
 					gchar* _tmp50_ = NULL;
 					gchar* _tmp51_ = NULL;
-					Event* _tmp52_ = NULL;
+					ParsedEvent* _tmp52_ = NULL;
 					GDateTime* _tmp53_ = NULL;
 					gchar* _tmp54_ = NULL;
 					gchar* _tmp55_ = NULL;
 					const gchar* _tmp56_ = NULL;
 					test_event _tmp57_ = {0};
-					Event* _tmp58_ = NULL;
+					ParsedEvent* _tmp58_ = NULL;
 					GDateTime* _tmp59_ = NULL;
 					gchar* _tmp60_ = NULL;
 					gchar* _tmp61_ = NULL;
 					const gchar* _tmp62_ = NULL;
 					gchar* _tmp63_ = NULL;
 					gchar* _tmp64_ = NULL;
-					Event* _tmp65_ = NULL;
+					ParsedEvent* _tmp65_ = NULL;
 					const gchar* _tmp66_ = NULL;
 					const gchar* _tmp67_ = NULL;
 					test_event _tmp68_ = {0};
-					Event* _tmp69_ = NULL;
+					ParsedEvent* _tmp69_ = NULL;
 					const gchar* _tmp70_ = NULL;
 					const gchar* _tmp71_ = NULL;
 					gchar* _tmp72_ = NULL;
 					gchar* _tmp73_ = NULL;
-					Event* _tmp74_ = NULL;
+					ParsedEvent* _tmp74_ = NULL;
 					gboolean _tmp75_ = FALSE;
 					gchar* _tmp76_ = NULL;
 					gchar* _tmp77_ = NULL;
 					test_event _tmp78_ = {0};
-					Event* _tmp79_ = NULL;
+					ParsedEvent* _tmp79_ = NULL;
 					gboolean _tmp80_ = FALSE;
 					gchar* _tmp81_ = NULL;
 					gchar* _tmp82_ = NULL;
@@ -552,14 +567,14 @@ void print_all_working_test_events (test_event* test_events, int test_events_len
 			test_event_copy (&entry_collection[entry_it], &_tmp3_);
 			entry = _tmp3_;
 			{
-				Event* cmp_event = NULL;
+				ParsedEvent* cmp_event = NULL;
 				ParserEn* _tmp4_ = NULL;
 				test_event _tmp5_ = {0};
 				const gchar* _tmp6_ = NULL;
-				Event* _tmp7_ = NULL;
-				Event* _tmp8_ = NULL;
+				ParsedEvent* _tmp7_ = NULL;
+				ParsedEvent* _tmp8_ = NULL;
 				test_event _tmp9_ = {0};
-				Event* _tmp10_ = NULL;
+				ParsedEvent* _tmp10_ = NULL;
 				gboolean _tmp11_ = FALSE;
 				_tmp4_ = parser;
 				_tmp5_ = entry;
@@ -619,14 +634,14 @@ void print_all_not_working_test_events (test_event* test_events, int test_events
 			test_event_copy (&entry_collection[entry_it], &_tmp3_);
 			entry = _tmp3_;
 			{
-				Event* cmp_event = NULL;
+				ParsedEvent* cmp_event = NULL;
 				ParserEn* _tmp4_ = NULL;
 				test_event _tmp5_ = {0};
 				const gchar* _tmp6_ = NULL;
-				Event* _tmp7_ = NULL;
-				Event* _tmp8_ = NULL;
+				ParsedEvent* _tmp7_ = NULL;
+				ParsedEvent* _tmp8_ = NULL;
 				test_event _tmp9_ = {0};
-				Event* _tmp10_ = NULL;
+				ParsedEvent* _tmp10_ = NULL;
 				gboolean _tmp11_ = FALSE;
 				_tmp4_ = parser;
 				_tmp5_ = entry;
@@ -736,87 +751,91 @@ void _vala_main (gchar** args, int args_length1) {
 	ev_str = _tmp1_;
 	_tmp2_ = ev_str;
 	if (_tmp2_ != NULL) {
-		ParserEn* parser = NULL;
-		GDateTime* _tmp3_ = NULL;
-		GDateTime* _tmp4_ = NULL;
-		ParserEn* _tmp5_ = NULL;
-		ParserEn* _tmp6_ = NULL;
-		Event* ev = NULL;
-		ParserEn* _tmp7_ = NULL;
-		const gchar* _tmp8_ = NULL;
-		Event* _tmp9_ = NULL;
-		Event* _tmp10_ = NULL;
-		const gchar* _tmp11_ = NULL;
-		gchar* _tmp12_ = NULL;
+		EventParserHandler* handler = NULL;
+		EventParserHandler* _tmp3_ = NULL;
+		EventParser* parser = NULL;
+		EventParserHandler* _tmp4_ = NULL;
+		EventParserHandler* _tmp5_ = NULL;
+		const gchar* _tmp6_ = NULL;
+		EventParser* _tmp7_ = NULL;
+		ParsedEvent* ev = NULL;
+		EventParser* _tmp8_ = NULL;
+		const gchar* _tmp9_ = NULL;
+		ParsedEvent* _tmp10_ = NULL;
+		ParsedEvent* _tmp11_ = NULL;
+		const gchar* _tmp12_ = NULL;
 		gchar* _tmp13_ = NULL;
-		Event* _tmp14_ = NULL;
-		const gchar* _tmp15_ = NULL;
-		gchar* _tmp16_ = NULL;
+		gchar* _tmp14_ = NULL;
+		ParsedEvent* _tmp15_ = NULL;
+		const gchar* _tmp16_ = NULL;
 		gchar* _tmp17_ = NULL;
-		Event* _tmp18_ = NULL;
-		const gchar* _tmp19_ = NULL;
-		gchar* _tmp20_ = NULL;
+		gchar* _tmp18_ = NULL;
+		ParsedEvent* _tmp19_ = NULL;
+		const gchar* _tmp20_ = NULL;
 		gchar* _tmp21_ = NULL;
-		Event* _tmp22_ = NULL;
-		GDateTime* _tmp23_ = NULL;
-		gchar* _tmp24_ = NULL;
+		gchar* _tmp22_ = NULL;
+		ParsedEvent* _tmp23_ = NULL;
+		GDateTime* _tmp24_ = NULL;
 		gchar* _tmp25_ = NULL;
 		gchar* _tmp26_ = NULL;
 		gchar* _tmp27_ = NULL;
-		Event* _tmp28_ = NULL;
-		GDateTime* _tmp29_ = NULL;
-		gchar* _tmp30_ = NULL;
+		gchar* _tmp28_ = NULL;
+		ParsedEvent* _tmp29_ = NULL;
+		GDateTime* _tmp30_ = NULL;
 		gchar* _tmp31_ = NULL;
 		gchar* _tmp32_ = NULL;
 		gchar* _tmp33_ = NULL;
-		_tmp3_ = g_date_time_new_now_local ();
-		_tmp4_ = _tmp3_;
-		_tmp5_ = parser_en_new (_tmp4_);
-		_tmp6_ = _tmp5_;
-		_g_date_time_unref0 (_tmp4_);
-		parser = _tmp6_;
-		_tmp7_ = parser;
-		_tmp8_ = ev_str;
-		_tmp9_ = event_parser_parse_source ((EventParser*) _tmp7_, _tmp8_);
-		ev = _tmp9_;
-		_tmp10_ = ev;
-		_tmp11_ = _tmp10_->title;
-		_tmp12_ = g_strconcat ("Title: ", _tmp11_, NULL);
-		_tmp13_ = _tmp12_;
-		println (_tmp13_);
-		_g_free0 (_tmp13_);
-		_tmp14_ = ev;
-		_tmp15_ = _tmp14_->location;
-		_tmp16_ = g_strconcat ("Location: ", _tmp15_, NULL);
-		_tmp17_ = _tmp16_;
-		println (_tmp17_);
-		_g_free0 (_tmp17_);
-		_tmp18_ = ev;
-		_tmp19_ = _tmp18_->participants;
-		_tmp20_ = g_strconcat ("Participant: ", _tmp19_, NULL);
-		_tmp21_ = _tmp20_;
-		println (_tmp21_);
-		_g_free0 (_tmp21_);
-		_tmp22_ = ev;
-		_tmp23_ = _tmp22_->from;
-		_tmp24_ = g_date_time_to_string (_tmp23_);
-		_tmp25_ = _tmp24_;
-		_tmp26_ = g_strconcat ("From: ", _tmp25_, NULL);
-		_tmp27_ = _tmp26_;
-		println (_tmp27_);
-		_g_free0 (_tmp27_);
-		_g_free0 (_tmp25_);
-		_tmp28_ = ev;
-		_tmp29_ = _tmp28_->to;
-		_tmp30_ = g_date_time_to_string (_tmp29_);
-		_tmp31_ = _tmp30_;
-		_tmp32_ = g_strconcat ("To: ", _tmp31_, NULL);
-		_tmp33_ = _tmp32_;
-		println (_tmp33_);
-		_g_free0 (_tmp33_);
-		_g_free0 (_tmp31_);
+		gchar* _tmp34_ = NULL;
+		_tmp3_ = event_parser_handler_new (NULL);
+		handler = _tmp3_;
+		_tmp4_ = handler;
+		_tmp5_ = handler;
+		_tmp6_ = event_parser_handler_get_locale (_tmp5_);
+		_tmp7_ = event_parser_handler_get_parser (_tmp4_, _tmp6_);
+		parser = _tmp7_;
+		_tmp8_ = parser;
+		_tmp9_ = ev_str;
+		_tmp10_ = event_parser_parse_source (_tmp8_, _tmp9_);
+		ev = _tmp10_;
+		_tmp11_ = ev;
+		_tmp12_ = _tmp11_->title;
+		_tmp13_ = g_strconcat ("Title: ", _tmp12_, NULL);
+		_tmp14_ = _tmp13_;
+		println (_tmp14_);
+		_g_free0 (_tmp14_);
+		_tmp15_ = ev;
+		_tmp16_ = _tmp15_->location;
+		_tmp17_ = g_strconcat ("Location: ", _tmp16_, NULL);
+		_tmp18_ = _tmp17_;
+		println (_tmp18_);
+		_g_free0 (_tmp18_);
+		_tmp19_ = ev;
+		_tmp20_ = _tmp19_->participants;
+		_tmp21_ = g_strconcat ("Participant: ", _tmp20_, NULL);
+		_tmp22_ = _tmp21_;
+		println (_tmp22_);
+		_g_free0 (_tmp22_);
+		_tmp23_ = ev;
+		_tmp24_ = _tmp23_->from;
+		_tmp25_ = g_date_time_to_string (_tmp24_);
+		_tmp26_ = _tmp25_;
+		_tmp27_ = g_strconcat ("From: ", _tmp26_, NULL);
+		_tmp28_ = _tmp27_;
+		println (_tmp28_);
+		_g_free0 (_tmp28_);
+		_g_free0 (_tmp26_);
+		_tmp29_ = ev;
+		_tmp30_ = _tmp29_->to;
+		_tmp31_ = g_date_time_to_string (_tmp30_);
+		_tmp32_ = _tmp31_;
+		_tmp33_ = g_strconcat ("To: ", _tmp32_, NULL);
+		_tmp34_ = _tmp33_;
+		println (_tmp34_);
+		_g_free0 (_tmp34_);
+		_g_free0 (_tmp32_);
 		_g_object_unref0 (ev);
 		_g_object_unref0 (parser);
+		_g_object_unref0 (handler);
 	}
 	_g_free0 (ev_str);
 }

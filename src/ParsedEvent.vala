@@ -1,4 +1,4 @@
-public class Event : GLib.Object {
+public class ParsedEvent : GLib.Object {
 	
 	public string title;
 	public string location;
@@ -7,7 +7,7 @@ public class Event : GLib.Object {
 	public DateTime to;
 	public bool all_day;
 
-	public Event (string _title = "", DateTime? _from = null, DateTime? _to = null, string _location = "", bool _all_day = false, string _participants = "") {
+	public ParsedEvent (string _title = "", DateTime? _from = null, DateTime? _to = null, string _location = "", bool _all_day = false, string _participants = "") {
 		this.title = _title;
 		this.location = _location;
 		this.participants = _participants;

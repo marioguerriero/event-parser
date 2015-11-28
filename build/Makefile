@@ -179,53 +179,101 @@ src/EventParser.c.s:
 	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/EventParser.c.s
 .PHONY : src/EventParser.c.s
 
-src/event.o: src/event.c.o
-.PHONY : src/event.o
+src/EventParserHandler.o: src/EventParserHandler.c.o
+.PHONY : src/EventParserHandler.o
 
 # target to build an object file
-src/event.c.o:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/event.c.o
-.PHONY : src/event.c.o
+src/EventParserHandler.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/EventParserHandler.c.o
+.PHONY : src/EventParserHandler.c.o
 
-src/event.i: src/event.c.i
-.PHONY : src/event.i
+src/EventParserHandler.i: src/EventParserHandler.c.i
+.PHONY : src/EventParserHandler.i
 
 # target to preprocess a source file
-src/event.c.i:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/event.c.i
-.PHONY : src/event.c.i
+src/EventParserHandler.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/EventParserHandler.c.i
+.PHONY : src/EventParserHandler.c.i
 
-src/event.s: src/event.c.s
-.PHONY : src/event.s
+src/EventParserHandler.s: src/EventParserHandler.c.s
+.PHONY : src/EventParserHandler.s
 
 # target to generate assembly for a file
-src/event.c.s:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/event.c.s
-.PHONY : src/event.c.s
+src/EventParserHandler.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/EventParserHandler.c.s
+.PHONY : src/EventParserHandler.c.s
 
-src/parser_en.o: src/parser_en.c.o
-.PHONY : src/parser_en.o
+src/ParsedEvent.o: src/ParsedEvent.c.o
+.PHONY : src/ParsedEvent.o
 
 # target to build an object file
-src/parser_en.c.o:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser_en.c.o
-.PHONY : src/parser_en.c.o
+src/ParsedEvent.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/ParsedEvent.c.o
+.PHONY : src/ParsedEvent.c.o
 
-src/parser_en.i: src/parser_en.c.i
-.PHONY : src/parser_en.i
+src/ParsedEvent.i: src/ParsedEvent.c.i
+.PHONY : src/ParsedEvent.i
 
 # target to preprocess a source file
-src/parser_en.c.i:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser_en.c.i
-.PHONY : src/parser_en.c.i
+src/ParsedEvent.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/ParsedEvent.c.i
+.PHONY : src/ParsedEvent.c.i
 
-src/parser_en.s: src/parser_en.c.s
-.PHONY : src/parser_en.s
+src/ParsedEvent.s: src/ParsedEvent.c.s
+.PHONY : src/ParsedEvent.s
 
 # target to generate assembly for a file
-src/parser_en.c.s:
-	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/parser_en.c.s
-.PHONY : src/parser_en.c.s
+src/ParsedEvent.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/ParsedEvent.c.s
+.PHONY : src/ParsedEvent.c.s
+
+src/Parsers/ParserDe.o: src/Parsers/ParserDe.c.o
+.PHONY : src/Parsers/ParserDe.o
+
+# target to build an object file
+src/Parsers/ParserDe.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/Parsers/ParserDe.c.o
+.PHONY : src/Parsers/ParserDe.c.o
+
+src/Parsers/ParserDe.i: src/Parsers/ParserDe.c.i
+.PHONY : src/Parsers/ParserDe.i
+
+# target to preprocess a source file
+src/Parsers/ParserDe.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/Parsers/ParserDe.c.i
+.PHONY : src/Parsers/ParserDe.c.i
+
+src/Parsers/ParserDe.s: src/Parsers/ParserDe.c.s
+.PHONY : src/Parsers/ParserDe.s
+
+# target to generate assembly for a file
+src/Parsers/ParserDe.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/Parsers/ParserDe.c.s
+.PHONY : src/Parsers/ParserDe.c.s
+
+src/Parsers/ParserEn.o: src/Parsers/ParserEn.c.o
+.PHONY : src/Parsers/ParserEn.o
+
+# target to build an object file
+src/Parsers/ParserEn.c.o:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/Parsers/ParserEn.c.o
+.PHONY : src/Parsers/ParserEn.c.o
+
+src/Parsers/ParserEn.i: src/Parsers/ParserEn.c.i
+.PHONY : src/Parsers/ParserEn.i
+
+# target to preprocess a source file
+src/Parsers/ParserEn.c.i:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/Parsers/ParserEn.c.i
+.PHONY : src/Parsers/ParserEn.c.i
+
+src/Parsers/ParserEn.s: src/Parsers/ParserEn.c.s
+.PHONY : src/Parsers/ParserEn.s
+
+# target to generate assembly for a file
+src/Parsers/ParserEn.c.s:
+	$(MAKE) -f CMakeFiles/event-parser.dir/build.make CMakeFiles/event-parser.dir/src/Parsers/ParserEn.c.s
+.PHONY : src/Parsers/ParserEn.c.s
 
 src/tests.o: src/tests.c.o
 .PHONY : src/tests.o
@@ -315,12 +363,18 @@ help:
 	@echo "... src/EventParser.o"
 	@echo "... src/EventParser.i"
 	@echo "... src/EventParser.s"
-	@echo "... src/event.o"
-	@echo "... src/event.i"
-	@echo "... src/event.s"
-	@echo "... src/parser_en.o"
-	@echo "... src/parser_en.i"
-	@echo "... src/parser_en.s"
+	@echo "... src/EventParserHandler.o"
+	@echo "... src/EventParserHandler.i"
+	@echo "... src/EventParserHandler.s"
+	@echo "... src/ParsedEvent.o"
+	@echo "... src/ParsedEvent.i"
+	@echo "... src/ParsedEvent.s"
+	@echo "... src/Parsers/ParserDe.o"
+	@echo "... src/Parsers/ParserDe.i"
+	@echo "... src/Parsers/ParserDe.s"
+	@echo "... src/Parsers/ParserEn.o"
+	@echo "... src/Parsers/ParserEn.i"
+	@echo "... src/Parsers/ParserEn.s"
 	@echo "... src/tests.o"
 	@echo "... src/tests.i"
 	@echo "... src/tests.s"

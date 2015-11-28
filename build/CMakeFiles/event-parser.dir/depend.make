@@ -3,9 +3,13 @@
 
 CMakeFiles/event-parser.dir/src/EventParser.c.o: src/EventParser.c
 
-CMakeFiles/event-parser.dir/src/event.c.o: src/event.c
+CMakeFiles/event-parser.dir/src/EventParserHandler.c.o: src/EventParserHandler.c
 
-CMakeFiles/event-parser.dir/src/parser_en.c.o: src/parser_en.c
+CMakeFiles/event-parser.dir/src/ParsedEvent.c.o: src/ParsedEvent.c
+
+CMakeFiles/event-parser.dir/src/Parsers/ParserDe.c.o: src/Parsers/ParserDe.c
+
+CMakeFiles/event-parser.dir/src/Parsers/ParserEn.c.o: src/Parsers/ParserEn.c
 
 CMakeFiles/event-parser.dir/src/tests.c.o: src/tests.c
 

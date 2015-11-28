@@ -58,7 +58,7 @@ public class ParserEn : GLib.Object, EventParser {
 	
 	
 
-	public ParserEn (DateTime _simulated_dt) {
+	public ParserEn (DateTime _simulated_dt = new DateTime.now_local ()) {
 		this.simulated_dt = _simulated_dt;
 		this.language = "en";
 		
@@ -149,12 +149,12 @@ public class ParserEn : GLib.Object, EventParser {
 	}
 	
 	
-	public Event parse_source (string _source) {
+	public ParsedEvent parse_source (string _source) {
 		this.source = _source;
 		this.remaining_source = this.source;
 		
 		
-		var event = new Event();
+		var event = new ParsedEvent();
 		event.from = this.simulated_dt.add_hours(1);
 		event.from_set_minute(0);
 		event.from_set_second(0);
@@ -559,5 +559,9 @@ public class ParserEn : GLib.Object, EventParser {
 		
 		
 		return event;
+	}
+
+	public string get_language () {
+		return EventParserHandler.FALLBACK_LANG;
 	}
 }

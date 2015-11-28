@@ -3,10 +3,14 @@
 
 CMakeFiles/event-parser.dir/src/EventParser.c.o
  /home/mario/dev/vala/event-parser/build/src/EventParser.c
-CMakeFiles/event-parser.dir/src/event.c.o
- /home/mario/dev/vala/event-parser/build/src/event.c
-CMakeFiles/event-parser.dir/src/parser_en.c.o
- /home/mario/dev/vala/event-parser/build/src/parser_en.c
+CMakeFiles/event-parser.dir/src/EventParserHandler.c.o
+ /home/mario/dev/vala/event-parser/build/src/EventParserHandler.c
+CMakeFiles/event-parser.dir/src/ParsedEvent.c.o
+ /home/mario/dev/vala/event-parser/build/src/ParsedEvent.c
+CMakeFiles/event-parser.dir/src/Parsers/ParserDe.c.o
+ /home/mario/dev/vala/event-parser/build/src/Parsers/ParserDe.c
+CMakeFiles/event-parser.dir/src/Parsers/ParserEn.c.o
+ /home/mario/dev/vala/event-parser/build/src/Parsers/ParserEn.c
 CMakeFiles/event-parser.dir/src/tests.c.o
  /home/mario/dev/vala/event-parser/build/src/tests.c
 CMakeFiles/event-parser.dir/tests/test_de.c.o
