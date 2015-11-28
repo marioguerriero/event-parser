@@ -24,7 +24,7 @@ public class EventParserHandler : GLib.Object {
 
     private Gee.HashMap<string, EventParser> handlers;
 
-    public EventParserHandler(string? lang = null) {
+    public EventParserHandler (string? lang = null) {
         handlers = new Gee.HashMap<string, EventParser> ();
 
         if (lang == null)
@@ -50,6 +50,6 @@ public class EventParserHandler : GLib.Object {
     }
 
     public unowned string? get_locale () {
-        return Environment.get_variable ("LANGUAGE").split(":")[0];
+        return Environment.get_variable ("LANGUAGE").split (":")[0];
     }
 }

@@ -22,7 +22,6 @@
 public class ParserEn : GLib.Object, EventParser {
     
     public DateTime simulated_dt;
-    public string language;
     
     public string source;
     private string remaining_source;
@@ -81,7 +80,6 @@ public class ParserEn : GLib.Object, EventParser {
 
     public ParserEn (DateTime _simulated_dt = new DateTime.now_local ()) {
         this.simulated_dt = _simulated_dt;
-        this.language = "en";
         
         this.source = "";
         this.remaining_source = "";

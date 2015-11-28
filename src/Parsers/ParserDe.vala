@@ -82,16 +82,16 @@ public class ParserDe : GLib.Object, EventParser {
     
     int get_number_of_month (string entry) {
         for (int i = 0; i < 12; i++) {
-            if (entry.down() == months[i, 0])
-                return int.parse( months[i, 1] );
+            if (entry.down () == months[i, 0])
+                return int.parse (months[i, 1]);
         }
         return -1;
     }
     
     int get_number_of_weekday (string entry) {
         for (int i = 0; i < 12; i++) {
-            if (entry.down() == weekdays[i, 0])
-                return int.parse( weekdays[i, 1] );
+            if (entry.down () == weekdays[i, 0])
+                return int.parse (weekdays[i, 1]);
         }
         return -1;
     }
@@ -105,20 +105,20 @@ public class ParserDe : GLib.Object, EventParser {
             regex = new Regex (pattern, RegexCompileFlags.CASELESS);
             var is_matched = regex.match (this.remaining_source, 0, out match_info);
             if (!is_matched)
-                return String_event() { matched = false };
+                return String_event () { matched = false };
         } catch {
-            return String_event() { matched = false };
+            return String_event () { matched = false };
         }
         
         var matched_string = match_info.fetch (0);
-        var pos = this.remaining_source.index_of( matched_string );
+        var pos = this.remaining_source.index_of (matched_string);
         var length = matched_string.length; 
         
-        var p = new Array<string>();
+        var p = new Array<string> ();
 
-        while (match_info.matches () ) {
+        while (match_info.matches ()) {
             for (var i = 0; i < 4; i++)
-                p.append_val( match_info.fetch_named(@"p$(i + 1)") );
+                p.append_val (match_info.fetch_named (@"p$(i + 1)"));
 
             try {
                 match_info.next ();
@@ -127,7 +127,7 @@ public class ParserDe : GLib.Object, EventParser {
             }
         }
             
-        return String_event() { matched = true, pos = pos, length = length, matched_string = matched_string, p = p };
+        return String_event () { matched = true, pos = pos, length = length, matched_string = matched_string, p = p };
     }
     
     void analyze_pattern (string pattern, transcribe_analysis del) {
@@ -144,263 +144,251 @@ public class ParserDe : GLib.Object, EventParser {
         this.remaining_source = this.source;
         
         
-        var event = new ParsedEvent();
-        event.from = this.simulated_dt.add_hours(1);
-        event.from_set_minute(0);
-        event.from_set_second(0);
-        event.set_length_to_hours(1);
-        
-        
+        var event = new ParsedEvent ();
+        event.from = this.simulated_dt.add_hours (1);
+        event.from_set_minute (0);
+        event.from_set_second (0);
+        event.set_length_to_hours (1);
         
         // --- Date ---
         
-        analyze_pattern("vorgestern", (data) => {
-            event.from = event.from.add_days(-2);
-            event.set_one_entire_day();
+        analyze_pattern ("vorgestern", (data) => {
+            event.from = event.from.add_days (-2);
+            event.set_one_entire_day ();
         });
         
-        analyze_pattern("gestern", (data) => {
-            event.from = event.from.add_days(-1);
-            event.set_one_entire_day();
+        analyze_pattern ("gestern", (data) => {
+            event.from = event.from.add_days (-1);
+            event.set_one_entire_day ();
         });
         
-        analyze_pattern("(ab )?morgen", (data) => {
+        analyze_pattern ("(ab )?morgen", (data) => {
             event.from = event.from.add_days(1);
             event.set_one_entire_day();
         });
         
-        analyze_pattern("(ab )?übermorgen", (data) => {
-            event.from = event.from.add_days(2);
+        analyze_pattern ("(ab )?übermorgen", (data) => {
+            event.from = event.from.add_days (2);
+            event.set_one_entire_day ();
+        });
+        
+        analyze_pattern ("(den ganzen tag|ganztägig)", (data) => {
+            event.set_one_entire_day ();
+        });
+        
+        analyze_pattern ("vor (?<p1>\\d+) tagen", (data) => {
+            int days = int.parse ( data.p.index(0) );
+            event.from = event.from.add_days (-days);
+            event.set_one_entire_day ();
+        });
+        
+        analyze_pattern ("in (?<p1>\\d+) tagen", (data) => {
+            int days = int.parse (data.p.index(0));
+            event.from = event.from.add_days (days);
             event.set_one_entire_day();
         });
         
-        analyze_pattern("(den ganzen tag|ganztägig)", (data) => {
-            event.set_one_entire_day();
-        });
-        
-        analyze_pattern("vor (?<p1>\\d+) tagen", (data) => {
-            int days = int.parse( data.p.index(0) );
-            event.from = event.from.add_days(-days);
-            event.set_one_entire_day();
-        });
-        
-        analyze_pattern("in (?<p1>\\d+) tagen", (data) => {
-            int days = int.parse( data.p.index(0) );
-            event.from = event.from.add_days(days);
-            event.set_one_entire_day();
-        });
-        
-        analyze_pattern(@"diesen (?<p1>$weekdays_regex)", (data) => {
-            int weekday = get_number_of_weekday(data.p.index(0));
-            int add_days = ( weekday - this.simulated_dt.get_day_of_week() + 7 ) % 7;
-            event.from = event.from.add_days(add_days);
+        analyze_pattern (@"diesen (?<p1>$weekdays_regex)", (data) => {
+            int weekday = get_number_of_weekday (data.p.index (0));
+            int add_days = (weekday - this.simulated_dt.get_day_of_week () + 7 ) % 7;
+            event.from = event.from.add_days (add_days);
             
-            event.set_one_entire_day();
+            event.set_one_entire_day ();
         });
         
-        analyze_pattern(@"nächsten (?<p1>$weekdays_regex)", (data) => {
-            int weekday = get_number_of_weekday(data.p.index(0));
-            int add_days = ( weekday - this.simulated_dt.get_day_of_week() + 7 ) % 7;
-            event.from = event.from.add_days(add_days);
+        analyze_pattern (@"nächsten (?<p1>$weekdays_regex)", (data) => {
+            int weekday = get_number_of_weekday (data.p.index (0));
+            int add_days = (weekday - this.simulated_dt.get_day_of_week () + 7 ) % 7;
+            event.from = event.from.add_days (add_days);
             
-            event.set_one_entire_day();
+            event.set_one_entire_day ();
         });
         
-        analyze_pattern(@"übernächsten (?<p1>$weekdays_regex)", (data) => {
-            int weekday = get_number_of_weekday(data.p.index(0));
-            int add_days = ( weekday - this.simulated_dt.get_day_of_week() + 7 ) % 7;
-            event.from = event.from.add_weeks(1);
-            event.from = event.from.add_days(add_days);
+        analyze_pattern (@"übernächsten (?<p1>$weekdays_regex)", (data) => {
+            int weekday = get_number_of_weekday (data.p.index(0));
+            int add_days = (weekday - this.simulated_dt.get_day_of_week () + 7 ) % 7;
+            event.from = event.from.add_weeks (1);
+            event.from = event.from.add_days (add_days);
             
-            event.set_one_entire_day();
+            event.set_one_entire_day ();
         });
         
-        analyze_pattern("am (?<p1>\\d+).(?<p2>\\d+)(.(?<p3>\\d+))?", (data) => {
-            int day = int.parse( data.p.index(0) );
-            int month = int.parse( data.p.index(1) );
+        analyze_pattern ("am (?<p1>\\d+).(?<p2>\\d+)(.(?<p3>\\d+))?", (data) => {
+            int day = int.parse (data.p.index (0));
+            int month = int.parse (data.p.index(1));
             
-            event.from_set_day(day);
-            event.set_one_entire_day();
+            event.from_set_day (day);
+            event.set_one_entire_day ();
             
-            event.from_set_month(month);
-            event.to_set_month(month);
+            event.from_set_month (month);
+            event.to_set_month (month);
             
-            if ( data.p.index(2) != null ) {
-                int year = int.parse( data.p.index(2) );
-                event.from_set_year(year);
+            if (data.p.index (2) != null ) {
+                int year = int.parse (data.p.index (2));
+                event.from_set_year (year);
                 
-                event.if_elapsed_delay_to_next_year(this.simulated_dt);
+                event.if_elapsed_delay_to_next_year (this.simulated_dt);
             }
             
-            event.if_elapsed_delay_to_next_month(this.simulated_dt);
+            event.if_elapsed_delay_to_next_month (this.simulated_dt);
         });
         
-        analyze_pattern(@"vom (?<p1>\\d+). bis (?<p2>\\d+). ((?<p3>$months_regex))?", (data) => {
-            int day_1 = int.parse( data.p.index(0) );
-            int day_2 = int.parse( data.p.index(1) );
+        analyze_pattern (@"vom (?<p1>\\d+). bis (?<p2>\\d+). ((?<p3>$months_regex))?", (data) => {
+            int day_1 = int.parse (data.p.index (0));
+            int day_2 = int.parse (data.p.index (1));
             
-            event.from_set_day(day_1);
-            event.to_set_day(day_2);
-            event.set_all_day();
+            event.from_set_day (day_1);
+            event.to_set_day (day_2);
+            event.set_all_day ();
             
-            if ( data.p.index(2) != null ) {
-                int month = get_number_of_month( data.p.index(2) );
-                event.from_set_month(month);
-                event.to_set_month(month);
+            if (data.p.index (2) != null) {
+                int month = get_number_of_month (data.p.index (2));
+                event.from_set_month (month);
+                event.to_set_month (month);
                 
-                event.if_elapsed_delay_to_next_year(this.simulated_dt);
+                event.if_elapsed_delay_to_next_year (this.simulated_dt);
             }
             
-            event.if_elapsed_delay_to_next_month(this.simulated_dt);
+            event.if_elapsed_delay_to_next_month (this.simulated_dt);
         });
         
-        analyze_pattern(@"am (?<p1>\\d+)(.)?( (?<p2>$months_regex))?", (data) => {
-            int day = int.parse( data.p.index(0) );
-            int month = get_number_of_month( data.p.index(1) );
+        analyze_pattern (@"am (?<p1>\\d+)(.)?( (?<p2>$months_regex))?", (data) => {
+            int day = int.parse (data.p.index (0));
+            int month = get_number_of_month (data.p.index (1));
             
-            event.from_set_day(day);
-            event.from_set_month(month);
-            event.set_one_entire_day();
+            event.from_set_day (day);
+            event.from_set_month (month);
+            event.set_one_entire_day ();
             
-            event.if_elapsed_delay_to_next_year(this.simulated_dt);
+            event.if_elapsed_delay_to_next_year (this.simulated_dt);
         });
         
-        analyze_pattern("heiligabend", (data) => {
-            event.from_set_month(12);
-            event.from_set_day(24);
-            event.set_one_entire_day();
+        analyze_pattern ("heiligabend", (data) => {
+            event.from_set_month (12);
+            event.from_set_day (24);
+            event.set_one_entire_day ();
             
-            event.if_elapsed_delay_to_next_year(this.simulated_dt);
+            event.if_elapsed_delay_to_next_year (this.simulated_dt);
         });
-        
-        
         
         // --- Time ---
         
-        analyze_pattern("früh", (data) => {
-            event.from_set_hour(9);
-            event.set_length_to_hours(1);
+        analyze_pattern ("früh", (data) => {
+            event.from_set_hour (9);
+            event.set_length_to_hours (1);
             event.all_day = false;
         });
         
-        analyze_pattern("vormittags", (data) => {
-            event.from_set_hour(11);
-            event.set_length_to_hours(1);
+        analyze_pattern ("vormittags", (data) => {
+            event.from_set_hour (11);
+            event.set_length_to_hours (1);
             event.all_day = false;
         });
         
-        analyze_pattern("mittag(s?)", (data) => {
-            event.from_set_hour(12);
-            event.set_length_to_hours(1);
+        analyze_pattern ("mittag(s?)", (data) => {
+            event.from_set_hour (12);
+            event.set_length_to_hours (1);
             event.all_day = false;
         });
 
-        analyze_pattern("nachmittags", (data) => {
-            event.from_set_hour(15);
-            event.set_length_to_hours(1);
+        analyze_pattern ("nachmittags", (data) => {
+            event.from_set_hour (15);
+            event.set_length_to_hours (1);
             event.all_day = false;
         });
         
-        analyze_pattern("abends", (data) => {
-            event.from_set_hour(18);
-            event.set_length_to_hours(1);
+        analyze_pattern ("abends", (data) => {
+            event.from_set_hour (18);
+            event.set_length_to_hours (1);
             event.all_day = false;
         });
         
-        analyze_pattern("spät", (data) => {
-            event.from_set_hour(19);
-            event.set_length_to_hours(3);
+        analyze_pattern ("spät", (data) => {
+            event.from_set_hour (19);
+            event.set_length_to_hours (3);
             event.all_day = false;
         });
         
-        analyze_pattern("(um|ab) (?<p1>\\d+)(:(?<p2>\\d+))?( (uhr|h))?", (data) => {
-            int hour = int.parse( data.p.index(0) );
-            event.from_set_hour(hour);
+        analyze_pattern ("(um|ab) (?<p1>\\d+)(:(?<p2>\\d+))?( (uhr|h))?", (data) => {
+            int hour = int.parse (data.p.index (0));
+            event.from_set_hour (hour);
             
-            if ( data.p.index(1) != null ) {
-                int minute_1 = int.parse( data.p.index(1) );
-                event.from_set_minute(minute_1);
+            if (data.p.index (1) != null) {
+                int minute_1 = int.parse (data.p.index (1));
+                event.from_set_minute (minute_1);
             }
             
-            event.set_length_to_hours(1);
+            event.set_length_to_hours (1);
             event.all_day = false;
         }); 
         
-        analyze_pattern("von (?<p1>\\d+)(:(?<p3>\\d+))? bis (?<p2>\\d+)(:(?<p4>\\d+))?( uhr)?", (data) => {
-            int hour_1 = int.parse( data.p.index(0) );
-            int hour_2 = int.parse( data.p.index(1) );
+        analyze_pattern ("von (?<p1>\\d+)(:(?<p3>\\d+))? bis (?<p2>\\d+)(:(?<p4>\\d+))?( uhr)?", (data) => {
+            int hour_1 = int.parse (data.p.index (0));
+            int hour_2 = int.parse (data.p.index (1));
             
-            event.from_set_hour(hour_1);
-            event.to_set_hour(hour_2);
+            event.from_set_hour (hour_1);
+            event.to_set_hour (hour_2);
             
-            if ( data.p.index(2) != null) {
-                int minute_1 = int.parse( data.p.index(2) );
-                event.from_set_minute(minute_1);
+            if (data.p.index (2) != null) {
+                int minute_1 = int.parse (data.p.index (2));
+                event.from_set_minute (minute_1);
             }
-            if ( data.p.index(3) != null) {
-                int minute_2 = int.parse( data.p.index(3) );
-                event.to_set_minute(minute_2);
+            if (data.p.index (3) != null) {
+                int minute_2 = int.parse (data.p.index (3));
+                event.to_set_minute (minute_2);
             }
-            event.all_day = false;
-        });
-        
-        analyze_pattern("(?<p1>\\d+)(:(?<p2>\\d+))? (uhr|h)", (data) => {
-            int hour = int.parse( data.p.index(0) );
-            event.from_set_hour(hour);
-            
-            if ( data.p.index(1) != null ) {
-                int minute_1 = int.parse(data.p.index(1));
-                event.from_set_minute(minute_1);
-            }
-            
-            event.set_length_to_hours(1);
             event.all_day = false;
         });
         
-        analyze_pattern("für (?<p1>\\d+)(\\s?min| Minuten)", (data) => {
-            int minutes = int.parse( data.p.index(0) );
-            event.set_length_to_minutes(minutes);
+        analyze_pattern ("(?<p1>\\d+)(:(?<p2>\\d+))? (uhr|h)", (data) => {
+            int hour = int.parse (data.p.index (0));
+            event.from_set_hour (hour);
+            
+            if (data.p.index(1) != null) {
+                int minute_1 = int.parse (data.p.index (1));
+                event.from_set_minute (minute_1);
+            }
+            
+            event.set_length_to_hours (1);
+            event.all_day = false;
+        });
+        
+        analyze_pattern ("für (?<p1>\\d+)(\\s?min| Minuten)", (data) => {
+            int minutes = int.parse (data.p.index (0));
+            event.set_length_to_minutes (minutes);
         }); 
         
-        analyze_pattern("für (?<p1>\\d+)(\\s?h| Stunden)", (data) => {
-            int hours = int.parse( data.p.index(0) );
-            event.set_length_to_hours(hours);
+        analyze_pattern ("für (?<p1>\\d+)(\\s?h| Stunden)", (data) => {
+            int hours = int.parse (data.p.index (0));
+            event.set_length_to_hours (hours);
         }); 
         
-        analyze_pattern("für (?<p1>\\d+)(\\s?d| Tage)", (data) => {
-            int days = int.parse( data.p.index(0) );
-            event.set_length_to_days(days);
+        analyze_pattern ("für (?<p1>\\d+)(\\s?d| Tage)", (data) => {
+            int days = int.parse (data.p.index (0));
+            event.set_length_to_days (days);
         }); 
         
-        analyze_pattern("für (?<p1>\\d+) Wochen", (data) => {
-            int weeks = int.parse( data.p.index(0) );
-            event.set_length_to_weeks(weeks);
+        analyze_pattern ("für (?<p1>\\d+) Wochen", (data) => {
+            int weeks = int.parse (data.p.index (0));
+            event.set_length_to_weeks (weeks);
         }); 
-
-
 
         // --- Repetition ---
+        
         // --- Persons ---
         
-        
-        
         // --- Location ----
-        
-        analyze_pattern("(im|in dem) (?<p1>(\\w\\s?)+)", (data) => {
-            event.location = data.p.index(0);
+        analyze_pattern ("(im|in dem) (?<p1>(\\w\\s?)+)", (data) => {
+            event.location = data.p.index (0);
         });
         
-        analyze_pattern("in( der)? (?<p1>[a-z]+)", (data) => {
-            event.location = data.p.index(0);
+        analyze_pattern ("in( der)? (?<p1>[a-z]+)", (data) => {
+            event.location = data.p.index (0);
         });
-        
-
 
         // --- Name ---
         
-        event.title = this.remaining_source.strip();
-        
-        
+        event.title = this.remaining_source.strip ();
         
         return event;
     }
