@@ -39,5 +39,18 @@ The purser outputs the title, the start and end date, the location and if the ev
 - Lunch with becca at cafe thu 1-2
 - Bob’s 25th anniversay on May, 14th 2020
 
+## Usage
+```vala
+var handler = new EventParserHandler ();
+EventParser parser = handler.get_parser (handle.get_locale ()); // To get the parser for the user's locale
+ParsedEvent
 
+mario ev = parser.parse_source (ev_str); 
+```
+
+## More languages
 A partial german translation of the parser and the tests are included.
+
+## Credits
+This code was originally written by [pantor](https://github.com/pantor) and then extend by [Mario Guerriero](https://github.com/marioguerriero).
+It is open source software licensed with GPLv3 license.
