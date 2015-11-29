@@ -40,13 +40,19 @@ The purser outputs the title, the start and end date, the location and if the ev
 - Bob’s 25th anniversay on May, 14th 2020
 
 ## Usage
+If you want to use this parser in your project you just need to copy the code in the src folder to your source dir.
+Then type the following code:
 ```vala
+using Maya.Services;
+
+[...]
+
 var handler = new EventParserHandler ();
 EventParser parser = handler.get_parser (handle.get_locale ()); // To get the parser for the user's locale
-ParsedEvent
-
-mario ev = parser.parse_source (ev_str); 
+ParsedEvent ev = parser.parse_source (ev_str); 
 ```
+
+The code is quite self explicative. If you have problems just contact me.
 
 ## More languages
 A partial german translation of the parser and the tests are included.
