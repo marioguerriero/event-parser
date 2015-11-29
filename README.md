@@ -54,6 +54,11 @@ ParsedEvent ev = parser.parse_source (ev_str);
 
 The code is quite self explicative. If you have problems just contact me.
 
+## Contribute
+If you want to add a parser for your own language just create a new class named *ParlserLang* where *Lang* is the language of your choice and make it implementing the *EventParser* interface. Then register your parser in the *EventParserHandler* constructor.
+
+It is very easy to do. Just check out the code to understand more.
+
 ## More languages
 A partial german translation of the parser and the tests are included.
 
